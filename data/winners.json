@@ -1,0 +1,28 @@
+{
+  "days": [
+    {
+      "date": "2025-09-19",
+      "last_updated": "2025-09-19T15:30:00Z",
+      "rows": [
+        { "name": "PlayerNova",  "game": "Vampy Party", "amount": 12850.00 },
+        { "name": "LuckyRico",   "game": "Gates of Olympus", "amount": 12420.50 },
+        { "name": "SpinQueen",   "game": "Sugar Rush", "amount": 11910.00 },
+        { "name": "BountyMax",   "game": "Big Bass Bonanza", "amount": 8800.00 },
+        { "name": "Roller77",    "game": "Sweet Bonanza", "amount": 8360.00 },
+        { "name": "NightWolf",   "game": "Starlight Princess", "amount": 7912.00 },
+        { "name": "JadeTiger",   "game": "Zeus vs Hades", "amount": 7221.00 },
+        { "name": "VoltRider",   "game": "Wanted Dead or a Wild", "amount": 6900.00 },
+        { "name": "Bellatrix",   "game": "The Dog House", "amount": 6550.00 },
+        { "name": "RioKing",     "game": "Sugar Rush 1000", "amount": 6402.25 }
+      ]
+    },
+    {
+      "date": "2025-09-18",
+      "last_updated": "2025-09-18T23:59:00Z",
+      "rows": [
+        { "name": "StormAce",    "game": "Zeus vs Hades", "amount": 14210.00 },
+        { "name": "NeonDust",    "game": "Sugar Rush", "amount": 12005.00 }
+      ]
+    }
+  ]
+}
