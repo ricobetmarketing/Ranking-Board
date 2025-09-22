@@ -25,7 +25,7 @@
     }
     .wrap{max-width:1080px; margin:24px auto 40px; padding:0 16px}
 
-    /* Topbar: logo only (smaller + responsive) */
+    /* Topbar: logo smaller + responsive */
     .topbar{display:flex; justify-content:center; align-items:center; margin-bottom:12px}
     .logo-img{height:36px;width:auto;display:block}
     @media (max-width:520px){ .logo-img{height:28px} }
@@ -71,6 +71,15 @@
     .filters{display:flex; gap:8px; flex-wrap:wrap}
     .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
           background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
+
+    /* Search */
+    .search-wrap{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    .search-input{appearance:none; background:#141534; border:1px solid rgba(255,255,255,.15); color:#fff;
+      border-radius:10px; padding:8px 10px; min-width:220px; outline:none}
+    .search-btn{cursor:pointer; background:linear-gradient(90deg,var(--g1),var(--g2)); border:0; color:#fff;
+      font-weight:900; border-radius:10px; padding:8px 12px}
+    .search-result{color:#dfe3ff; font-weight:700}
+
     .board{margin-top:8px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
     .row{display:grid; grid-template-columns:72px 1fr 160px; gap:10px; align-items:center; padding:12px 12px;
          background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
@@ -91,26 +100,25 @@
     .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
     .viewport::-webkit-scrollbar{height:8px;width:8px}
     .viewport::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
+    .hit{outline:2px solid var(--a3); border-radius:8px}
 
-    /* CTA block (moved to bottom after winners) */
+    /* CTA block (bottom after winners) */
     .cta-block{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
-    .btn{
-      display:inline-block; padding:12px 18px; border-radius:12px; text-decoration:none;
-      font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25)
-    }
+    .btn{display:inline-block; padding:12px 18px; border-radius:12px; text-decoration:none;
+      font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25)}
     .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
     .btn--dark{background:#1a1b34}
     .btn--outline{background:transparent; border-color:#3a3f72}
 
     /* FAQ / T&C */
-    .faq{margin-top:22px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:16px}
+    .faq{margin-top:22px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:16px; position:relative}
     .faq h3{margin:0 0 10px 0; font-size:18px}
     details{background:#141534; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px; margin:8px 0}
     summary{cursor:pointer; font-weight:700}
     details p{margin:8px 0 0 0; color:#dfe3ff}
     .faq-cta{margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
 
-    /* Glow border animation for hero/panel */
+    /* Glow border animation shells */
     .hero::before, .panel::before, .faq::before{
       content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
       background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1)); background-size:400% 100%;
@@ -118,7 +126,6 @@
       -webkit-mask-composite:xor; mask-composite:exclude; animation:shine 9s linear infinite; pointer-events:none;
     }
     .panel::before{border-radius:20px}
-    .faq{position:relative}
     .faq::before{border-radius:20px}
   </style>
 </head>
@@ -138,7 +145,7 @@
       <h1 class="hero-title">Daily Prizes of USD 10,000</h1>
 
       <div class="ring-row">
-        <div class="ring-timer" aria-label="Countdown to daily reset">
+        <div class="ring-timer" aria-label="Countdown">
           <div class="ring" data-unit="h">
             <svg viewBox="0 0 72 72" aria-hidden="true">
               <circle class="bg" cx="36" cy="36" r="30"></circle>
@@ -184,6 +191,13 @@
         </div>
       </div>
 
+      <!-- Search bar -->
+      <div class="search-wrap" style="margin:6px 0 10px;">
+        <input class="search-input" id="searchInput" type="text" placeholder="Search your full username…" />
+        <button class="search-btn" id="searchBtn">Search</button>
+        <span class="search-result" id="searchResult"></span>
+      </div>
+
       <div class="board">
         <div class="row head">
           <div>#</div>
@@ -194,7 +208,7 @@
       </div>
     </section>
 
-    <!-- CTA (moved to bottom, after winners) -->
+    <!-- CTA (bottom, after winners) -->
     <div class="cta-block">
       <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener">▶ PLAY NOW</a>
       <a class="btn btn--dark" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">👥 JOIN COMMUNITY</a>
@@ -202,7 +216,7 @@
 
     <!-- FAQ / T&C -->
     <section class="faq">
-      <h3>FAQ & Terms</h3>
+      <h3>FAQ &amp; Terms</h3>
 
       <details>
         <summary>What is the Daily Prizes event?</summary>
@@ -225,13 +239,13 @@
       </details>
 
       <details>
-        <summary>Full Terms & Conditions</summary>
+        <summary>Full Terms &amp; Conditions</summary>
         <p>
-          • Event runs daily, resetting at 00:00 in the configured server timezone.<br>
+          • Event runs in October 2025 only, resetting daily at 00:00 in the configured server timezone.<br>
           • Only real-money wagers count toward Turnover.<br>
-          • Pragmatic Play slot games that are available may vary by region.<br>
+          • Pragmatic Play slot availability may vary by region.<br>
           • Accounts must be verified and in good standing.<br>
-          • The operator reserves the right to amend or cancel the event at any time to prevent abuse or fraud.<br>
+          • The operator may amend/cancel the event to prevent abuse or fraud.<br>
           • Local laws and platform rules apply.
         </p>
       </details>
@@ -243,12 +257,19 @@
     </section>
   </div>
 
+  <!-- CONFIG (October-only) -->
   <script>
-    /* ======= CONFIG ======= */
-    window.RICOBET_DATA_URL = './data/winners.json';
-    window.RICOBET_TIMEZONE = 'America/Mexico_City';   // e.g., 'America/Sao_Paulo'
+    // Data
+    window.RICOBET_DATA_DIR = './data';
+    window.RICOBET_MONTH    = '2025-10';     // lock to October
+    window.EVENT_START_YMD  = '2025-10-01';
+    window.EVENT_END_YMD    = '2025-10-31';
+
+    // Display / logic
+    window.RICOBET_TIMEZONE = 'America/Mexico_City';
     window.RICOBET_CURRENCY = { symbol: '$', code: 'USD' };
   </script>
   <script src="./js/app.js" defer></script>
 </body>
 </html>
+
