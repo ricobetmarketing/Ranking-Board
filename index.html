@@ -105,6 +105,38 @@
   border-radius: 10px; /* optional, matches current look */
 }
 
+    /* Flip countdown */
+.flip-timer{display:flex;align-items:flex-end;gap:10px;padding:8px 10px;border-radius:14px;
+  background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.flip-seg{display:flex;flex-direction:column;align-items:center;min-width:84px}
+.flip-seg .label{font-size:10px;color:#c7cbff;letter-spacing:.4px;margin-bottom:6px}
+.flip{position:relative;width:84px;height:64px;border-radius:12px;overflow:hidden;
+  background:linear-gradient(180deg,#1b1f45,#121434);border:1px solid rgba(255,255,255,.12);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 8px 24px rgba(0,0,0,.35)}
+.flip .top,.flip .bottom{position:absolute;left:0;right:0;height:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:30px;letter-spacing:.5px}
+.flip .top{top:0;border-bottom:1px solid rgba(255,255,255,.08)}
+.flip .bottom{bottom:0}
+.flip .leaf{position:absolute;left:0;right:0;top:0;height:50%;transform-origin:bottom;transform:rotateX(0deg);
+  background:linear-gradient(180deg,#242a5b,#171a3c);border-bottom:1px solid rgba(255,255,255,.1);display:none}
+.flip.anim .leaf{display:block;animation:flipLeaf .6s ease-in-out}
+@keyframes flipLeaf{
+  0%{transform:rotateX(0)}
+  49%{transform:rotateX(-89.9deg)}
+  50%{transform:rotateX(-90deg)}
+  100%{transform:rotateX(-180deg)}
+}
+.flip-timer .dots{font-weight:900;font-size:26px;line-height:1.1;color:#dfe3ff;margin:0 2px 8px}
+
+/* Smaller on mobile */
+@media (max-width:520px){
+  .flip-seg{min-width:70px}
+  .flip{width:70px;height:56px}
+  .flip .top,.flip .bottom{font-size:26px}
+  .flip-timer .dots{font-size:22px}
+}
+
+
   </style>
 </head>
 <body>
@@ -120,10 +152,37 @@
 
       <p class="sub">Live neon board of today’s biggest wins. Updated throughout the day.</p>
       <div class="h-actions">
-        <span class="pill" title="Countdown to daily reset"><span>⏳</span><span id="countdown">--:--:--</span></span>
+<div class="flip-timer" aria-label="Countdown to daily reset">
+  <div class="flip-seg">
+    <div class="label">HRS</div>
+    <div class="flip" data-unit="h">
+      <div class="top">00</div>
+      <div class="bottom">00</div>
+      <div class="leaf"></div>
+    </div>
+  </div>
+  <span class="dots">:</span>
+  <div class="flip-seg">
+    <div class="label">MIN</div>
+    <div class="flip" data-unit="m">
+      <div class="top">00</div>
+      <div class="bottom">00</div>
+      <div class="leaf"></div>
+    </div>
+  </div>
+  <span class="dots">:</span>
+  <div class="flip-seg">
+    <div class="label">SEC</div>
+    <div class="flip" data-unit="s">
+      <div class="top">00</div>
+      <div class="bottom">00</div>
+      <div class="leaf"></div>
+    </div>
+  </div>
+</div>
         <a class="btn btn--pri" href="https://www.rico.bet/myinbox" target="_blank" rel="noopener">📬 Open Inbox</a>
         <a class="btn btn--sec" href="https://ricobetmarketing.github.io/Spinning-Wheel/vip-spin.html" target="_blank" rel="noopener">🎡 Spin & Earn</a>
-        <a class="btn btn--outline" href="https://t.me/YourBotUsername?startapp=powerpack" target="_blank" rel="noopener">🤖 Open Telegram Mini App</a>
+        <a class="btn btn--outline" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">🤖 Open Community</a>
       </div>
     </section>
 
