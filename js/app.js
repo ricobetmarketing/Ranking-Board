@@ -65,55 +65,70 @@
     return str.slice(0,left) + '****' + str.slice(left+4);
   }
 
-  /* ---------- Countdown (flip) ---------- */
-  function splitHMS(ms){
-    if(ms < 0) ms = 0;
-    const h = Math.floor(ms/3600000);
-    const m = Math.floor((ms%3600000)/60000);
-    const s = Math.floor((ms%60000)/1000);
-    return {h, m, s};
+function splitHMS(ms){
+  if(ms < 0) ms = 0;
+  const h = Math.floor(ms/3600000);
+  const m = Math.floor((ms%3600000)/60000);
+  const s = Math.floor((ms%60000)/1000);
+  return {h, m, s};
+}
+
+function ensureGradient(svg){
+  if (document.getElementById('ring-grad')) return;
+  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+  const grad = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+  grad.setAttribute('id','ring-grad');
+  grad.setAttribute('x1','0%'); grad.setAttribute('y1','0%');
+  grad.setAttribute('x2','100%'); grad.setAttribute('y2','0%');
+  const s1 = document.createElementNS('http://www.w3.org/2000/svg','stop');
+  s1.setAttribute('offset','0%');  s1.setAttribute('stop-color', getComputedStyle(document.documentElement).getPropertyValue('--g1') || '#ff6ec4');
+  const s2 = document.createElementNS('http://www.w3.org/2000/svg','stop');
+  s2.setAttribute('offset','100%');s2.setAttribute('stop-color', getComputedStyle(document.documentElement).getPropertyValue('--g2') || '#7873f5');
+  grad.appendChild(s1); grad.appendChild(s2); defs.appendChild(grad);
+  svg.prepend(defs);
+}
+
+function setStroke(el, pct){
+  const r = 30; // must match the 'r' in your <circle>
+  const C = 2 * Math.PI * r;
+  el.style.strokeDasharray = `${C}`;
+  el.style.strokeDashoffset = `${C * (1 - pct)}`;
+}
+
+function updateRing($ring, value, max){
+  if (!$ring) return;
+  const svg = $ring.querySelector('svg');
+  const fg  = $ring.querySelector('.fg');
+  const val = $ring.querySelector('.value');
+  ensureGradient(svg);
+  fg.setAttribute('stroke','url(#ring-grad)');
+  val.textContent = String(value).padStart(2,'0');
+  const pct = Math.max(0, Math.min(1, value / max));
+  setStroke(fg, pct);
+}
+
+function startRingCountdown(){
+  const ringH = document.querySelector('.ring[data-unit="h"]');
+  const ringM = document.querySelector('.ring[data-unit="m"]');
+  const ringS = document.querySelector('.ring[data-unit="s"]');
+
+  function tick(){
+    const now = nowInTZ();
+    const target = nextMidnightTZ();
+    let diff = target - now;
+    if (diff < 0) diff = 0;
+
+    const {h, m, s} = splitHMS(diff);
+    // At 00:00 in your TZ, h will be 24 exactly (24h till next midnight)
+    updateRing(ringH, h, 24);
+    updateRing(ringM, m, 60);
+    updateRing(ringS, s, 60);
+
+    requestAnimationFrame(()=>setTimeout(tick, 250));
   }
+  tick();
+}
 
-  function setFlip($flip, val){
-    if(!$flip) return;
-    const top = $flip.querySelector('.top');
-    const bottom = $flip.querySelector('.bottom');
-    const leaf = $flip.querySelector('.leaf');
-    const next = String(val).padStart(2,'0');
-    const curr = top.textContent.trim();
-    if(curr === next) return;
-
-    $flip.classList.add('anim');
-    // After the animation completes, unify both faces
-    leaf.addEventListener('animationend', ()=>{
-      $flip.classList.remove('anim');
-      top.textContent = next;
-      bottom.textContent = next;
-    }, {once:true});
-
-    // During flip, bottom shows the next value already
-    bottom.textContent = next;
-  }
-
-  function startCountdown(){
-    const fh = document.querySelector('.flip[data-unit="h"]');
-    const fm = document.querySelector('.flip[data-unit="m"]');
-    const fs = document.querySelector('.flip[data-unit="s"]');
-
-    function tick(){
-      const now = nowInTZ();
-      const target = nextMidnightTZ();
-      const diff = target - now;
-      const {h, m, s} = splitHMS(diff);
-
-      setFlip(fh, h);
-      setFlip(fm, m);
-      setFlip(fs, s);
-
-      requestAnimationFrame(()=>setTimeout(tick, 250)); // ~4fps updates
-    }
-    tick();
-  }
 
   /* ---------- Board rendering ---------- */
   function renderForDate(data, ymd){
@@ -220,7 +235,9 @@ function startRingCountdown(){
     const ymd = ymdInTZ(n);
     datePicker.value = ymd;
     load(ymd);
-    startCountdown();
+
+    // Start the neon ring version
+    startRingCountdown();
 
     refreshBtn.addEventListener('click', e => { e.preventDefault(); load(datePicker.value); });
     datePicker.addEventListener('change', () => load(datePicker.value));
