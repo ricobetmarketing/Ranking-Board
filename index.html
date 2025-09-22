@@ -13,49 +13,66 @@
       --row-h:56px; /* ~row height for viewport calc */
     }
     *{box-sizing:border-box}
-    body{margin:0; background:radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
-                         radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),var(--bg);
-         color:var(--tx); font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
+        radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
+        var(--bg);
+      color:var(--tx);
+      font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif
+    }
     .wrap{max-width:1080px; margin:24px auto 40px; padding:0 16px}
 
-    /* Header / Hero */
-    .hero{position:relative; overflow:hidden; border:1px solid var(--ring); border-radius:18px;
-          background:linear-gradient(135deg,rgba(255,110,196,.08),rgba(120,115,245,.08));
-          padding:18px}
-    .brand{display:flex; align-items:center; gap:12px}
-    .logo{width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,var(--g1),var(--g2))}
-    .brand h1{margin:0; font-size:22px; letter-spacing:.2px}
-    .sub{margin:6px 0 12px; color:var(--mut)}
+    /* Topbar: logo only */
+    .topbar{
+      display:flex; justify-content:center; align-items:center;
+      margin-bottom:14px;
+    }
+    .logo-img{height:44px;width:auto;display:block}
+
+    /* Hero (second row): title + countdown + CTAs */
+    .hero{
+      position:relative; overflow:hidden; border:1px solid var(--ring); border-radius:18px;
+      background:linear-gradient(135deg,rgba(255,110,196,.08),rgba(120,115,245,.08));
+      padding:18px
+    }
+    .hero .title-row{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap
+    }
+    .hero h1{margin:0; font-size:22px; letter-spacing:.2px}
+    .sub{margin:8px 0 12px; color:var(--mut)}
     .h-actions{display:flex; gap:10px; flex-wrap:wrap}
 
-    .btn{display:inline-block; padding:10px 14px; border-radius:12px; text-decoration:none; font-weight:800; font-size:12px;
-         color:#fff; border:1px solid rgba(255,255,255,.25)}
+    .btn{
+      display:inline-block; padding:10px 14px; border-radius:12px; text-decoration:none;
+      font-weight:800; font-size:12px; color:#fff; border:1px solid rgba(255,255,255,.25)
+    }
     .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
     .btn--sec{background:transparent}
     .btn--outline{background:transparent; border-color:#3a3f72}
-
-    /* Countdown pill */
-    .pill{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
-          background:#161733; border:1px solid rgba(255,255,255,.15); font-weight:700; letter-spacing:.3px}
 
     /* Board */
     .panel{margin-top:18px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:14px; position:relative}
     .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
     .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
-    .meta{color:var(--mut); font-size:12px}
     .filters{display:flex; gap:8px; flex-wrap:wrap}
     .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
           background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
     .chip a{color:#fff; text-decoration:none}
 
     .board{margin-top:8px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
-    .row{display:grid; grid-template-columns:72px 1fr 160px 120px; gap:10px; align-items:center; padding:12px 12px;
-         background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
-         border-bottom:1px solid rgba(255,255,255,.06)}
+    .row{
+      display:grid; grid-template-columns:72px 1fr 160px 120px; gap:10px; align-items:center; padding:12px 12px;
+      background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+      border-bottom:1px solid rgba(255,255,255,.06)
+    }
     .row.head{background:rgba(255,255,255,.05); font-weight:900; color:#dfe3ff}
     .row:last-child{border-bottom:none}
-    .rank{display:inline-flex; align-items:center; justify-content:center; width:44px; height:28px; border-radius:999px;
-          background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); font-weight:900}
+    .rank{
+      display:inline-flex; align-items:center; justify-content:center; width:44px; height:28px; border-radius:999px;
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); font-weight:900
+    }
     .rank.top1{background:linear-gradient(90deg,#ffef9a,#ffd84a); color:#191b32}
     .rank.top2{background:linear-gradient(90deg,#e5e9ff,#cbd2ff); color:#191b32}
     .rank.top3{background:linear-gradient(90deg,#ffd3b5,#ffae7a); color:#191b32}
@@ -63,7 +80,6 @@
     .player{display:flex; align-items:center; gap:10px}
     .avatar{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
     .mask{opacity:.95; font-weight:700; letter-spacing:.2px}
-
     .payout{font-variant-numeric:tabular-nums; font-weight:800}
     .game{color:#d6d8ff}
 
@@ -89,97 +105,91 @@
     .hero::before{border-radius:20px}
     @keyframes glow{0%{background-position:0% 0}100%{background-position:400% 0}}
 
+    /* Flip countdown */
+    .flip-timer{display:flex;align-items:flex-end;gap:10px;padding:8px 10px;border-radius:14px;
+      background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .flip-seg{display:flex;flex-direction:column;align-items:center;min-width:84px}
+    .flip-seg .label{font-size:10px;color:#c7cbff;letter-spacing:.4px;margin-bottom:6px}
+    .flip{position:relative;width:84px;height:64px;border-radius:12px;overflow:hidden;
+      background:linear-gradient(180deg,#1b1f45,#121434);border:1px solid rgba(255,255,255,.12);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 8px 24px rgba(0,0,0,.35)}
+    .flip .top,.flip .bottom{position:absolute;left:0;right:0;height:50%;display:flex;align-items:center;justify-content:center;
+      font-weight:900;font-size:30px;letter-spacing:.5px}
+    .flip .top{top:0;border-bottom:1px solid rgba(255,255,255,.08)}
+    .flip .bottom{bottom:0}
+    .flip .leaf{position:absolute;left:0;right:0;top:0;height:50%;transform-origin:bottom;transform:rotateX(0deg);
+      background:linear-gradient(180deg,#242a5b,#171a3c);border-bottom:1px solid rgba(255,255,255,.1);display:none}
+    .flip.anim .leaf{display:block;animation:flipLeaf .6s ease-in-out}
+    @keyframes flipLeaf{
+      0%{transform:rotateX(0)}
+      49%{transform:rotateX(-89.9deg)}
+      50%{transform:rotateX(-90deg)}
+      100%{transform:rotateX(-180deg)}
+    }
+    .flip-timer .dots{font-weight:900;font-size:26px;line-height:1.1;color:#dfe3ff;margin:0 2px 8px}
+
     /* Responsive */
     @media (max-width:720px){
       .row{grid-template-columns:56px 1fr 120px 100px}
     }
     @media (max-width:520px){
-      .row{grid-template-columns:48px 1fr 100px; }
+      .row{grid-template-columns:48px 1fr 100px}
       .col-hide-sm{display:none}
-      .title{font-size:16px}
+      .hero h1{font-size:18px}
+      .flip-seg{min-width:70px}
+      .flip{width:70px;height:56px}
+      .flip .top,.flip .bottom{font-size:26px}
+      .flip-timer .dots{font-size:22px}
     }
-
-    .logo-img {
-  height: 36px; 
-  width: auto;
-  border-radius: 10px; /* optional, matches current look */
-}
-
-    /* Flip countdown */
-.flip-timer{display:flex;align-items:flex-end;gap:10px;padding:8px 10px;border-radius:14px;
-  background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.flip-seg{display:flex;flex-direction:column;align-items:center;min-width:84px}
-.flip-seg .label{font-size:10px;color:#c7cbff;letter-spacing:.4px;margin-bottom:6px}
-.flip{position:relative;width:84px;height:64px;border-radius:12px;overflow:hidden;
-  background:linear-gradient(180deg,#1b1f45,#121434);border:1px solid rgba(255,255,255,.12);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 8px 24px rgba(0,0,0,.35)}
-.flip .top,.flip .bottom{position:absolute;left:0;right:0;height:50%;display:flex;align-items:center;justify-content:center;
-  font-weight:900;font-size:30px;letter-spacing:.5px}
-.flip .top{top:0;border-bottom:1px solid rgba(255,255,255,.08)}
-.flip .bottom{bottom:0}
-.flip .leaf{position:absolute;left:0;right:0;top:0;height:50%;transform-origin:bottom;transform:rotateX(0deg);
-  background:linear-gradient(180deg,#242a5b,#171a3c);border-bottom:1px solid rgba(255,255,255,.1);display:none}
-.flip.anim .leaf{display:block;animation:flipLeaf .6s ease-in-out}
-@keyframes flipLeaf{
-  0%{transform:rotateX(0)}
-  49%{transform:rotateX(-89.9deg)}
-  50%{transform:rotateX(-90deg)}
-  100%{transform:rotateX(-180deg)}
-}
-.flip-timer .dots{font-weight:900;font-size:26px;line-height:1.1;color:#dfe3ff;margin:0 2px 8px}
-
-/* Smaller on mobile */
-@media (max-width:520px){
-  .flip-seg{min-width:70px}
-  .flip{width:70px;height:56px}
-  .flip .top,.flip .bottom{font-size:26px}
-  .flip-timer .dots{font-size:22px}
-}
-
-
   </style>
 </head>
 <body>
   <div class="wrap">
+    <!-- ROW 1: LOGO ONLY -->
+    <div class="topbar" aria-label="RicoBet">
+      <img
+        src="https://ricobr.ft-crm.com/media-api/serve/c5570255-af15-4915-8b16-907d5bc7f999_Rico_Logo.png"
+        alt="RicoBet"
+        class="logo-img"
+      />
+    </div>
 
-    <!-- HERO -->
+    <!-- ROW 2: HERO (Title + Countdown + CTAs) -->
     <section class="hero">
-      <div class="brand">
-       <div class="brand">
-  <img src="https://ricobr.ft-crm.com/media-api/serve/c5570255-af15-4915-8b16-907d5bc7f999_Rico_Logo.png" alt="RicoBet" class="logo-img">
-  <h1>RicoBet • Daily Prizes of USD 10,000</h1>
-</div>
+      <div class="title-row">
+        <h1>Daily Prizes of USD 10,000</h1>
+        <div class="flip-timer" aria-label="Countdown to daily reset">
+          <div class="flip-seg">
+            <div class="label">HRS</div>
+            <div class="flip" data-unit="h">
+              <div class="top">00</div>
+              <div class="bottom">00</div>
+              <div class="leaf"></div>
+            </div>
+          </div>
+          <span class="dots">:</span>
+          <div class="flip-seg">
+            <div class="label">MIN</div>
+            <div class="flip" data-unit="m">
+              <div class="top">00</div>
+              <div class="bottom">00</div>
+              <div class="leaf"></div>
+            </div>
+          </div>
+          <span class="dots">:</span>
+          <div class="flip-seg">
+            <div class="label">SEC</div>
+            <div class="flip" data-unit="s">
+              <div class="top">00</div>
+              <div class="bottom">00</div>
+              <div class="leaf"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <p class="sub">Live neon board of today’s biggest wins. Updated throughout the day.</p>
       <div class="h-actions">
-<div class="flip-timer" aria-label="Countdown to daily reset">
-  <div class="flip-seg">
-    <div class="label">HRS</div>
-    <div class="flip" data-unit="h">
-      <div class="top">00</div>
-      <div class="bottom">00</div>
-      <div class="leaf"></div>
-    </div>
-  </div>
-  <span class="dots">:</span>
-  <div class="flip-seg">
-    <div class="label">MIN</div>
-    <div class="flip" data-unit="m">
-      <div class="top">00</div>
-      <div class="bottom">00</div>
-      <div class="leaf"></div>
-    </div>
-  </div>
-  <span class="dots">:</span>
-  <div class="flip-seg">
-    <div class="label">SEC</div>
-    <div class="flip" data-unit="s">
-      <div class="top">00</div>
-      <div class="bottom">00</div>
-      <div class="leaf"></div>
-    </div>
-  </div>
-</div>
         <a class="btn btn--pri" href="https://www.rico.bet/myinbox" target="_blank" rel="noopener">📬 Open Inbox</a>
         <a class="btn btn--sec" href="https://ricobetmarketing.github.io/Spinning-Wheel/vip-spin.html" target="_blank" rel="noopener">🎡 Spin & Earn</a>
         <a class="btn btn--outline" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">🤖 Open Community</a>
@@ -220,9 +230,9 @@
 
   <script>
     /* ======= CONFIG ======= */
-    window.RICOBET_DATA_URL = './data/winners.json';   // Change if you move the JSON
-    window.RICOBET_TIMEZONE = 'America/Mexico_City';     // <<< Set your server time zone (IANA)
-    window.RICOBET_CURRENCY = { symbol: '$', code: 'USD' }; // Display currency
+    window.RICOBET_DATA_URL = './data/winners.json';         // Change if you move the JSON
+    window.RICOBET_TIMEZONE = 'America/Mexico_City';          // IANA TZ (e.g., America/Sao_Paulo)
+    window.RICOBET_CURRENCY = { symbol: '$', code: 'USD' };   // Display currency
   </script>
   <script src="./js/app.js" defer></script>
 </body>
