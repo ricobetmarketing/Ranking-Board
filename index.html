@@ -162,6 +162,32 @@
   .ring svg{width:78px;height:78px}
   .ring .value{font-size:18px}
 }
+/* Make title + rings wrap elegantly */
+.hero .title-row{
+  display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap;
+}
+
+/* Mobile: stack rings under the title */
+@media (max-width:640px){
+  .hero .title-row{align-items:flex-start}
+  .ring-timer{margin-top:8px}
+}
+
+/* Ring sizes already scale down; keep these */
+.ring-timer{display:flex;gap:16px;align-items:center;padding:10px 12px;border-radius:14px;
+  background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.ring{position:relative;width:92px;height:92px;display:grid;place-items:center}
+.ring svg{width:92px;height:92px;transform:rotate(-90deg)}
+.ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:8}
+.ring .fg{fill:none;stroke:url(#grad);stroke-width:8;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(120,115,245,.5))}
+.ring .value{position:absolute;font-weight:900;font-size:22px;letter-spacing:.5px}
+.ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
+
+@media (max-width:520px){
+  .ring{width:78px;height:78px}
+  .ring svg{width:78px;height:78px}
+  .ring .value{font-size:18px}
+}
 
   </style>
 </head>
