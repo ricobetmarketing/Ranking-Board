@@ -1,8 +1,8 @@
 {
   "days": [
     {
-      "date": "2025-09-22",
-      "last_updated": "2025-09-22T15:30:00Z",
+      "date": "2025-09-21",
+      "last_updated": "2025-09-21T15:30:00Z",
       "rows": [
         { "name": "PlayerNova",  "game": "Vampy Party", "amount": 12850.00 },
         { "name": "LuckyRico",   "game": "Gates of Olympus", "amount": 12420.50 },
