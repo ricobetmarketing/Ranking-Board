@@ -6,11 +6,12 @@
   <title>RicoBet • Daily Prizes of USD 10,000</title>
   <meta name="theme-color" content="#121125" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <style>
     :root{
       --bg:#0f1129; --card:#121125; --ink:#1b1c33; --ring:#2a2e58;
       --tx:#f2f3ff; --mut:#c7cbff; --gold:#ffe26a; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
-      --row-h:56px; /* ~row height for viewport calc */
+      --row-h:56px;
     }
     *{box-sizing:border-box}
     body{
@@ -24,176 +25,106 @@
     }
     .wrap{max-width:1080px; margin:24px auto 40px; padding:0 16px}
 
-    /* Topbar: logo only */
-    .topbar{
-      display:flex; justify-content:center; align-items:center;
-      margin-bottom:14px;
-    }
-    .logo-img{height:44px;width:auto;display:block}
+    /* Topbar: logo only (smaller + responsive) */
+    .topbar{display:flex; justify-content:center; align-items:center; margin-bottom:12px}
+    .logo-img{height:36px;width:auto;display:block}
+    @media (max-width:520px){ .logo-img{height:28px} }
 
-    /* Hero (second row): title + countdown + CTAs */
+    /* Hero block (title row + timer row + subline) */
     .hero{
       position:relative; overflow:hidden; border:1px solid var(--ring); border-radius:18px;
-      background:linear-gradient(135deg,rgba(255,110,196,.08),rgba(120,115,245,.08));
-      padding:18px
+      background:linear-gradient(135deg,rgba(255,110,196,.08),rgba(120,115,245,.08)); padding:18px
     }
-    .hero .title-row{
-      display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap
+    /* Big animated title */
+    .hero-title{
+      margin:0; font-size:28px; font-weight:900; letter-spacing:.3px; line-height:1.15;
+      background:linear-gradient(90deg,var(--g1),var(--a3),var(--g2),var(--g1));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      background-size:300% 100%; animation:shine 6s linear infinite
     }
-    .hero h1{margin:0; font-size:22px; letter-spacing:.2px}
-    .sub{margin:8px 0 12px; color:var(--mut)}
-    .h-actions{display:flex; gap:10px; flex-wrap:wrap}
+    @keyframes shine{0%{background-position:0% 0}100%{background-position:300% 0}}
+    @media (max-width:520px){ .hero-title{font-size:22px} }
 
-    .btn{
-      display:inline-block; padding:10px 14px; border-radius:12px; text-decoration:none;
-      font-weight:800; font-size:12px; color:#fff; border:1px solid rgba(255,255,255,.25)
-    }
-    .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
-    .btn--sec{background:transparent}
-    .btn--outline{background:transparent; border-color:#3a3f72}
+    .hero-sub{margin:10px 0 0; color:var(--mut)}
 
-    /* Board */
+    /* Neon ring countdown */
+    .ring-row{display:flex; justify-content:flex-start; margin-top:10px}
+    .ring-timer{display:flex;gap:16px;align-items:center;padding:10px 12px;border-radius:14px;
+      background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .ring{position:relative;width:92px;height:92px;display:grid;place-items:center}
+    .ring svg{width:92px;height:92px;transform:rotate(-90deg)}
+    .ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:8}
+    .ring .fg{fill:none;stroke:url(#ring-grad);stroke-width:8;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(120,115,245,.5))}
+    .ring .value{position:absolute;font-weight:900;font-size:22px;letter-spacing:.5px}
+    .ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
+    @media (max-width:640px){ .ring-row{justify-content:flex-start} }
+    @media (max-width:520px){
+      .ring{width:78px;height:78px}
+      .ring svg{width:78px;height:78px}
+      .ring .value{font-size:18px}
+    }
+
+    /* Winners panel */
     .panel{margin-top:18px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:14px; position:relative}
     .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
     .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
     .filters{display:flex; gap:8px; flex-wrap:wrap}
     .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
           background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
-    .chip a{color:#fff; text-decoration:none}
-
     .board{margin-top:8px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
-    .row{
-      display:grid; grid-template-columns:72px 1fr 160px 120px; gap:10px; align-items:center; padding:12px 12px;
-      background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
-      border-bottom:1px solid rgba(255,255,255,.06)
-    }
+    .row{display:grid; grid-template-columns:72px 1fr 160px; gap:10px; align-items:center; padding:12px 12px;
+         background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+         border-bottom:1px solid rgba(255,255,255,.06)}
     .row.head{background:rgba(255,255,255,.05); font-weight:900; color:#dfe3ff}
     .row:last-child{border-bottom:none}
-    .rank{
-      display:inline-flex; align-items:center; justify-content:center; width:44px; height:28px; border-radius:999px;
-      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); font-weight:900
-    }
+    .rank{display:inline-flex; align-items:center; justify-content:center; width:44px; height:28px; border-radius:999px;
+          background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); font-weight:900}
     .rank.top1{background:linear-gradient(90deg,#ffef9a,#ffd84a); color:#191b32}
     .rank.top2{background:linear-gradient(90deg,#e5e9ff,#cbd2ff); color:#191b32}
     .rank.top3{background:linear-gradient(90deg,#ffd3b5,#ffae7a); color:#191b32}
-
     .player{display:flex; align-items:center; gap:10px}
     .avatar{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
     .mask{opacity:.95; font-weight:700; letter-spacing:.2px}
     .payout{font-variant-numeric:tabular-nums; font-weight:800}
-    .game{color:#d6d8ff}
 
     /* Scrollable viewport for top 20 (shows 5) */
     .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
     .viewport::-webkit-scrollbar{height:8px;width:8px}
     .viewport::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
 
-    /* Footer ribbon */
-    .ribbon{margin-top:16px; border-radius:12px; padding:10px; text-align:center;
-            background:linear-gradient(90deg,rgba(255,110,196,.12),rgba(120,115,245,.12));
-            border:1px solid rgba(255,255,255,.14)}
-    .note{font-size:12px; color:#cfd3ff}
+    /* CTA block (moved to bottom after winners) */
+    .cta-block{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+    .btn{
+      display:inline-block; padding:12px 18px; border-radius:12px; text-decoration:none;
+      font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25)
+    }
+    .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
+    .btn--dark{background:#1a1b34}
+    .btn--outline{background:transparent; border-color:#3a3f72}
 
-    /* Glow border animation */
-    .hero::before, .panel::before{
+    /* FAQ / T&C */
+    .faq{margin-top:22px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:16px}
+    .faq h3{margin:0 0 10px 0; font-size:18px}
+    details{background:#141534; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px; margin:8px 0}
+    summary{cursor:pointer; font-weight:700}
+    details p{margin:8px 0 0 0; color:#dfe3ff}
+    .faq-cta{margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+
+    /* Glow border animation for hero/panel */
+    .hero::before, .panel::before, .faq::before{
       content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
       background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1)); background-size:400% 100%;
       -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-      -webkit-mask-composite:xor; mask-composite:exclude; animation:glow 9s linear infinite; pointer-events:none;
+      -webkit-mask-composite:xor; mask-composite:exclude; animation:shine 9s linear infinite; pointer-events:none;
     }
     .panel::before{border-radius:20px}
-    .hero::before{border-radius:20px}
-    @keyframes glow{0%{background-position:0% 0}100%{background-position:400% 0}}
-
-    /* Flip countdown */
-    .flip-timer{display:flex;align-items:flex-end;gap:10px;padding:8px 10px;border-radius:14px;
-      background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    .flip-seg{display:flex;flex-direction:column;align-items:center;min-width:84px}
-    .flip-seg .label{font-size:10px;color:#c7cbff;letter-spacing:.4px;margin-bottom:6px}
-    .flip{position:relative;width:84px;height:64px;border-radius:12px;overflow:hidden;
-      background:linear-gradient(180deg,#1b1f45,#121434);border:1px solid rgba(255,255,255,.12);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 8px 24px rgba(0,0,0,.35)}
-    .flip .top,.flip .bottom{position:absolute;left:0;right:0;height:50%;display:flex;align-items:center;justify-content:center;
-      font-weight:900;font-size:30px;letter-spacing:.5px}
-    .flip .top{top:0;border-bottom:1px solid rgba(255,255,255,.08)}
-    .flip .bottom{bottom:0}
-    .flip .leaf{position:absolute;left:0;right:0;top:0;height:50%;transform-origin:bottom;transform:rotateX(0deg);
-      background:linear-gradient(180deg,#242a5b,#171a3c);border-bottom:1px solid rgba(255,255,255,.1);display:none}
-    .flip.anim .leaf{display:block;animation:flipLeaf .6s ease-in-out}
-    @keyframes flipLeaf{
-      0%{transform:rotateX(0)}
-      49%{transform:rotateX(-89.9deg)}
-      50%{transform:rotateX(-90deg)}
-      100%{transform:rotateX(-180deg)}
-    }
-    .flip-timer .dots{font-weight:900;font-size:26px;line-height:1.1;color:#dfe3ff;margin:0 2px 8px}
-
-    /* Responsive */
-    @media (max-width:720px){
-      .row{grid-template-columns:56px 1fr 120px 100px}
-    }
-    @media (max-width:520px){
-      .row{grid-template-columns:48px 1fr 100px}
-      .col-hide-sm{display:none}
-      .hero h1{font-size:18px}
-      .flip-seg{min-width:70px}
-      .flip{width:70px;height:56px}
-      .flip .top,.flip .bottom{font-size:26px}
-      .flip-timer .dots{font-size:22px}
-    }
-
-
-    /* Neon ring countdown */
-.ring-timer{display:flex;gap:16px;align-items:center;padding:10px 12px;border-radius:14px;
-  background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.ring{position:relative;width:92px;height:92px;display:grid;place-items:center}
-.ring svg{width:92px;height:92px;transform:rotate(-90deg)}
-.ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:8}
-.ring .fg{fill:none;stroke:url(#grad);stroke-width:8;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(120,115,245,.5))}
-.ring .value{position:absolute;font-weight:900;font-size:22px;letter-spacing:.5px}
-.ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
-
-/* SVG gradient (injected with JS if missing) */
-.ring-timer svg defs linearGradient stop{}
-
-/* Smaller on mobile */
-@media (max-width:520px){
-  .ring{width:78px;height:78px}
-  .ring svg{width:78px;height:78px}
-  .ring .value{font-size:18px}
-}
-/* Make title + rings wrap elegantly */
-.hero .title-row{
-  display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap;
-}
-
-/* Mobile: stack rings under the title */
-@media (max-width:640px){
-  .hero .title-row{align-items:flex-start}
-  .ring-timer{margin-top:8px}
-}
-
-/* Ring sizes already scale down; keep these */
-.ring-timer{display:flex;gap:16px;align-items:center;padding:10px 12px;border-radius:14px;
-  background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.ring{position:relative;width:92px;height:92px;display:grid;place-items:center}
-.ring svg{width:92px;height:92px;transform:rotate(-90deg)}
-.ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:8}
-.ring .fg{fill:none;stroke:url(#grad);stroke-width:8;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(120,115,245,.5))}
-.ring .value{position:absolute;font-weight:900;font-size:22px;letter-spacing:.5px}
-.ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
-
-@media (max-width:520px){
-  .ring{width:78px;height:78px}
-  .ring svg{width:78px;height:78px}
-  .ring .value{font-size:18px}
-}
-
+    .faq{position:relative}
+    .faq::before{border-radius:20px}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <!-- ROW 1: LOGO ONLY -->
+    <!-- Row 0: Logo -->
     <div class="topbar" aria-label="RicoBet">
       <img
         src="https://ricobr.ft-crm.com/media-api/serve/c5570255-af15-4915-8b16-907d5bc7f999_Rico_Logo.png"
@@ -202,51 +133,43 @@
       />
     </div>
 
-    <!-- ROW 2: HERO (Title + Countdown + CTAs) -->
+    <!-- Row 1 + Row 2: Big Title + Countdown + Subline -->
     <section class="hero">
-      <div class="title-row">
-        <h1>Daily Prizes of USD 5,000</h1>
-      <!-- Neon Ring Countdown -->
-<div class="ring-timer" aria-label="Countdown to daily reset">
-  <div class="ring" data-unit="h">
-    <svg viewBox="0 0 72 72" aria-hidden="true">
-      <circle class="bg" cx="36" cy="36" r="30"></circle>
-      <circle class="fg" cx="36" cy="36" r="30"></circle>
-    </svg>
-    <div class="value">00</div>
-    <div class="label">HRS</div>
-  </div>
+      <h1 class="hero-title">Daily Prizes of USD 10,000</h1>
 
-  <div class="ring" data-unit="m">
-    <svg viewBox="0 0 72 72" aria-hidden="true">
-      <circle class="bg" cx="36" cy="36" r="30"></circle>
-      <circle class="fg" cx="36" cy="36" r="30"></circle>
-    </svg>
-    <div class="value">00</div>
-    <div class="label">MIN</div>
-  </div>
-
-  <div class="ring" data-unit="s">
-    <svg viewBox="0 0 72 72" aria-hidden="true">
-      <circle class="bg" cx="36" cy="36" r="30"></circle>
-      <circle class="fg" cx="36" cy="36" r="30"></circle>
-    </svg>
-    <div class="value">00</div>
-    <div class="label">SEC</div>
-  </div>
-</div>
-
+      <div class="ring-row">
+        <div class="ring-timer" aria-label="Countdown to daily reset">
+          <div class="ring" data-unit="h">
+            <svg viewBox="0 0 72 72" aria-hidden="true">
+              <circle class="bg" cx="36" cy="36" r="30"></circle>
+              <circle class="fg" cx="36" cy="36" r="30"></circle>
+            </svg>
+            <div class="value">00</div>
+            <div class="label">HRS</div>
+          </div>
+          <div class="ring" data-unit="m">
+            <svg viewBox="0 0 72 72" aria-hidden="true">
+              <circle class="bg" cx="36" cy="36" r="30"></circle>
+              <circle class="fg" cx="36" cy="36" r="30"></circle>
+            </svg>
+            <div class="value">00</div>
+            <div class="label">MIN</div>
+          </div>
+          <div class="ring" data-unit="s">
+            <svg viewBox="0 0 72 72" aria-hidden="true">
+              <circle class="bg" cx="36" cy="36" r="30"></circle>
+              <circle class="fg" cx="36" cy="36" r="30"></circle>
+            </svg>
+            <div class="value">00</div>
+            <div class="label">SEC</div>
+          </div>
         </div>
       </div>
 
-      <p class="sub">Live neon board of today’s biggest wins. Updated throughout the day.</p>
-      <div class="h-actions">
-        <a class="btn btn--sec" href="https://ricobetmarketing.github.io/Spinning-Wheel/vip-spin.html" target="_blank" rel="noopener">🎡 Spin & Earn</a>
-        <a class="btn btn--outline" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">🤖 Join Community</a>
-      </div>
+      <p class="hero-sub">Play in Pragmatic Play Slot Games to win the daily prizes !</p>
     </section>
 
-    <!-- BOARD -->
+    <!-- Winners Panel -->
     <section class="panel">
       <div class="panel-head">
         <h2 class="title">🏆 Top 20 • <span id="boardDate">—</span></h2>
@@ -265,24 +188,66 @@
         <div class="row head">
           <div>#</div>
           <div>Player</div>
-          <div class="col-hide-sm">Game</div>
-          <div>Win</div>
+          <div>Turnover</div>
         </div>
-        <!-- Scrollable viewport: shows top-5 height, contains top-20 rows -->
         <div id="rows" class="viewport" aria-live="polite"></div>
       </div>
+    </section>
 
-      <div class="ribbon">
-        <p class="note">Only verified real-money wins are shown. Daily board resets at 00:00 (server time).</p>
+    <!-- CTA (moved to bottom, after winners) -->
+    <div class="cta-block">
+      <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener">▶ PLAY NOW</a>
+      <a class="btn btn--dark" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">👥 JOIN COMMUNITY</a>
+    </div>
+
+    <!-- FAQ / T&C -->
+    <section class="faq">
+      <h3>FAQ & Terms</h3>
+
+      <details>
+        <summary>What is the Daily Prizes event?</summary>
+        <p>Top players are ranked by daily <b>Turnover</b> on eligible Pragmatic Play slot games. The board resets at 00:00 (server time).</p>
+      </details>
+
+      <details>
+        <summary>How do I qualify?</summary>
+        <p>Place real-money bets on participating Pragmatic Play slots during the event day.</p>
+      </details>
+
+      <details>
+        <summary>How is Turnover calculated?</summary>
+        <p>Turnover is the total amount wagered per player on the qualified games during the selected day.</p>
+      </details>
+
+      <details>
+        <summary>When are winners confirmed?</summary>
+        <p>Winners are finalized after the daily reset. Any suspicious or abusive activity may void eligibility.</p>
+      </details>
+
+      <details>
+        <summary>Full Terms & Conditions</summary>
+        <p>
+          • Event runs daily, resetting at 00:00 in the configured server timezone.<br>
+          • Only real-money wagers count toward Turnover.<br>
+          • Pragmatic Play slot games that are available may vary by region.<br>
+          • Accounts must be verified and in good standing.<br>
+          • The operator reserves the right to amend or cancel the event at any time to prevent abuse or fraud.<br>
+          • Local laws and platform rules apply.
+        </p>
+      </details>
+
+      <div class="faq-cta">
+        <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener">▶ PLAY NOW</a>
+        <a class="btn btn--outline" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">💬 Customer Support</a>
       </div>
     </section>
   </div>
 
   <script>
     /* ======= CONFIG ======= */
-    window.RICOBET_DATA_URL = './data/winners.json';         // Change if you move the JSON
-    window.RICOBET_TIMEZONE = 'America/Mexico_City';          // IANA TZ (e.g., America/Sao_Paulo)
-    window.RICOBET_CURRENCY = { symbol: '$', code: 'USD' };   // Display currency
+    window.RICOBET_DATA_URL = './data/winners.json';
+    window.RICOBET_TIMEZONE = 'America/Mexico_City';   // e.g., 'America/Sao_Paulo'
+    window.RICOBET_CURRENCY = { symbol: '$', code: 'USD' };
   </script>
   <script src="./js/app.js" defer></script>
 </body>
