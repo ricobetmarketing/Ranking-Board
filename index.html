@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>RicoBet • Top 10 Winners Today</title>
+  <title>RicoBet • Daily Prizes of USD 10,000</title>
   <meta name="theme-color" content="#121125" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>
     :root{
       --bg:#0f1129; --card:#121125; --ink:#1b1c33; --ring:#2a2e58;
       --tx:#f2f3ff; --mut:#c7cbff; --gold:#ffe26a; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
+      --row-h:56px; /* ~row height for viewport calc */
     }
     *{box-sizing:border-box}
     body{margin:0; background:radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
@@ -33,14 +34,19 @@
     .btn--sec{background:transparent}
     .btn--outline{background:transparent; border-color:#3a3f72}
 
+    /* Countdown pill */
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+          background:#161733; border:1px solid rgba(255,255,255,.15); font-weight:700; letter-spacing:.3px}
+
     /* Board */
-    .panel{margin-top:18px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:14px}
+    .panel{margin-top:18px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:14px; position:relative}
     .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
-    .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px}
+    .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
     .meta{color:var(--mut); font-size:12px}
     .filters{display:flex; gap:8px; flex-wrap:wrap}
     .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
           background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
+    .chip a{color:#fff; text-decoration:none}
 
     .board{margin-top:8px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
     .row{display:grid; grid-template-columns:72px 1fr 160px 120px; gap:10px; align-items:center; padding:12px 12px;
@@ -56,9 +62,15 @@
 
     .player{display:flex; align-items:center; gap:10px}
     .avatar{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
+    .mask{opacity:.95; font-weight:700; letter-spacing:.2px}
 
     .payout{font-variant-numeric:tabular-nums; font-weight:800}
     .game{color:#d6d8ff}
+
+    /* Scrollable viewport for top 20 (shows 5) */
+    .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
+    .viewport::-webkit-scrollbar{height:8px;width:8px}
+    .viewport::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
 
     /* Footer ribbon */
     .ribbon{margin-top:16px; border-radius:12px; padding:10px; text-align:center;
@@ -71,7 +83,7 @@
       content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
       background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1)); background-size:400% 100%;
       -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-      -webkit-mask-composite:xor; mask-composite:exclude; animation:glow 9s linear infinite
+      -webkit-mask-composite:xor; mask-composite:exclude; animation:glow 9s linear infinite; pointer-events:none;
     }
     .panel::before{border-radius:20px}
     .hero::before{border-radius:20px}
@@ -95,10 +107,11 @@
     <section class="hero">
       <div class="brand">
         <div class="logo" aria-hidden="true"></div>
-        <h1>RicoBet • Top 10 Winners Today</h1>
+        <h1>RicoBet • Daily Prizes of USD 10,000</h1>
       </div>
       <p class="sub">Live neon board of today’s biggest wins. Updated throughout the day.</p>
       <div class="h-actions">
+        <span class="pill" title="Countdown to daily reset"><span>⏳</span><span id="countdown">--:--:--</span></span>
         <a class="btn btn--pri" href="https://www.rico.bet/myinbox" target="_blank" rel="noopener">📬 Open Inbox</a>
         <a class="btn btn--sec" href="https://ricobetmarketing.github.io/Spinning-Wheel/vip-spin.html" target="_blank" rel="noopener">🎡 Spin & Earn</a>
         <a class="btn btn--outline" href="https://t.me/YourBotUsername?startapp=powerpack" target="_blank" rel="noopener">🤖 Open Telegram Mini App</a>
@@ -108,24 +121,27 @@
     <!-- BOARD -->
     <section class="panel">
       <div class="panel-head">
-        <h2 class="title">🏆 Top 10 • <span id="boardDate">—</span></h2>
+        <h2 class="title">🏆 Top 20 • <span id="boardDate">—</span></h2>
         <div class="filters">
           <span class="chip"><span>🔄</span><span>Last update: <b id="lastUpdated">—</b></span></span>
           <a class="chip" href="#" id="refresh"><span>⟳</span><span>Refresh</span></a>
           <label class="chip" title="Pick a date">
             📅&nbsp;<input id="datePicker" type="date" style="background:transparent;border:0;color:#fff;outline:none">
           </label>
+          <span class="chip" id="quickToday" style="cursor:pointer">📆 Today</span>
+          <span class="chip" id="quickYesterday" style="cursor:pointer">🗓️ Yesterday</span>
         </div>
       </div>
 
-      <div class="board" id="board">
+      <div class="board">
         <div class="row head">
           <div>#</div>
           <div>Player</div>
           <div class="col-hide-sm">Game</div>
           <div>Win</div>
         </div>
-        <div id="rows" aria-live="polite"></div>
+        <!-- Scrollable viewport: shows top-5 height, contains top-20 rows -->
+        <div id="rows" class="viewport" aria-live="polite"></div>
       </div>
 
       <div class="ribbon">
@@ -135,7 +151,10 @@
   </div>
 
   <script>
-    window.RICOBET_DATA_URL = './data/winners.json';   // change if you move the JSON
+    /* ======= CONFIG ======= */
+    window.RICOBET_DATA_URL = './data/winners.json';   // Change if you move the JSON
+    window.RICOBET_TIMEZONE = 'America/Sao_Paulo';     // <<< Set your server time zone (IANA)
+    window.RICOBET_CURRENCY = { symbol: '$', code: 'USD' }; // Display currency
   </script>
   <script src="./js/app.js" defer></script>
 </body>
