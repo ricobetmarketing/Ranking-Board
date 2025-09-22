@@ -1,6 +1,6 @@
 (function(){
   const DATA_DIR = window.RICOBET_DATA_DIR || './data';
-  const MONTH    = window.RICOBET_MONTH || '2025-10';           // "YYYY-MM"
+  const MONTH    = window.RICOBET_MONTH || '2025-09';           // "YYYY-MM"
   const START_YMD= window.EVENT_START_YMD || `${MONTH}-01`;     // "YYYY-MM-DD"
   const END_YMD  = window.EVENT_END_YMD   || `${MONTH}-31`;     // "YYYY-MM-DD"
 
