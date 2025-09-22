@@ -33,12 +33,11 @@
   }
 
   function nextMidnightTZ(){
-    // Compute midnight for the next day in the configured TZ
+    // Midnight for the next day in configured TZ
     const n = nowInTZ();
     const y = n.getUTCFullYear(), m = n.getUTCMonth(), d = n.getUTCDate();
     const todayMid = new Date(Date.UTC(y, m, d, 0, 0, 0));
-    const tomorrowMid = new Date(todayMid.getTime() + 24*3600*1000);
-    return tomorrowMid;
+    return new Date(todayMid.getTime() + 24*3600*1000);
   }
 
   function ymdInTZ(date){
@@ -57,78 +56,78 @@
     const str = String(name);
     if (str.length <= 6){
       const keep = Math.max(1, Math.floor(str.length/3));
-      const start = str.slice(0, keep);
-      const end = str.slice(-keep);
-      return `${start}****${end}`;
+      return `${str.slice(0, keep)}****${str.slice(-keep)}`;
     }
     const left = Math.floor((str.length - 4)/2);
     return str.slice(0,left) + '****' + str.slice(left+4);
   }
 
-function splitHMS(ms){
-  if(ms < 0) ms = 0;
-  const h = Math.floor(ms/3600000);
-  const m = Math.floor((ms%3600000)/60000);
-  const s = Math.floor((ms%60000)/1000);
-  return {h, m, s};
-}
-
-function ensureGradient(svg){
-  if (document.getElementById('ring-grad')) return;
-  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
-  const grad = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
-  grad.setAttribute('id','ring-grad');
-  grad.setAttribute('x1','0%'); grad.setAttribute('y1','0%');
-  grad.setAttribute('x2','100%'); grad.setAttribute('y2','0%');
-  const s1 = document.createElementNS('http://www.w3.org/2000/svg','stop');
-  s1.setAttribute('offset','0%');  s1.setAttribute('stop-color', getComputedStyle(document.documentElement).getPropertyValue('--g1') || '#ff6ec4');
-  const s2 = document.createElementNS('http://www.w3.org/2000/svg','stop');
-  s2.setAttribute('offset','100%');s2.setAttribute('stop-color', getComputedStyle(document.documentElement).getPropertyValue('--g2') || '#7873f5');
-  grad.appendChild(s1); grad.appendChild(s2); defs.appendChild(grad);
-  svg.prepend(defs);
-}
-
-function setStroke(el, pct){
-  const r = 30; // must match the 'r' in your <circle>
-  const C = 2 * Math.PI * r;
-  el.style.strokeDasharray = `${C}`;
-  el.style.strokeDashoffset = `${C * (1 - pct)}`;
-}
-
-function updateRing($ring, value, max){
-  if (!$ring) return;
-  const svg = $ring.querySelector('svg');
-  const fg  = $ring.querySelector('.fg');
-  const val = $ring.querySelector('.value');
-  ensureGradient(svg);
-  fg.setAttribute('stroke','url(#ring-grad)');
-  val.textContent = String(value).padStart(2,'0');
-  const pct = Math.max(0, Math.min(1, value / max));
-  setStroke(fg, pct);
-}
-
-function startRingCountdown(){
-  const ringH = document.querySelector('.ring[data-unit="h"]');
-  const ringM = document.querySelector('.ring[data-unit="m"]');
-  const ringS = document.querySelector('.ring[data-unit="s"]');
-
-  function tick(){
-    const now = nowInTZ();
-    const target = nextMidnightTZ();
-    let diff = target - now;
-    if (diff < 0) diff = 0;
-
-    const {h, m, s} = splitHMS(diff);
-    // At 00:00 in your TZ, h will be 24 exactly (24h till next midnight)
-    updateRing(ringH, h, 24);
-    updateRing(ringM, m, 60);
-    updateRing(ringS, s, 60);
-
-    requestAnimationFrame(()=>setTimeout(tick, 250));
+  /* ---------- Time helpers ---------- */
+  function splitHMS(ms){
+    if(ms < 0) ms = 0;
+    const h = Math.floor(ms/3600000);
+    const m = Math.floor((ms%3600000)/60000);
+    const s = Math.floor((ms%60000)/1000);
+    return {h, m, s};
   }
-  tick();
-}
 
+  /* ---------- Neon Ring Countdown ---------- */
+  const RADIUS = 30;
+  const CIRC = 2 * Math.PI * RADIUS;
+
+  function ensureGradient(svg){
+    if (document.getElementById('ring-grad')) return;
+    const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+    const grad = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+    grad.setAttribute('id','ring-grad');
+    grad.setAttribute('x1','0%'); grad.setAttribute('y1','0%');
+    grad.setAttribute('x2','100%'); grad.setAttribute('y2','0%');
+    const s1 = document.createElementNS('http://www.w3.org/2000/svg','stop');
+    s1.setAttribute('offset','0%');  s1.setAttribute('stop-color', getComputedStyle(document.documentElement).getPropertyValue('--g1') || '#ff6ec4');
+    const s2 = document.createElementNS('http://www.w3.org/2000/svg','stop');
+    s2.setAttribute('offset','100%'); s2.setAttribute('stop-color', getComputedStyle(document.documentElement).getPropertyValue('--g2') || '#7873f5');
+    grad.appendChild(s1); grad.appendChild(s2); defs.appendChild(grad);
+    svg.prepend(defs);
+  }
+
+  function setStroke(el, pct){
+    el.style.strokeDasharray = `${CIRC}`;
+    el.style.strokeDashoffset = `${CIRC * (1 - pct)}`;
+  }
+
+  function updateRing($ring, value, max){
+    if (!$ring) return;
+    const svg = $ring.querySelector('svg');
+    const fg  = $ring.querySelector('.fg');
+    const val = $ring.querySelector('.value');
+    ensureGradient(svg);
+    fg.setAttribute('stroke','url(#ring-grad)');
+    val.textContent = String(value).padStart(2,'0');
+    setStroke(fg, Math.max(0, Math.min(1, value / max)));
+  }
+
+  function startRingCountdown(){
+    const ringH = document.querySelector('.ring[data-unit="h"]');
+    const ringM = document.querySelector('.ring[data-unit="m"]');
+    const ringS = document.querySelector('.ring[data-unit="s"]');
+    if (!ringH || !ringM || !ringS) return; // timer not present
+
+    function tick(){
+      const now = nowInTZ();
+      const target = nextMidnightTZ();
+      let diff = target - now;
+      if (diff < 0) diff = 0;
+
+      const {h, m, s} = splitHMS(diff);
+      // At 00:00 in TZ, h = 24 (24h until next midnight)
+      updateRing(ringH, h, 24);
+      updateRing(ringM, m, 60);
+      updateRing(ringS, s, 60);
+
+      requestAnimationFrame(()=>setTimeout(tick, 250)); // ~4 FPS
+    }
+    tick();
+  }
 
   /* ---------- Board rendering ---------- */
   function renderForDate(data, ymd){
@@ -141,10 +140,8 @@ function startRingCountdown(){
       return;
     }
 
-    // Sort by amount desc, take Top 20
-    let items = (day.rows || []).slice(0);
-    items.sort((a,b) => (b.amount||0) - (a.amount||0));
-    items = items.slice(0,20).map((r,i)=>({ rank:r.rank ?? (i+1), ...r }));
+    let items = (day.rows || []).slice().sort((a,b) => (b.amount||0) - (a.amount||0)).slice(0,20)
+                  .map((r,i)=>({ rank:r.rank ?? (i+1), ...r }));
 
     for(const r of items){
       const row = document.createElement('div');
@@ -169,87 +166,23 @@ function startRingCountdown(){
     });
   }
 
-  /* ---------- Neon Ring Countdown ---------- */
-function ensureGradient(svg){
-  // Add linearGradient once per document
-  if (document.getElementById('ring-grad')) return;
-  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
-  const grad = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
-  grad.setAttribute('id','ring-grad');
-  grad.setAttribute('x1','0%'); grad.setAttribute('y1','0%');
-  grad.setAttribute('x2','100%'); grad.setAttribute('y2','0%');
-  const s1 = document.createElementNS('http://www.w3.org/2000/svg','stop');
-  s1.setAttribute('offset','0%');  s1.setAttribute('stop-color', getComputedStyle(document.documentElement).getPropertyValue('--g1') || '#ff6ec4');
-  const s2 = document.createElementNS('http://www.w3.org/2000/svg','stop');
-  s2.setAttribute('offset','100%');s2.setAttribute('stop-color', getComputedStyle(document.documentElement).getPropertyValue('--g2') || '#7873f5');
-  grad.appendChild(s1); grad.appendChild(s2); defs.appendChild(grad);
-  svg.prepend(defs);
-}
-function setStroke(el, pct){
-  // pct: 0..1 (how much of the circle to show)
-  const r = 30; // matches CSS
-  const C = 2 * Math.PI * r;
-  el.style.strokeDasharray = `${C}`;
-  el.style.strokeDashoffset = `${C * (1 - pct)}`;
-}
-function updateRing($ring, value, max){
-  const svg = $ring.querySelector('svg');
-  const fg  = $ring.querySelector('.fg');
-  const val = $ring.querySelector('.value');
-  ensureGradient(svg);
-  // hook gradient
-  fg.setAttribute('stroke','url(#ring-grad)');
-
-  // Show remaining value and progress (remaining / max)
-  val.textContent = String(value).padStart(2,'0');
-  const pct = Math.max(0, Math.min(1, value / max));
-  setStroke(fg, pct);
-}
-function startRingCountdown(){
-  const ringH = document.querySelector('.ring[data-unit="h"]');
-  const ringM = document.querySelector('.ring[data-unit="m"]');
-  const ringS = document.querySelector('.ring[data-unit="s"]');
-
-  function tick(){
-    const now = nowInTZ();
-    const target = nextMidnightTZ();
-    let diff = target - now;
-    if (diff < 0) diff = 0;
-
-    const {h, m, s} = splitHMS(diff);
-    // Hours remaining to midnight (0..23)
-    updateRing(ringH, h, 24);
-    updateRing(ringM, m, 60);
-    updateRing(ringS, s, 60);
-
-    requestAnimationFrame(()=>setTimeout(tick, 250)); // smooth-ish
-  }
-  tick();
-}
-
-  
   /* ---------- Init ---------- */
   (function init(){
-    // Default to "today" in the configured time zone
     const n = nowInTZ();
     const ymd = ymdInTZ(n);
-    datePicker.value = ymd;
+    if (datePicker) datePicker.value = ymd;
     load(ymd);
-
-    // Start the neon ring version
     startRingCountdown();
 
-    refreshBtn.addEventListener('click', e => { e.preventDefault(); load(datePicker.value); });
-    datePicker.addEventListener('change', () => load(datePicker.value));
-    quickToday.addEventListener('click', ()=>{
-      const n = nowInTZ();
-      const ymd = ymdInTZ(n);
+    if (refreshBtn) refreshBtn.addEventListener('click', e => { e.preventDefault(); load(datePicker.value); });
+    if (datePicker) datePicker.addEventListener('change', () => load(datePicker.value));
+    if (quickToday) quickToday.addEventListener('click', ()=>{
+      const ymd = ymdInTZ(nowInTZ());
       datePicker.value = ymd;
       load(ymd);
     });
-    quickYesterday.addEventListener('click', ()=>{
-      const n = nowInTZ();
-      n.setUTCDate(n.getUTCDate()-1);
+    if (quickYesterday) quickYesterday.addEventListener('click', ()=>{
+      const n = nowInTZ(); n.setUTCDate(n.getUTCDate()-1);
       const ymd = ymdInTZ(n);
       datePicker.value = ymd;
       load(ymd);
