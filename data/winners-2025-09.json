@@ -1,0 +1,56 @@
+{
+  "days": [
+    {
+      "date": "2025-09-21",
+      "last_updated": "2025-09-21T23:59:00Z",
+      "rows": [
+        { "name": "PlayerNova",  "amount": 12850.00 },
+        { "name": "LuckyRico",   "amount": 12420.50 },
+        { "name": "SpinQueen",   "amount": 11910.00 },
+        { "name": "BountyMax",   "amount": 8800.00 },
+        { "name": "Roller77",    "amount": 8360.00 },
+        { "name": "NightWolf",   "amount": 7912.00 },
+        { "name": "JadeTiger",   "amount": 7221.00 },
+        { "name": "VoltRider",   "amount": 6900.00 },
+        { "name": "Bellatrix",   "amount": 6550.00 },
+        { "name": "RioKing",     "amount": 6402.25 },
+        { "name": "TurboMaverick", "amount": 6180.40 },
+        { "name": "CrystalAce",    "amount": 6022.00 },
+        { "name": "FlameStrike",   "amount": 5840.00 },
+        { "name": "ZetaStorm",     "amount": 5521.75 },
+        { "name": "AuroraSpin",    "amount": 5404.10 },
+        { "name": "NeonJaguar",    "amount": 5230.00 },
+        { "name": "SilverViper",   "amount": 5108.90 },
+        { "name": "ThunderLeaf",   "amount": 4980.00 },
+        { "name": "NovaZephyr",    "amount": 4722.50 },
+        { "name": "RicoLegend",    "amount": 4505.00 }
+      ]
+    },
+    {
+      "date": "2025-09-20",
+      "last_updated": "2025-09-20T23:59:00Z",
+      "rows": [
+        { "name": "StormAce",     "amount": 14210.00 },
+        { "name": "NeonDust",     "amount": 12005.00 },
+        { "name": "PlayerNova",   "amount": 11840.00 },
+        { "name": "LuckyRico",    "amount": 11220.00 },
+        { "name": "SpinQueen",    "amount": 10310.00 },
+        { "name": "BountyMax",    "amount": 9200.00 },
+        { "name": "Roller77",     "amount": 8740.00 },
+        { "name": "NightWolf",    "amount": 8001.00 },
+        { "name": "JadeTiger",    "amount": 7703.00 },
+        { "name": "VoltRider",    "amount": 7500.00 },
+        { "name": "Bellatrix",    "amount": 7080.00 },
+        { "name": "RioKing",      "amount": 6902.25 },
+        { "name": "CrystalAce",   "amount": 6705.00 },
+        { "name": "TurboMaverick","amount": 6401.40 },
+        { "name": "FlameStrike",  "amount": 6100.00 },
+        { "name": "ZetaStorm",    "amount": 5980.00 },
+        { "name": "AuroraSpin",   "amount": 5822.10 },
+        { "name": "SilverViper",  "amount": 5600.00 },
+        { "name": "ThunderLeaf",  "amount": 5320.00 },
+        { "name": "NovaZephyr",   "amount": 5050.00 }
+      ]
+    }
+  ]
+}
