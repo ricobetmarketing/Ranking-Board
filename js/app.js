@@ -143,4 +143,18 @@
 
   quickToday.addEventListener('click', ()=>{
     const n = nowInTZ();
-    const ymd = new Intl.DateTimeFormat('en-CA', {timeZone: TZ, year:'numeric', month:'2-digit', day:'2-d
+    const ymd = new Intl.DateTimeFormat('en-CA', {timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit'}).format(n);
+    datePicker.value = ymd;
+    load(ymd);
+  });
+  quickYesterday.addEventListener('click', ()=>{
+    const n = nowInTZ();
+    n.setUTCDate(n.getUTCDate()-1); // subtract one "TZ day" approximation
+    const ymd = new Intl.DateTimeFormat('en-CA', {timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit'}).format(n);
+    datePicker.value = ymd;
+    load(ymd);
+  });
+
+  startCountdown();
+})();
+
