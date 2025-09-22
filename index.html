@@ -141,6 +141,28 @@
       .flip .top,.flip .bottom{font-size:26px}
       .flip-timer .dots{font-size:22px}
     }
+
+
+    /* Neon ring countdown */
+.ring-timer{display:flex;gap:16px;align-items:center;padding:10px 12px;border-radius:14px;
+  background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.ring{position:relative;width:92px;height:92px;display:grid;place-items:center}
+.ring svg{width:92px;height:92px;transform:rotate(-90deg)}
+.ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:8}
+.ring .fg{fill:none;stroke:url(#grad);stroke-width:8;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(120,115,245,.5))}
+.ring .value{position:absolute;font-weight:900;font-size:22px;letter-spacing:.5px}
+.ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
+
+/* SVG gradient (injected with JS if missing) */
+.ring-timer svg defs linearGradient stop{}
+
+/* Smaller on mobile */
+@media (max-width:520px){
+  .ring{width:78px;height:78px}
+  .ring svg{width:78px;height:78px}
+  .ring .value{font-size:18px}
+}
+
   </style>
 </head>
 <body>
@@ -158,33 +180,36 @@
     <section class="hero">
       <div class="title-row">
         <h1>Daily Prizes of USD 10,000</h1>
-        <div class="flip-timer" aria-label="Countdown to daily reset">
-          <div class="flip-seg">
-            <div class="label">HRS</div>
-            <div class="flip" data-unit="h">
-              <div class="top">00</div>
-              <div class="bottom">00</div>
-              <div class="leaf"></div>
-            </div>
-          </div>
-          <span class="dots">:</span>
-          <div class="flip-seg">
-            <div class="label">MIN</div>
-            <div class="flip" data-unit="m">
-              <div class="top">00</div>
-              <div class="bottom">00</div>
-              <div class="leaf"></div>
-            </div>
-          </div>
-          <span class="dots">:</span>
-          <div class="flip-seg">
-            <div class="label">SEC</div>
-            <div class="flip" data-unit="s">
-              <div class="top">00</div>
-              <div class="bottom">00</div>
-              <div class="leaf"></div>
-            </div>
-          </div>
+      <!-- Neon Ring Countdown -->
+<div class="ring-timer" aria-label="Countdown to daily reset">
+  <div class="ring" data-unit="h">
+    <svg viewBox="0 0 72 72" aria-hidden="true">
+      <circle class="bg" cx="36" cy="36" r="30"></circle>
+      <circle class="fg" cx="36" cy="36" r="30"></circle>
+    </svg>
+    <div class="value">00</div>
+    <div class="label">HRS</div>
+  </div>
+
+  <div class="ring" data-unit="m">
+    <svg viewBox="0 0 72 72" aria-hidden="true">
+      <circle class="bg" cx="36" cy="36" r="30"></circle>
+      <circle class="fg" cx="36" cy="36" r="30"></circle>
+    </svg>
+    <div class="value">00</div>
+    <div class="label">MIN</div>
+  </div>
+
+  <div class="ring" data-unit="s">
+    <svg viewBox="0 0 72 72" aria-hidden="true">
+      <circle class="bg" cx="36" cy="36" r="30"></circle>
+      <circle class="fg" cx="36" cy="36" r="30"></circle>
+    </svg>
+    <div class="value">00</div>
+    <div class="label">SEC</div>
+  </div>
+</div>
+
         </div>
       </div>
 
