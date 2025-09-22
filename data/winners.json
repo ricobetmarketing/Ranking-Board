@@ -2,36 +2,56 @@
   "days": [
     {
       "date": "2025-09-21",
-      "last_updated": "2025-09-21T15:30:00Z",
+      "last_updated": "2025-09-21T23:45:00Z",
       "rows": [
-        { "name": "PlayerNova",  "game": "Vampy Party", "amount": 12850.00 },
-        { "name": "LuckyRico",   "game": "Gates of Olympus", "amount": 12420.50 },
-        { "name": "SpinQueen",   "game": "Sugar Rush", "amount": 11910.00 },
-        { "name": "BountyMax",   "game": "Big Bass Bonanza", "amount": 8800.00 },
-        { "name": "Roller77",    "game": "Sweet Bonanza", "amount": 8360.00 },
-        { "name": "NightWolf",   "game": "Starlight Princess", "amount": 7912.00 },
-        { "name": "JadeTiger",   "game": "Zeus vs Hades", "amount": 7221.00 },
-        { "name": "VoltRider",   "game": "Wanted Dead or a Wild", "amount": 6900.00 },
-        { "name": "Bellatrix",   "game": "The Dog House", "amount": 6550.00 },
-        { "name": "RioKinag",     "game": "Sugar Rush 1000", "amount": 6402.25 }
+        { "name": "PlayerNova",   "game": "Vampy Party",                 "amount": 12850.00 },
+        { "name": "LuckyRico",    "game": "Gates of Olympus",            "amount": 12420.50 },
+        { "name": "SpinQueen",    "game": "Sugar Rush",                  "amount": 11910.00 },
+        { "name": "BountyMax",    "game": "Big Bass Bonanza",            "amount": 8800.00  },
+        { "name": "Roller77",     "game": "Sweet Bonanza",               "amount": 8360.00  },
+        { "name": "NightWolf",    "game": "Starlight Princess",          "amount": 7912.00  },
+        { "name": "JadeTiger",    "game": "Zeus vs Hades",               "amount": 7221.00  },
+        { "name": "VoltRider",    "game": "Wanted Dead or a Wild",       "amount": 6900.00  },
+        { "name": "Bellatrix",    "game": "The Dog House",               "amount": 6550.00  },
+        { "name": "RioKing",      "game": "Sugar Rush 1000",             "amount": 6402.25  },
+
+        { "name": "TurboMaverick","game": "Big Bass Amazon Xtreme",      "amount": 6180.40  },
+        { "name": "CrystalAce",   "game": "Madame Destiny",               "amount": 6022.00  },
+        { "name": "FlameStrike",  "game": "Fire Hot 100",                 "amount": 5840.00  },
+        { "name": "ZetaStorm",    "game": "Gates of Gatot Kaca",          "amount": 5521.75  },
+        { "name": "AuroraSpin",   "game": "Starlight Princess 1000",      "amount": 5404.10  },
+        { "name": "NeonJaguar",   "game": "Fruit Party 2",                "amount": 5230.00  },
+        { "name": "SilverViper",  "game": "Sugar Rush",                   "amount": 5108.90  },
+        { "name": "ThunderLeaf",  "game": "Buffalo King Megaways",        "amount": 4980.00  },
+        { "name": "NovaZephyr",   "game": "Zeus vs Hades",                "amount": 4722.50  },
+        { "name": "RicoLegend",   "game": "The Dog House Megaways",       "amount": 4505.00  }
       ]
     },
     {
       "date": "2025-09-20",
       "last_updated": "2025-09-20T23:59:00Z",
       "rows": [
-        { "name": "StormAce", "game": "Zeus vs Hades", "amount": 14210.00 },
-        { "name": "NeonDust", "game": "Sugar Rush", "amount": 12005.00 }
-               { "name": "PlayerNova",  "game": "Vampy Party", "amount": 12850.00 },
-        { "name": "LuckyRico",   "game": "Gates of Olympus", "amount": 12420.50 },
-        { "name": "SpinQueen",   "game": "Sugar Rush", "amount": 11910.00 },
-        { "name": "BountyMax",   "game": "Big Bass Bonanza", "amount": 8800.00 },
-        { "name": "Roller77",    "game": "Sweet Bonanza", "amount": 8360.00 },
-        { "name": "NightWolf",   "game": "Starlight Princess", "amount": 7912.00 },
-        { "name": "JadeTiger",   "game": "Zeus vs Hades", "amount": 7221.00 },
-        { "name": "VoltRider",   "game": "Wanted Dead or a Wild", "amount": 6900.00 },
-        { "name": "Bellatrix",   "game": "The Dog House", "amount": 6550.00 },
-        { "name": "RioKinag",     "game": "Sugar Rush 1000", "amount": 6402.25 }
+        { "name": "StormAce",     "game": "Zeus vs Hades",                "amount": 14210.00 },
+        { "name": "NeonDust",     "game": "Sugar Rush",                   "amount": 12005.00 },
+        { "name": "PlayerNova",   "game": "Vampy Party",                  "amount": 11840.00 },
+        { "name": "LuckyRico",    "game": "Gates of Olympus",             "amount": 11220.00 },
+        { "name": "SpinQueen",    "game": "Sugar Rush 1000",              "amount": 10310.00 },
+        { "name": "BountyMax",    "game": "Big Bass Bonanza",             "amount": 9200.00  },
+        { "name": "Roller77",     "game": "Sweet Bonanza",                "amount": 8740.00  },
+        { "name": "NightWolf",    "game": "Starlight Princess",           "amount": 8001.00  },
+        { "name": "JadeTiger",    "game": "Zeus vs Hades",                "amount": 7703.00  },
+        { "name": "VoltRider",    "game": "Wanted Dead or a Wild",        "amount": 7500.00  },
+
+        { "name": "Bellatrix",    "game": "The Dog House",                "amount": 7080.00  },
+        { "name": "RioKing",      "game": "Sugar Rush 1000",              "amount": 6902.25  },
+        { "name": "CrystalAce",   "game": "Madame Destiny",               "amount": 6705.00  },
+        { "name": "TurboMaverick","game": "Big Bass Amazon Xtreme",       "amount": 6401.40  },
+        { "name": "FlameStrike",  "game": "Fire Hot 100",                 "amount": 6100.00  },
+        { "name": "ZetaStorm",    "game": "Gates of Gatot Kaca",          "amount": 5980.00  },
+        { "name": "AuroraSpin",   "game": "Starlight Princess 1000",      "amount": 5822.10  },
+        { "name": "SilverViper",  "game": "Sugar Rush",                   "amount": 5600.00  },
+        { "name": "ThunderLeaf",  "game": "Buffalo King Megaways",        "amount": 5320.00  },
+        { "name": "NovaZephyr",   "game": "Zeus vs Hades",                "amount": 5050.00  }
       ]
     }
   ]
