@@ -58,21 +58,68 @@
     // We only need the "tomorrow midnight in TZ" relative to nowInTZ(), so:
     return tomorrowTZ;
   }
+  function nextMidnightTZ(){
+    // Build “now” in configured TZ using your existing helper
+    const n = nowInTZ();
+    // Get the date parts for TZ "today"
+    const y = n.getUTCFullYear(), m = n.getUTCMonth(), d = n.getUTCDate();
+    // Today 00:00 in TZ (UTC parts already aligned to TZ via nowInTZ trick)
+    const todayMid = new Date(Date.UTC(y, m, d, 0, 0, 0));
+    const tomorrowMid = new Date(todayMid.getTime() + 24*3600*1000);
+    return tomorrowMid;
+  }
+
+  function splitHMS(ms){
+    if(ms < 0) ms = 0;
+    const h = Math.floor(ms/3600000);
+    const m = Math.floor((ms%3600000)/60000);
+    const s = Math.floor((ms%60000)/1000);
+    return {h, m, s};
+  }
+
+  function setFlip($flip, val){
+    const top = $flip.querySelector('.top');
+    const bottom = $flip.querySelector('.bottom');
+    const leaf = $flip.querySelector('.leaf');
+    const next = String(val).padStart(2,'0');
+    const curr = top.textContent.trim();
+    if(curr === next) return;
+
+    // Prepare animation frames
+    $flip.classList.add('anim');
+    // First half: leaf flips covering the top; when it reaches 90deg, swap numbers
+    leaf.addEventListener('animationend', ()=> {
+      $flip.classList.remove('anim');
+      // After full flip, both sides show the new value
+      top.textContent = next;
+      bottom.textContent = next;
+    }, {once:true});
+
+    // During the flip, we want the bottom value to already be the next
+    bottom.textContent = next;
+  }
+
   function startCountdown(){
+    const fh = document.querySelector('.flip[data-unit="h"]');
+    const fm = document.querySelector('.flip[data-unit="m"]');
+    const fs = document.querySelector('.flip[data-unit="s"]');
+
     function tick(){
       const now = nowInTZ();
-      const targ = nextMidnightTZ();
-      let diff = targ - now;
-      if (diff < 0) diff = 0;
-      const h = Math.floor(diff/3600000);
-      const m = Math.floor((diff%3600000)/60000);
-      const s = Math.floor((diff%60000)/1000);
-      countdownEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-      if (diff === 0) { /* optional: auto reload board for new day */ }
+      const target = nextMidnightTZ();
+      const diff = target - now;
+      const {h, m, s} = splitHMS(diff);
+
+      setFlip(fh, h);
+      setFlip(fm, m);
+      setFlip(fs, s);
+
+      // Run 4x per second for smoothness
       requestAnimationFrame(()=>setTimeout(tick, 250));
     }
     tick();
   }
+
   function fetchJSON(url){
     return fetch(url + `?v=${Date.now()}`, {cache:'no-store'}).then(res=>{
       if(!res.ok) throw new Error('Unable to load data');
