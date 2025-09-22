@@ -259,16 +259,18 @@
 
   <!-- CONFIG (October-only) -->
   <script>
-    // Data
-window.RICOBET_MONTH    = '2025-09';
-window.EVENT_START_YMD  = '2025-09-01';
-window.EVENT_END_YMD    = '2025-09-30';
-    window.EVENT_END_YMD    = '2025-10-31';
+<script>
+  /* ===== DATA (point the app at September) ===== */
+  window.RICOBET_DATA_DIR = './data';     // folder where the JSONs live
+  window.RICOBET_MONTH    = '2025-09';    // <-- load winners-2025-09.json
+  window.EVENT_START_YMD  = '2025-09-01'; // limit date picker & countdown
+  window.EVENT_END_YMD    = '2025-09-30';
 
-    // Display / logic
-    window.RICOBET_TIMEZONE = 'America/Mexico_City';
-    window.RICOBET_CURRENCY = { symbol: '$', code: 'USD' };
-  </script>
+  /* ===== DISPLAY / LOGIC ===== */
+  window.RICOBET_TIMEZONE = 'America/Mexico_City';
+  window.RICOBET_CURRENCY = { symbol: '$', code: 'USD' };
+</script>
+
   <script src="./js/app.js" defer></script>
 </body>
 </html>
