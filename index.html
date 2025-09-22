@@ -1,153 +1,147 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>RicoBet • Daily Prizes of USD 10,000</title>
-  <meta name="theme-color" content="#121125" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>RicoBet • September Winners</title>
+<meta name="theme-color" content="#121125" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <style>
-    :root{
-      --bg:#0f1129; --card:#121125; --ink:#1b1c33; --ring:#2a2e58;
-      --tx:#f2f3ff; --mut:#c7cbff; --gold:#ffe26a; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
-      --row-h:56px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background:
-        radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
-        radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
-        var(--bg);
-      color:var(--tx);
-      font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif
-    }
-    .wrap{max-width:1080px; margin:24px auto 40px; padding:0 16px}
+<style>
+  :root{
+    --bg:#0f1129; --card:#121125; --ink:#1b1c33; --ring:#2a2e58;
+    --tx:#f2f3ff; --mut:#c7cbff; --gold:#ffe26a; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
+    --row-h:56px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
+      radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
+      var(--bg);
+    color:var(--tx);
+    font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif
+  }
+  .wrap{max-width:1080px; margin:24px auto 40px; padding:0 16px}
 
-    /* Topbar: logo smaller + responsive */
-    .topbar{display:flex; justify-content:center; align-items:center; margin-bottom:12px}
-    .logo-img{height:36px;width:auto;display:block}
-    @media (max-width:520px){ .logo-img{height:28px} }
+  /* Top bar */
+  .topbar{display:flex; justify-content:center; align-items:center; margin-bottom:12px}
+  .logo-img{height:36px;width:auto;display:block}
+  @media (max-width:520px){ .logo-img{height:28px} }
 
-    /* Hero block (title row + timer row + subline) */
-    .hero{
-      position:relative; overflow:hidden; border:1px solid var(--ring); border-radius:18px;
-      background:linear-gradient(135deg,rgba(255,110,196,.08),rgba(120,115,245,.08)); padding:18px
-    }
-    /* Big animated title */
-    .hero-title{
-      margin:0; font-size:28px; font-weight:900; letter-spacing:.3px; line-height:1.15;
-      background:linear-gradient(90deg,var(--g1),var(--a3),var(--g2),var(--g1));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
-      background-size:300% 100%; animation:shine 6s linear infinite
-    }
-    @keyframes shine{0%{background-position:0% 0}100%{background-position:300% 0}}
-    @media (max-width:520px){ .hero-title{font-size:22px} }
+  /* Hero */
+  .hero{
+    position:relative; overflow:hidden; border:1px solid var(--ring); border-radius:18px;
+    background:linear-gradient(135deg,rgba(255,110,196,.08),rgba(120,115,245,.08)); padding:18px
+  }
+  .hero-title{
+    margin:0; font-size:28px; font-weight:900; letter-spacing:.3px; line-height:1.15;
+    background:linear-gradient(90deg,var(--g1),var(--a3),var(--g2),var(--g1));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    background-size:300% 100%; animation:shine 6s linear infinite
+  }
+  @keyframes shine{0%{background-position:0% 0}100%{background-position:300% 0}}
+  @media (max-width:520px){ .hero-title{font-size:22px} }
+  .sub{margin:10px 0 0; color:var(--mut)}
 
-    .hero-sub{margin:10px 0 0; color:var(--mut)}
+  /* Ring countdown */
+  .ring-row{display:flex; justify-content:flex-start; margin-top:10px}
+  .ring-timer{display:flex;gap:16px;align-items:center;padding:10px 12px;border-radius:14px;
+    background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .ring{position:relative;width:92px;height:92px;display:grid;place-items:center}
+  .ring svg{width:92px;height:92px;transform:rotate(-90deg)}
+  .ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:8}
+  .ring .fg{fill:none;stroke:url(#ring-grad);stroke-width:8;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(120,115,245,.5))}
+  .ring .value{position:absolute;font-weight:900;font-size:22px;letter-spacing:.5px}
+  .ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
+  @media (max-width:520px){
+    .ring{width:78px;height:78px}
+    .ring svg{width:78px;height:78px}
+    .ring .value{font-size:18px}
+  }
 
-    /* Neon ring countdown */
-    .ring-row{display:flex; justify-content:flex-start; margin-top:10px}
-    .ring-timer{display:flex;gap:16px;align-items:center;padding:10px 12px;border-radius:14px;
-      background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    .ring{position:relative;width:92px;height:92px;display:grid;place-items:center}
-    .ring svg{width:92px;height:92px;transform:rotate(-90deg)}
-    .ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:8}
-    .ring .fg{fill:none;stroke:url(#ring-grad);stroke-width:8;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(120,115,245,.5))}
-    .ring .value{position:absolute;font-weight:900;font-size:22px;letter-spacing:.5px}
-    .ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
-    @media (max-width:640px){ .ring-row{justify-content:flex-start} }
-    @media (max-width:520px){
-      .ring{width:78px;height:78px}
-      .ring svg{width:78px;height:78px}
-      .ring .value{font-size:18px}
-    }
+  /* Panel */
+  .panel{margin-top:18px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:14px; position:relative}
+  .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
+  .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .filters{display:flex; gap:8px; flex-wrap:wrap}
+  .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
+        background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
+  .board{margin-top:8px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
+  .row{display:grid; grid-template-columns:72px 1fr 160px; gap:10px; align-items:center; padding:12px 12px;
+       background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+       border-bottom:1px solid rgba(255,255,255,.06)}
+  .row.head{background:rgba(255,255,255,.05); font-weight:900; color:#dfe3ff}
+  .row:last-child{border-bottom:none}
+  .rank{display:inline-flex; align-items:center; justify-content:center; width:44px; height:28px; border-radius:999px;
+        background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); font-weight:900}
+  .rank.top1{background:linear-gradient(90deg,#ffef9a,#ffd84a); color:#191b32}
+  .rank.top2{background:linear-gradient(90deg,#e5e9ff,#cbd2ff); color:#191b32}
+  .rank.top3{background:linear-gradient(90deg,#ffd3b5,#ffae7a); color:#191b32}
+  .player{display:flex; align-items:center; gap:10px}
+  .avatar{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
+  .mask{opacity:.95; font-weight:700; letter-spacing:.2px}
+  .payout{font-variant-numeric:tabular-nums; font-weight:800}
+  .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
+  .viewport::-webkit-scrollbar{height:8px;width:8px}
+  .viewport::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
+  .hit{outline:2px solid var(--a3); border-radius:8px}
 
-    /* Winners panel */
-    .panel{margin-top:18px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:14px; position:relative}
-    .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
-    .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
-    .filters{display:flex; gap:8px; flex-wrap:wrap}
-    .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
-          background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
+  /* CTA */
+  .cta-block{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+  .btn{display:inline-block; padding:12px 18px; border-radius:12px; text-decoration:none;
+    font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25)}
+  .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
+  .btn--dark{background:#1a1b34}
 
-    /* Search */
-    .search-wrap{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-    .search-input{appearance:none; background:#141534; border:1px solid rgba(255,255,255,.15); color:#fff;
-      border-radius:10px; padding:8px 10px; min-width:220px; outline:none}
-    .search-btn{cursor:pointer; background:linear-gradient(90deg,var(--g1),var(--g2)); border:0; color:#fff;
-      font-weight:900; border-radius:10px; padding:8px 12px}
-    .search-result{color:#dfe3ff; font-weight:700}
+  /* Glow frames */
+  .hero::before, .panel::before{
+    content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
+    background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1)); background-size:400% 100%;
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude; animation:shine 9s linear infinite; pointer-events:none;
+  }
 
-    .board{margin-top:8px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
-    .row{display:grid; grid-template-columns:72px 1fr 160px; gap:10px; align-items:center; padding:12px 12px;
-         background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
-         border-bottom:1px solid rgba(255,255,255,.06)}
-    .row.head{background:rgba(255,255,255,.05); font-weight:900; color:#dfe3ff}
-    .row:last-child{border-bottom:none}
-    .rank{display:inline-flex; align-items:center; justify-content:center; width:44px; height:28px; border-radius:999px;
-          background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); font-weight:900}
-    .rank.top1{background:linear-gradient(90deg,#ffef9a,#ffd84a); color:#191b32}
-    .rank.top2{background:linear-gradient(90deg,#e5e9ff,#cbd2ff); color:#191b32}
-    .rank.top3{background:linear-gradient(90deg,#ffd3b5,#ffae7a); color:#191b32}
-    .player{display:flex; align-items:center; gap:10px}
-    .avatar{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
-    .mask{opacity:.95; font-weight:700; letter-spacing:.2px}
-    .payout{font-variant-numeric:tabular-nums; font-weight:800}
+/* FAQ / T&C */
+.faq{margin-top:22px; background:var(--card); border:1px solid var(--ring);
+     border-radius:18px; padding:16px; position:relative}
+.faq h3{margin:0 0 10px 0; font-size:18px}
+details{background:#141534; border:1px solid rgba(255,255,255,.12);
+        border-radius:12px; padding:10px 12px; margin:8px 0}
+summary{cursor:pointer; font-weight:700}
+details p{margin:8px 0 0 0; color:#dfe3ff}
+.faq-cta{margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
 
-    /* Scrollable viewport for top 20 (shows 5) */
-    .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
-    .viewport::-webkit-scrollbar{height:8px;width:8px}
-    .viewport::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
-    .hit{outline:2px solid var(--a3); border-radius:8px}
+/* Glow frame for FAQ (optional, matches other cards) */
+.faq::before{
+  content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
+  background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1));
+  background-size:400% 100%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+  animation:shine 9s linear infinite; pointer-events:none;
+}
 
-    /* CTA block (bottom after winners) */
-    .cta-block{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
-    .btn{display:inline-block; padding:12px 18px; border-radius:12px; text-decoration:none;
-      font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25)}
-    .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
-    .btn--dark{background:#1a1b34}
-    .btn--outline{background:transparent; border-color:#3a3f72}
-
-    /* FAQ / T&C */
-    .faq{margin-top:22px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:16px; position:relative}
-    .faq h3{margin:0 0 10px 0; font-size:18px}
-    details{background:#141534; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px; margin:8px 0}
-    summary{cursor:pointer; font-weight:700}
-    details p{margin:8px 0 0 0; color:#dfe3ff}
-    .faq-cta{margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
-
-    /* Glow border animation shells */
-    .hero::before, .panel::before, .faq::before{
-      content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
-      background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1)); background-size:400% 100%;
-      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-      -webkit-mask-composite:xor; mask-composite:exclude; animation:shine 9s linear infinite; pointer-events:none;
-    }
-    .panel::before{border-radius:20px}
-    .faq::before{border-radius:20px}
-  </style>
+  
+</style>
 </head>
 <body>
   <div class="wrap">
-    <!-- Row 0: Logo -->
+    <!-- Logo -->
     <div class="topbar" aria-label="RicoBet">
-      <img
-        src="https://ricobr.ft-crm.com/media-api/serve/c5570255-af15-4915-8b16-907d5bc7f999_Rico_Logo.png"
-        alt="RicoBet"
-        class="logo-img"
-      />
+      <img src="https://ricobr.ft-crm.com/media-api/serve/c5570255-af15-4915-8b16-907d5bc7f999_Rico_Logo.png" alt="RicoBet" class="logo-img" />
     </div>
 
-    <!-- Row 1 + Row 2: Big Title + Countdown + Subline -->
+    <!-- Title + Countdown -->
     <section class="hero">
       <h1 class="hero-title">Daily Prizes of USD 10,000</h1>
 
       <div class="ring-row">
-        <div class="ring-timer" aria-label="Countdown">
+        <div class="ring-timer" aria-label="Countdown to midnight">
           <div class="ring" data-unit="h">
             <svg viewBox="0 0 72 72" aria-hidden="true">
+              <defs><linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff6ec4"/><stop offset="100%" stop-color="#7873f5"/></linearGradient></defs>
               <circle class="bg" cx="36" cy="36" r="30"></circle>
               <circle class="fg" cx="36" cy="36" r="30"></circle>
             </svg>
@@ -173,16 +167,16 @@
         </div>
       </div>
 
-      <p class="hero-sub">Play in Pragmatic Play Slot Games to win the daily prizes !</p>
+      <p class="sub">Play in Pragmatic Play Slot Games to win the daily prizes !</p>
     </section>
 
-    <!-- Winners Panel -->
+    <!-- Winners -->
     <section class="panel">
       <div class="panel-head">
         <h2 class="title">🏆 Top 20 • <span id="boardDate">—</span></h2>
         <div class="filters">
-          <span class="chip"><span>🔄</span><span>Last update: <b id="lastUpdated">—</b></span></span>
-          <a class="chip" href="#" id="refresh"><span>⟳</span><span>Refresh</span></a>
+          <span class="chip">🔄 Last update: <b id="lastUpdated">—</b></span>
+          <a class="chip" href="#" id="refresh">⟳ Refresh</a>
           <label class="chip" title="Pick a date">
             📅&nbsp;<input id="datePicker" type="date" style="background:transparent;border:0;color:#fff;outline:none">
           </label>
@@ -191,11 +185,11 @@
         </div>
       </div>
 
-      <!-- Search bar -->
-      <div class="search-wrap" style="margin:6px 0 10px;">
+      <!-- Search -->
+      <div class="search-wrap" style="display:flex;gap:8px;align-items:center;margin:6px 0 10px;">
         <input class="search-input" id="searchInput" type="text" placeholder="Search your full username…" />
         <button class="search-btn" id="searchBtn">Search</button>
-        <span class="search-result" id="searchResult"></span>
+        <span class="search-result" id="searchResult" style="margin-left:6px;color:#dfe3ff;font-weight:700"></span>
       </div>
 
       <div class="board">
@@ -208,70 +202,205 @@
       </div>
     </section>
 
-    <!-- CTA (bottom, after winners) -->
+    <section class="faq">
+  <h3>FAQ &amp; Terms</h3>
+
+  <details>
+    <summary>What is the Daily Prizes event?</summary>
+    <p>Top players are ranked by daily <b>Turnover</b> on eligible Pragmatic Play slot games. The board resets at 00:00 (server time).</p>
+  </details>
+
+  <details>
+    <summary>How do I qualify?</summary>
+    <p>Place real-money bets on participating Pragmatic Play slots during the event day.</p>
+  </details>
+
+  <details>
+    <summary>How is Turnover calculated?</summary>
+    <p>Turnover is the total amount wagered per player on the qualified games during the selected day.</p>
+  </details>
+
+  <details>
+    <summary>When are winners confirmed?</summary>
+    <p>Winners are finalized after the daily reset. Any suspicious or abusive activity may void eligibility.</p>
+  </details>
+
+  <details>
+    <summary>Full Terms &amp; Conditions</summary>
+    <p>
+      • Event runs in September 2025 window configured on this page, resetting daily at 00:00 in the configured server timezone.<br>
+      • Only real-money wagers count toward Turnover.<br>
+      • Pragmatic Play slot availability may vary by region.<br>
+      • Accounts must be verified and in good standing.<br>
+      • The operator may amend/cancel the event to prevent abuse or fraud.<br>
+      • Local laws and platform rules apply.
+    </p>
+  </details>
+
+  <div class="faq-cta">
+    <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener">▶ PLAY NOW</a>
+    <a class="btn btn--outline" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">💬 Customer Support</a>
+  </div>
+</section>
+
+    <!-- CTAs -->
     <div class="cta-block">
       <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener">▶ PLAY NOW</a>
       <a class="btn btn--dark" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">👥 JOIN COMMUNITY</a>
     </div>
-
-    <!-- FAQ / T&C -->
-    <section class="faq">
-      <h3>FAQ &amp; Terms</h3>
-
-      <details>
-        <summary>What is the Daily Prizes event?</summary>
-        <p>Top players are ranked by daily <b>Turnover</b> on eligible Pragmatic Play slot games. The board resets at 00:00 (server time).</p>
-      </details>
-
-      <details>
-        <summary>How do I qualify?</summary>
-        <p>Place real-money bets on participating Pragmatic Play slots during the event day.</p>
-      </details>
-
-      <details>
-        <summary>How is Turnover calculated?</summary>
-        <p>Turnover is the total amount wagered per player on the qualified games during the selected day.</p>
-      </details>
-
-      <details>
-        <summary>When are winners confirmed?</summary>
-        <p>Winners are finalized after the daily reset. Any suspicious or abusive activity may void eligibility.</p>
-      </details>
-
-      <details>
-        <summary>Full Terms &amp; Conditions</summary>
-        <p>
-          • Event runs in October 2025 only, resetting daily at 00:00 in the configured server timezone.<br>
-          • Only real-money wagers count toward Turnover.<br>
-          • Pragmatic Play slot availability may vary by region.<br>
-          • Accounts must be verified and in good standing.<br>
-          • The operator may amend/cancel the event to prevent abuse or fraud.<br>
-          • Local laws and platform rules apply.
-        </p>
-      </details>
-
-      <div class="faq-cta">
-        <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener">▶ PLAY NOW</a>
-        <a class="btn btn--outline" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">💬 Customer Support</a>
-      </div>
-    </section>
   </div>
 
-  <!-- CONFIG (October-only) -->
-  <script>
 <script>
-  /* ===== DATA (point the app at September) ===== */
-  window.RICOBET_DATA_DIR = './data';     // folder where the JSONs live
-  window.RICOBET_MONTH    = '2025-09';    // <-- load winners-2025-09.json
-  window.EVENT_START_YMD  = '2025-09-01'; // limit date picker & countdown
-  window.EVENT_END_YMD    = '2025-09-30';
+/* ===== CONFIG: September window ===== */
+const RICOBET_DATA_DIR = './data';
+const RICOBET_MONTH    = '2025-09';      // loads ./data/winners-2025-09.json
+const EVENT_START_YMD  = '2025-09-01';
+const EVENT_END_YMD    = '2025-09-30';
+const RICOBET_TIMEZONE = 'America/Mexico_City';
+const CURRENCY = { symbol: '$', code: 'USD' };
 
-  /* ===== DISPLAY / LOGIC ===== */
-  window.RICOBET_TIMEZONE = 'America/Mexico_City';
-  window.RICOBET_CURRENCY = { symbol: '$', code: 'USD' };
+/* ===== Helpers ===== */
+const $ = s=>document.querySelector(s);
+const rowsEl = $('#rows'), updatedEl = $('#lastUpdated'), boardDateEl = $('#boardDate');
+const refreshBtn = $('#refresh'), datePicker = $('#datePicker'), todayBtn = $('#quickToday'), yestBtn = $('#quickYesterday');
+const searchInput = $('#searchInput'), searchBtn = $('#searchBtn'), searchResult = $('#searchResult');
+
+const fmtMoney = n => `${CURRENCY.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+const pad2 = n => String(n).padStart(2,'0');
+
+function nowInTZ(){
+  const now = new Date();
+  const toParts = (z)=> new Intl.DateTimeFormat('en-CA',{
+    timeZone:z,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'
+  }).formatToParts(now).reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
+  const utc=toParts('UTC'), tz=toParts(RICOBET_TIMEZONE);
+  const utcEpoch = Date.parse(`${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`);
+  const tzEpoch  = Date.parse(`${tz.year}-${tz.month}-${tz.day}T${tz.hour}:${tz.minute}:${tz.second}Z`);
+  return new Date(now.getTime() + (tzEpoch-utcEpoch));
+}
+const ymdInTZ = d => new Intl.DateTimeFormat('en-CA',{timeZone:RICOBET_TIMEZONE,year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+const cmpYmd = (a,b)=>a.localeCompare(b);
+const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD : ymd;
+
+function nextMidnightInWindow(){
+  const n = nowInTZ(), today = ymdInTZ(n);
+  if (cmpYmd(today,EVENT_START_YMD)<0) return new Date(`${EVENT_START_YMD}T00:00:00Z`);
+  if (cmpYmd(today,EVENT_END_YMD)>0) return null;
+  const [Y,M,D] = today.split('-').map(Number);
+  return new Date(Date.UTC(Y,M-1,D+1,0,0,0));
+}
+function splitHMS(ms){ if(ms<0)ms=0; const h=Math.floor(ms/3600000), m=Math.floor((ms%3600000)/60000), s=Math.floor((ms%60000)/1000); return {h,m,s}; }
+
+/* ===== Countdown (rings) ===== */
+(function startRings(){
+  const rH = document.querySelector('.ring[data-unit="h"]');
+  const rM = document.querySelector('.ring[data-unit="m"]');
+  const rS = document.querySelector('.ring[data-unit="s"]');
+  const R=30, C=2*Math.PI*R;
+  function setStroke(el,p){ el.style.strokeDasharray=`${C}`; el.style.strokeDashoffset=`${C*(1-Math.max(0,Math.min(1,p)))}`; }
+  function update($ring,val,max){
+    if(!$ring)return; $ring.querySelector('.value').textContent = pad2(val);
+    setStroke($ring.querySelector('.fg'), val/max);
+  }
+  (function tick(){
+    const tgt = nextMidnightInWindow();
+    if(!tgt){ [rH,rM,rS].forEach(r=>{ r.querySelector('.value').textContent='—'; r.querySelector('.label').textContent='ENDED'; setStroke(r.querySelector('.fg'),0); }); return; }
+    const diff = tgt - nowInTZ();
+    const {h,m,s} = splitHMS(diff);
+    update(rH,h,24); update(rM,m,60); update(rS,s,60);
+    requestAnimationFrame(()=>setTimeout(tick,250));
+  })();
+})();
+
+/* ===== Data ===== */
+const monthCache = new Map();
+async function fetchMonth(month){
+  if(monthCache.has(month)) return monthCache.get(month);
+  const url = `${RICOBET_DATA_DIR}/winners-${month}.json?v=${Date.now()}`;
+  const res = await fetch(url,{cache:'no-store'});
+  if(!res.ok) throw new Error('Failed to load '+url);
+  const json = await res.json(); monthCache.set(month,json); return json;
+}
+function maskUsername(name){
+  if(!name) return 'Player';
+  const s=String(name);
+  if(s.length<=6){ const keep=Math.max(1,Math.floor(s.length/3)); return `${s.slice(0,keep)}****${s.slice(-keep)}`; }
+  const left=Math.floor((s.length-4)/2); return s.slice(0,left)+'****'+s.slice(left+4);
+}
+function renderRows(day){
+  rowsEl.innerHTML='';
+  const items = (day.rows||[]).slice().sort((a,b)=>(b.amount||0)-(a.amount||0)).map((r,i)=>({rank:r.rank??(i+1),...r})).slice(0,20);
+  for(const r of items){
+    const row = document.createElement('div');
+    row.className='row';
+    row.dataset.nameOriginal=r.name;
+    row.innerHTML = `
+      <div><span class="rank ${r.rank===1?'top1':r.rank===2?'top2':r.rank===3?'top3':''}">${r.rank}</span></div>
+      <div class="player"><span class="avatar" aria-hidden="true"></span><span class="mask">${maskUsername(r.name)}</span></div>
+      <div class="payout">${fmtMoney(r.amount)}</div>`;
+    rowsEl.appendChild(row);
+  }
+  updatedEl.textContent = day.last_updated ? new Date(day.last_updated).toLocaleString() : 'now';
+}
+function bestDay(data, targetYmd){
+  if(!data?.days?.length) return null;
+  const sorted = data.days.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  return sorted.find(d=>d.date===targetYmd) || sorted.find(d=>d.date<=targetYmd) || sorted[0];
+}
+async function renderForDate(ymd){
+  const clamped = clampYmd(ymd);
+  if(datePicker) datePicker.value = clamped;
+  boardDateEl.textContent = clamped;
+  try{
+    const month = await fetchMonth(RICOBET_MONTH);
+    const day = bestDay(month, clamped);
+    if(!day){ rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${clamped}.</div><div></div></div>`; updatedEl.textContent='—'; return; }
+    renderRows(day);
+  }catch(e){
+    console.error(e);
+    rowsEl.innerHTML = `<div class="row"><div></div><div>Could not load leaderboard.</div><div></div></div>`;
+    updatedEl.textContent='—';
+  }
+}
+
+/* ===== Search (exact username) ===== */
+async function doSearch(){
+  const q = (searchInput.value||'').trim();
+  searchResult.textContent='';
+  if(!q) return;
+  try{
+    const month = await fetchMonth(RICOBET_MONTH);
+    const ymd = datePicker.value;
+    const day = bestDay(month, ymd);
+    if(!day || !day.rows?.length){ searchResult.textContent='No data for selected date.'; return; }
+    const sorted = day.rows.slice().sort((a,b)=>(b.amount||0)-(a.amount||0));
+    const idx = sorted.findIndex(r => String(r.name).toLowerCase()===q.toLowerCase());
+    if(idx===-1){ searchResult.textContent = `No exact match for "${q}" on ${day.date}.`; return; }
+    const rank = idx+1, isTop20 = rank<=20;
+    searchResult.textContent = isTop20 ? `✅ ${q} is #${rank} today.` : `ℹ️ ${q} is #${rank} today — not in Top 20.`;
+    if(isTop20){
+      const row = Array.from(rowsEl.children).find(el=>el.dataset.nameOriginal?.toLowerCase()===q.toLowerCase());
+      if(row){ rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit')); row.classList.add('hit'); row.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>row.classList.remove('hit'),2500); }
+    }
+  }catch(e){ console.error(e); searchResult.textContent='Search error. Try again.'; }
+}
+
+/* ===== Init (Today & Yesterday shortcuts) ===== */
+(function init(){
+  // clamp picker to September
+  if(datePicker){ datePicker.min = EVENT_START_YMD; datePicker.max = EVENT_END_YMD; }
+  const today = clampYmd( ymdInTZ(nowInTZ()) );
+  datePicker.value = today;
+  renderForDate(today);
+
+  refreshBtn.addEventListener('click', e=>{ e.preventDefault(); renderForDate(datePicker.value); });
+  datePicker.addEventListener('change', ()=> renderForDate(datePicker.value));
+  todayBtn.addEventListener('click', ()=>{ const y = clampYmd( ymdInTZ(nowInTZ()) ); datePicker.value=y; renderForDate(y); });
+  yestBtn.addEventListener('click', ()=>{ const n = nowInTZ(); n.setUTCDate(n.getUTCDate()-1); const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; renderForDate(y); });
+
+  searchBtn.addEventListener('click', doSearch);
+  searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
+})();
 </script>
-
-  <script src="./js/app.js" defer></script>
 </body>
 </html>
-
