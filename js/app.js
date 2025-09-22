@@ -17,7 +17,6 @@
   }
 
   function nowInTZ(){
-    // Build target-TZ "now" by comparing against UTC (no external libs)
     const now = new Date();
     const toParts = (z) => new Intl.DateTimeFormat('en-CA', {
       timeZone: z, hourCycle:'h23',
@@ -33,7 +32,6 @@
   }
 
   function nextMidnightTZ(){
-    // Midnight for the next day in configured TZ
     const n = nowInTZ();
     const y = n.getUTCFullYear(), m = n.getUTCMonth(), d = n.getUTCDate();
     const todayMid = new Date(Date.UTC(y, m, d, 0, 0, 0));
@@ -110,7 +108,7 @@
     const ringH = document.querySelector('.ring[data-unit="h"]');
     const ringM = document.querySelector('.ring[data-unit="m"]');
     const ringS = document.querySelector('.ring[data-unit="s"]');
-    if (!ringH || !ringM || !ringS) return; // timer not present
+    if (!ringH || !ringM || !ringS) return;
 
     function tick(){
       const now = nowInTZ();
@@ -119,29 +117,31 @@
       if (diff < 0) diff = 0;
 
       const {h, m, s} = splitHMS(diff);
-      // At 00:00 in TZ, h = 24 (24h until next midnight)
       updateRing(ringH, h, 24);
       updateRing(ringM, m, 60);
       updateRing(ringS, s, 60);
 
-      requestAnimationFrame(()=>setTimeout(tick, 250)); // ~4 FPS
+      requestAnimationFrame(()=>setTimeout(tick, 250));
     }
     tick();
   }
 
-  /* ---------- Board rendering ---------- */
+  /* ---------- Winners rendering ---------- */
   function renderForDate(data, ymd){
     const day = data.days?.find(d => d.date === ymd);
     rowsEl.innerHTML = '';
     if(!day){
-      rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${ymd}.</div><div class="col-hide-sm"></div><div></div></div>`;
+      rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${ymd}.</div><div></div></div>`;
       updatedEl.textContent = '—';
       boardDateEl.textContent = ymd;
       return;
     }
 
-    let items = (day.rows || []).slice().sort((a,b) => (b.amount||0) - (a.amount||0)).slice(0,20)
-                  .map((r,i)=>({ rank:r.rank ?? (i+1), ...r }));
+    let items = (day.rows || [])
+      .slice()
+      .sort((a,b) => (b.amount||0) - (a.amount||0))
+      .slice(0,20)
+      .map((r,i)=>({ rank:r.rank ?? (i+1), ...r }));
 
     for(const r of items){
       const row = document.createElement('div');
@@ -149,7 +149,6 @@
       row.innerHTML = `
         <div><span class="rank ${r.rank===1?'top1':r.rank===2?'top2':r.rank===3?'top3':''}">${r.rank}</span></div>
         <div class="player"><span class="avatar" aria-hidden="true"></span><span class="mask">${maskUsername(r.name)}</span></div>
-        <div class="game col-hide-sm">${r.game || '—'}</div>
         <div class="payout">${fmtMoney(r.amount)}</div>
       `;
       rowsEl.appendChild(row);
@@ -162,7 +161,7 @@
   function load(ymd){
     fetchJSON(DATA_URL).then(data=>renderForDate(data, ymd)).catch(err=>{
       console.error(err);
-      rowsEl.innerHTML = `<div class="row"><div></div><div>Could not load leaderboard.</div><div class="col-hide-sm"></div><div></div></div>`;
+      rowsEl.innerHTML = `<div class="row"><div></div><div>Could not load leaderboard.</div><div></div></div>`;
     });
   }
 
