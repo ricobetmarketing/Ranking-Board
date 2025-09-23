@@ -245,440 +245,305 @@
   </div>
 
 <script>
-/* =========================
-   RICOBET — CONFIG
-   ========================= */
-const RICOBET_DATA_CSV =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
+/* ===================== CONFIG ===================== */
+window.RICOBET_DATA_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
 
-const EVENT_START_YMD  = "2025-09-23";  // first date available in your sheet
-const EVENT_END_YMD    = "2025-10-31";  // last date available in your sheet
+/* Event window (picker clamp, default date, countdown) */
+window.EVENT_START_YMD = "2025-09-23";
+window.EVENT_END_YMD   = "2025-10-31";
 
-// Mexico City (will automatically handle DST; UTC-6 in winter, UTC-5 in summer)
-const TZ = "America/Mexico_City";
+/* Locale */
+const TZ  = "America/Mexico_City";              // Mexico time (UTC-6 / DST aware)
+const CUR = { symbol: "$", code: "USD" };
 
-// Currency symbol for turnover display
-const CURRENCY = { symbol: "$", code: "USD" };
+/* ===================== DOM SHORTCUTS ===================== */
+const $  = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-/* =========================
-   DOM SHORTCUTS
-   ========================= */
-const $ = (s) => document.querySelector(s);
-const rowsEl        = $("#rows");
-const updatedEl     = $("#lastUpdated");
-const boardDateEl   = $("#boardDate");
-const refreshBtn    = $("#refresh");
-const datePicker    = $("#datePicker");
-const quickTodayBtn = $("#quickToday");
-const quickYestBtn  = $("#quickYesterday");
-const searchInput   = $("#searchInput");
-const searchBtn     = $("#searchBtn");
-const searchResult  = $("#searchResult");
+const rowsEl        = $('#rows');
+const updatedEl     = $('#lastUpdated');
+const boardDateEl   = $('#boardDate');
+const refreshBtn    = $('#refresh');
+const datePicker    = $('#datePicker');
+const todayBtn      = $('#quickToday');
+const yestBtn       = $('#quickYesterday');
+const searchInput   = $('#searchInput');
+const searchBtn     = $('#searchBtn');
+const searchResult  = $('#searchResult');
 
-/* =========================
-   HELPERS (time, formatters)
-   ========================= */
-const pad2 = (n) => String(n).padStart(2, "0");
-const fmtMoney = (n) =>
-  `${CURRENCY.symbol} ${Number(n || 0).toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
+/* ===================== UTILITIES ===================== */
+const pad2 = n => String(n).padStart(2,'0');
+const fmtMoney = n => `${CUR.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+const ymdCmp = (a,b) => a.localeCompare(b);
 
-function nowInTZ() {
+function nowInTZ(){
   const now = new Date();
-  const toParts = (zone) =>
-    new Intl.DateTimeFormat("en-CA", {
-      timeZone: zone,
-      hourCycle: "h23",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    })
-      .formatToParts(now)
-      .reduce((a, p) => ((a[p.type] = p.value), a), {});
-  const utc = toParts("UTC");
-  const tz = toParts(TZ);
-  const utcEpoch = Date.parse(
-    `${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`
-  );
-  const tzEpoch = Date.parse(
-    `${tz.year}-${tz.month}-${tz.day}T${tz.hour}:${tz.minute}:${tz.second}Z`
-  );
+  const parts = (z) => new Intl.DateTimeFormat('en-CA',{
+    timeZone:z, hourCycle:'h23', year:'numeric', month:'2-digit', day:'2-digit',
+    hour:'2-digit', minute:'2-digit', second:'2-digit'
+  }).formatToParts(now).reduce((a,p)=>{a[p.type]=p.value; return a;}, {});
+  const utc = parts('UTC'), tz = parts(TZ);
+  const utcEpoch = Date.parse(`${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`);
+  const tzEpoch  = Date.parse(`${tz.year}-${tz.month}-${tz.day}T${tz.hour}:${tz.minute}:${tz.second}Z`);
   return new Date(now.getTime() + (tzEpoch - utcEpoch));
 }
 
-const ymdInTZ = (d) =>
-  new Intl.DateTimeFormat("en-CA", {
-    timeZone: TZ,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(d);
+const ymdInTZ = (d) => new Intl.DateTimeFormat('en-CA',{timeZone:TZ, year:'numeric', month:'2-digit', day:'2-digit'}).format(d);
+const clampYmd = (ymd) => {
+  const min = window.EVENT_START_YMD, max = window.EVENT_END_YMD;
+  if (ymdCmp(ymd,min)<0) return min;
+  if (ymdCmp(ymd,max)>0) return max;
+  return ymd;
+};
 
-const cmpYmd = (a, b) => a.localeCompare(b);
-const clampYmd = (ymd) =>
-  cmpYmd(ymd, EVENT_START_YMD) < 0
-    ? EVENT_START_YMD
-    : cmpYmd(ymd, EVENT_END_YMD) > 0
-    ? EVENT_END_YMD
-    : ymd;
-
-function fmtDateTimeInTZ(dateObj) {
-  // US-style like your screenshot: 9/23/2025, 4:16:34 PM
-  return new Intl.DateTimeFormat("en-US", {
-    timeZone: TZ,
-    dateStyle: "short",
-    timeStyle: "medium",
-  }).format(dateObj);
-}
-
-/* =========================
-   COUNTDOWN (neon rings)
-   ========================= */
-function nextMidnightInsideWindow() {
+function nextMidnightTZ(){
   const n = nowInTZ();
-  const today = ymdInTZ(n);
-  if (cmpYmd(today, EVENT_START_YMD) < 0) {
-    // Before event window: count down to start
-    const [Y, M, D] = EVENT_START_YMD.split("-").map(Number);
-    return new Date(Date.UTC(Y, M - 1, D, 0, 0, 0));
-  }
-  if (cmpYmd(today, EVENT_END_YMD) > 0) {
-    // After event window
-    return null;
-  }
-  const [Y, M, D] = today.split("-").map(Number);
-  return new Date(Date.UTC(Y, M - 1, D + 1, 0, 0, 0));
+  const [Y,M,D] = ymdInTZ(n).split('-').map(Number);
+  // "tomorrow at 00:00 in TZ"
+  return new Date(Date.UTC(Y, M-1, D+1, 0, 0, 0));
 }
 
-function splitHMS(ms) {
-  if (ms < 0) ms = 0;
-  const h = Math.floor(ms / 3600000);
-  const m = Math.floor((ms % 3600000) / 60000);
-  const s = Math.floor((ms % 60000) / 1000);
-  return { h, m, s };
+function fmtInTZ(dt){
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: TZ,
+    year:'numeric', month:'numeric', day:'numeric',
+    hour:'numeric', minute:'numeric', second:'numeric'
+  }).format(dt);
 }
 
-(function startRings() {
-  const rH = document.querySelector('.ring[data-unit="h"]');
-  const rM = document.querySelector('.ring[data-unit="m"]');
-  const rS = document.querySelector('.ring[data-unit="s"]');
-  if (!rH || !rM || !rS) return;
+/* ===================== COUNTDOWN (RINGS) ===================== */
+(function startCountdown(){
+  const ringH = document.querySelector('.ring[data-unit="h"]');
+  const ringM = document.querySelector('.ring[data-unit="m"]');
+  const ringS = document.querySelector('.ring[data-unit="s"]');
+  if (!ringH || !ringM || !ringS) return;
 
-  const R = 30;
-  const C = 2 * Math.PI * R;
-  const setStroke = (el, p) => {
+  const R = 30, C = 2*Math.PI*R;
+  const setStroke = (el, pct) => {
     el.style.strokeDasharray = `${C}`;
-    el.style.strokeDashoffset = `${C * (1 - Math.max(0, Math.min(1, p)))}`;
+    el.style.strokeDashoffset = `${C * (1 - Math.max(0, Math.min(1, pct)))}`;
   };
-  const update = ($ring, val, max) => {
-    if (!$ring) return;
-    $ring.querySelector(".value").textContent = pad2(val);
-    setStroke($ring.querySelector(".fg"), val / max);
+  const setVal = (ring, v, max) => {
+    ring.querySelector('.value').textContent = pad2(v);
+    setStroke(ring.querySelector('.fg'), v/max);
   };
 
-  (function tick() {
-    const tgt = nextMidnightInsideWindow();
-    if (!tgt) {
-      [rH, rM, rS].forEach((r) => {
-        r.querySelector(".value").textContent = "—";
-        r.querySelector(".label").textContent = "ENDED";
-        setStroke(r.querySelector(".fg"), 0);
-      });
-      return;
-    }
-    const diff = tgt - nowInTZ();
-    const { h, m, s } = splitHMS(diff);
-    update(rH, h, 24);
-    update(rM, m, 60);
-    update(rS, s, 60);
-    requestAnimationFrame(() => setTimeout(tick, 250));
-  })();
+  function tick(){
+    const target = nextMidnightTZ();
+    let diff = target - nowInTZ();
+    if (diff < 0) diff = 0;
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    setVal(ringH, h, 24);
+    setVal(ringM, m, 60);
+    setVal(ringS, s, 60);
+    requestAnimationFrame(()=>setTimeout(tick, 250));
+  }
+  tick();
+
+  // Auto-refresh data at midnight (Mexico time)
+  function scheduleMidnightRefresh(){
+    const ms = nextMidnightTZ() - nowInTZ() + 1000;
+    setTimeout(()=>{
+      const today = clampYmd( ymdInTZ(nowInTZ()) );
+      if (datePicker) datePicker.value = today;
+      renderForDate(today, /*forceReload*/true);
+      scheduleMidnightRefresh();
+    }, ms);
+  }
+  scheduleMidnightRefresh();
+
+  // Subtle pulse on digits
+  $$('.ring .value').forEach(v => v.style.animation = 'pulse 1.2s ease-in-out infinite');
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+  `;
+  document.head.appendChild(style);
 })();
 
-/* =========================
-   CSV LOADER (Google Sheet)
-   ========================= */
+/* ===================== DATA (CSV) ===================== */
+let cache = { when: 0, mapByDate: new Map() };
+const CACHE_MS = 30*1000; // re-fetch at most every 30s when clicking Refresh
 
-// Small, safe CSV parser (handles quoted commas/newlines)
-function parseCSV(text) {
-  const rows = [];
-  let row = [];
-  let cell = "";
-  let i = 0;
-  let inQuotes = false;
-
-  while (i < text.length) {
-    const ch = text[i];
-
-    if (inQuotes) {
-      if (ch === '"') {
-        if (text[i + 1] === '"') {
-          cell += '"';
-          i += 2;
-        } else {
-          inQuotes = false;
-          i++;
-        }
-      } else {
-        cell += ch;
-        i++;
-      }
-    } else {
-      if (ch === '"') {
-        inQuotes = true;
-        i++;
-      } else if (ch === ",") {
-        row.push(cell);
-        cell = "";
-        i++;
-      } else if (ch === "\r") {
-        i++; // skip
-      } else if (ch === "\n") {
-        row.push(cell);
-        rows.push(row);
-        row = [];
-        cell = "";
-        i++;
-      } else {
-        cell += ch;
-        i++;
-      }
-    }
-  }
-  // last cell
-  row.push(cell);
-  rows.push(row);
-  return rows;
+async function fetchCSV(){
+  const url = window.RICOBET_DATA_CSV + '&_=' + Date.now();
+  const res = await fetch(url, {cache:'no-store'});
+  if (!res.ok) throw new Error('CSV load failed');
+  return res.text();
 }
 
-let SHEET_CACHE = null; // { map: { 'YYYY-MM-DD': [rows...] }, lastFetched: Date }
+// very light CSV splitter (commas outside quotes)
+const splitCSVLine = line => line.match(/("([^"]|"")*"|[^,]*)/g).filter(x=>x!=='');
 
-async function loadSheet() {
-  const url = `${RICOBET_DATA_CSV}&_=${Date.now()}`; // cache-bust
-  const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to load Google Sheet CSV");
-  const text = await res.text();
-  const grid = parseCSV(text);
+function buildMap(csvText){
+  const lines = csvText.split(/\r?\n/).filter(Boolean);
+  const head = splitCSVLine(lines.shift()).map(h=>h.trim().toLowerCase());
+  const ci = {
+    date: head.indexOf('date'),
+    rank: head.indexOf('rank'),
+    user: head.indexOf('username'),
+    turn: head.indexOf('turnover'),
+  };
+  const map = new Map(); // date => {rows:[], last_updated: Date}
+  for (const line of lines){
+    const cols = splitCSVLine(line).map(c => c.replace(/^"(.*)"$/,'$1').trim());
+    const date = cols[ci.date];
+    const rank = cols[ci.rank] ? Number(cols[ci.rank]) : null;
+    const name = cols[ci.user] || '';
+    // allow "300,000.00"
+    const amt  = cols[ci.turn] ? Number(String(cols[ci.turn]).replace(/,/g,'')) : 0;
 
-  // Expect headers: date, rank, username, turnover
-  const headers = grid.shift().map((h) => h.trim().toLowerCase());
-  const iDate = headers.indexOf("date");
-  const iRank = headers.indexOf("rank");
-  const iName = headers.indexOf("username");
-  const iAmt = headers.indexOf("turnover");
-  if (iDate < 0 || iName < 0 || iAmt < 0) {
-    throw new Error("Missing required columns: date, username, turnover");
+    if (!date || !name) continue;
+    if (!map.has(date)) map.set(date, { rows: [], last_updated: new Date() });
+    map.get(date).rows.push({ name, amount: amt, official_rank: rank });
+  }
+  return map;
+}
+
+async function ensureData(force=false){
+  if (!force && (Date.now() - cache.when) < CACHE_MS && cache.mapByDate.size) return cache.mapByDate;
+  const txt = await fetchCSV();
+  cache.mapByDate = buildMap(txt);
+  cache.when = Date.now();
+  return cache.mapByDate;
+}
+
+/* ===================== RENDER ===================== */
+function maskUsername(name){
+  const s = String(name||'');
+  if (s.length <= 6){
+    const keep = Math.max(1, Math.floor(s.length/3));
+    return `${s.slice(0,keep)}****${s.slice(-keep)}`;
+  }
+  const left = Math.floor((s.length-4)/2);
+  return s.slice(0,left) + '****' + s.slice(left+4);
+}
+
+function renderRows(dayData){
+  rowsEl.innerHTML = '';
+  if (!dayData || !dayData.rows || !dayData.rows.length){
+    rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${datePicker.value}.</div><div></div></div>`;
+    return;
   }
 
-  const map = {};
-  for (const r of grid) {
-    const date = (r[iDate] || "").trim();
-    const name = (r[iName] || "").trim();
-    const rankRaw = (r[iRank] || "").trim();
-    const amtRaw = (r[iAmt] || "").trim();
+  // Order to display:
+  // 1) If CSV provides rank numbers, order by that; otherwise by turnover desc.
+  const ordered = dayData.rows.slice().sort((a,b)=>{
+    if (a.official_rank && b.official_rank) return a.official_rank - b.official_rank;
+    if (a.official_rank && !b.official_rank) return -1;
+    if (!a.official_rank && b.official_rank) return 1;
+    return (b.amount||0) - (a.amount||0);
+  });
 
-    if (!date) continue; // ignore blank rows / separators
-    if (!map[date]) map[date] = [];
+  // Show Top 20 visually as 1..20 (to avoid “jump” look)
+  const top = ordered.slice(0,20);
+  top.forEach((r, i) => {
+    const displayRank = i+1;
+    const badgeClass = displayRank===1?'top1':displayRank===2?'top2':displayRank===3?'top3':'';
+    const officialNote = (r.official_rank && r.official_rank!==displayRank)
+      ? `<small style="opacity:.7;margin-left:6px">(#${r.official_rank} official)</small>` : '';
 
-    const amount = Number(String(amtRaw).replace(/[^0-9.]/g, "")) || 0;
-    const rank = Number(rankRaw) || null; // allow gaps like #37, #56
-    if (!name && !amount) continue; // nothing meaningful on this line
-
-    map[date].push({ rank, name, amount });
-  }
-
-  SHEET_CACHE = { map, lastFetched: new Date() };
-  return SHEET_CACHE;
-}
-
-/* =========================
-   RENDERING
-   ========================= */
-function maskUsername(name) {
-  if (!name) return "Player";
-  const s = String(name);
-  if (s.length <= 6) {
-    const k = Math.max(1, Math.floor(s.length / 3));
-    return `${s.slice(0, k)}****${s.slice(-k)}`;
-  }
-  const left = Math.floor((s.length - 4) / 2);
-  return s.slice(0, left) + "****" + s.slice(left + 4);
-}
-
-function sortByAmountDesc(a, b) {
-  return (b.amount || 0) - (a.amount || 0);
-}
-
-function computedRank(index, row) {
-  // Prefer explicit rank from sheet; else fallback to index+1 (after sorting)
-  return row.rank && row.rank > 0 ? row.rank : index + 1;
-}
-
-function renderRowsForDay(rows) {
-  rowsEl.innerHTML = "";
-
-  // Sort all rows by turnover to compute fallback ranks, but slice Top 20 for display
-  const sorted = rows.slice().sort(sortByAmountDesc);
-  const top20 = sorted.slice(0, 20);
-
-  for (let i = 0; i < top20.length; i++) {
-    const r = top20[i];
-    const rank = computedRank(i, r);
-
-    const row = document.createElement("div");
-    row.className = "row";
+    const row = document.createElement('div');
+    row.className = 'row';
     row.dataset.nameOriginal = r.name;
-
+    row.dataset.officialRank = r.official_rank || displayRank;
     row.innerHTML = `
-      <div>
-        <span class="rank ${rank === 1 ? "top1" : rank === 2 ? "top2" : rank === 3 ? "top3" : ""}">
-          ${rank}
-        </span>
-      </div>
+      <div><span class="rank ${badgeClass}">${displayRank}</span></div>
       <div class="player">
         <span class="avatar" aria-hidden="true"></span>
         <span class="mask">${maskUsername(r.name)}</span>
+        ${officialNote}
       </div>
       <div class="payout">${fmtMoney(r.amount)}</div>
     `;
     rowsEl.appendChild(row);
+  });
+
+  if (updatedEl) updatedEl.textContent = fmtInTZ(new Date());
+}
+
+async function renderForDate(ymd, forceReload=false){
+  boardDateEl.textContent = ymd;
+  const map = await ensureData(forceReload);
+  const day = map.get(ymd);
+  renderRows(day);
+}
+
+/* ===================== SEARCH (up to Top 100) ===================== */
+async function doSearch(){
+  const q = (searchInput.value||'').trim();
+  searchResult.textContent = '';
+  if (!q) return;
+
+  const map = await ensureData();
+  const ymd = datePicker.value;
+  const day = map.get(ymd);
+  if (!day || !day.rows?.length){ searchResult.textContent = 'No data for selected date.'; return; }
+
+  // Build up to 100 sorted by official rank then turnover
+  const sorted = day.rows.slice().sort((a,b)=>{
+    if (a.official_rank && b.official_rank) return a.official_rank - b.official_rank;
+    if (a.official_rank && !b.official_rank) return -1;
+    if (!a.official_rank && b.official_rank) return 1;
+    return (b.amount||0) - (a.amount||0);
+  }).slice(0,100);
+
+  const idx = sorted.findIndex(r => String(r.name).toLowerCase() === q.toLowerCase());
+  if (idx === -1){ searchResult.textContent = `No exact match for "${q}" on ${ymd}.`; return; }
+
+  const officialRank = sorted[idx].official_rank || (idx+1);
+  const inTop20 = idx < 20; // position in our display slice
+  searchResult.textContent = inTop20
+    ? `✅ ${q} is #${officialRank} today.`
+    : `ℹ️ ${q} is #${officialRank} today — not in Top 20.`;
+
+  if (inTop20){
+    const row = $$('#rows .row')[idx];
+    if (row){
+      $$('#rows .hit').forEach(e=>e.classList.remove('hit'));
+      row.classList.add('hit');
+      row.scrollIntoView({behavior:'smooth', block:'center'});
+      setTimeout(()=>row.classList.remove('hit'), 2500);
+    }
   }
 }
 
-async function renderForDate(ymd) {
-  const clamped = clampYmd(ymd);
-  if (datePicker) datePicker.value = clamped;
-  if (boardDateEl) boardDateEl.textContent = clamped;
-
-  try {
-    const cache = SHEET_CACHE || (await loadSheet());
-    const rows = cache.map[clamped] || [];
-
-    if (!rows.length) {
-      rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${clamped}.</div><div></div></div>`;
-    } else {
-      renderRowsForDay(rows);
-    }
-
-    // Show the time we last fetched, formatted in Mexico City time
-    if (updatedEl) updatedEl.textContent = fmtDateTimeInTZ(cache.lastFetched);
-  } catch (e) {
-    console.error(e);
-    rowsEl.innerHTML = `<div class="row"><div></div><div>Could not load leaderboard.</div><div></div></div>`;
-    if (updatedEl) updatedEl.textContent = "—";
+/* ===================== INIT & EVENTS ===================== */
+(async function init(){
+  if (datePicker){
+    datePicker.min = window.EVENT_START_YMD;
+    datePicker.max = window.EVENT_END_YMD;
   }
-}
+  const today = clampYmd( ymdInTZ(nowInTZ()) );
+  if (datePicker) datePicker.value = today;
+  await renderForDate(today, /*forceReload*/true);
 
-/* =========================
-   SEARCH (full username, exact match, any rank)
-   ========================= */
-async function doSearch() {
-  const q = (searchInput?.value || "").trim();
-  if (!q) {
-    if (searchResult) searchResult.textContent = "";
-    return;
-  }
-
-  try {
-    const cache = SHEET_CACHE || (await loadSheet());
-    const ymd = datePicker?.value || ymdInTZ(nowInTZ());
-    const rows = cache.map[clampYmd(ymd)] || [];
-    if (!rows.length) {
-      if (searchResult) searchResult.textContent = "No data for selected date.";
-      return;
-    }
-
-    // Rank logic: prefer explicit rank; otherwise use position in amount-desc order
-    const sorted = rows.slice().sort(sortByAmountDesc);
-    let foundRank = null;
-
-    // Look by exact case-insensitive match on the original username
-    for (let i = 0; i < sorted.length; i++) {
-      const r = sorted[i];
-      if (String(r.name).toLowerCase() === q.toLowerCase()) {
-        foundRank = r.rank && r.rank > 0 ? r.rank : i + 1;
-        break;
-      }
-    }
-
-    if (foundRank == null) {
-      if (searchResult) searchResult.textContent = `No exact match for "${q}" on ${ymd}.`;
-      return;
-    }
-
-    if (searchResult) {
-      searchResult.textContent =
-        foundRank <= 20 ? `✅ ${q} is #${foundRank} today.` : `ℹ️ ${q} is #${foundRank} today — not in Top 20.`;
-    }
-
-    // If Top-20 and visible on the list, highlight it
-    if (foundRank <= 20) {
-      const row = Array.from(rowsEl.children).find(
-        (el) => el.dataset && el.dataset.nameOriginal && el.dataset.nameOriginal.toLowerCase() === q.toLowerCase()
-      );
-      if (row) {
-        rowsEl.querySelectorAll(".hit").forEach((e) => e.classList.remove("hit"));
-        row.classList.add("hit");
-        row.scrollIntoView({ behavior: "smooth", block: "center" });
-        setTimeout(() => row.classList.remove("hit"), 2500);
-      }
-    }
-  } catch (e) {
-    console.error(e);
-    if (searchResult) searchResult.textContent = "Search error. Try again.";
-  }
-}
-
-/* =========================
-   INIT
-   ========================= */
-document.addEventListener("DOMContentLoaded", async () => {
-  // Date picker window
-  if (datePicker) {
-    datePicker.min = EVENT_START_YMD;
-    datePicker.max = EVENT_END_YMD;
-  }
-  const todayClamped = clampYmd(ymdInTZ(nowInTZ()));
-  if (datePicker) datePicker.value = todayClamped;
-
-  // First render
-  await renderForDate(todayClamped);
-
-  // UI events
-  refreshBtn?.addEventListener("click", async (e) => {
+  refreshBtn?.addEventListener('click', async e => {
     e.preventDefault();
-    // Force re-fetch from Google Sheet
-    SHEET_CACHE = null;
+    await renderForDate(datePicker.value, /*forceReload*/true);
+  });
+  datePicker?.addEventListener('change', async () => {
     await renderForDate(datePicker.value);
   });
-
-  datePicker?.addEventListener("change", () => renderForDate(datePicker.value));
-
-  quickTodayBtn?.addEventListener("click", () => {
-    const y = clampYmd(ymdInTZ(nowInTZ()));
-    if (datePicker) datePicker.value = y;
-    renderForDate(y);
+  todayBtn?.addEventListener('click', async ()=>{
+    const y = clampYmd( ymdInTZ(nowInTZ()) );
+    datePicker.value = y;
+    await renderForDate(y);
+  });
+  yestBtn?.addEventListener('click', async ()=>{
+    const n = nowInTZ(); n.setUTCDate(n.getUTCDate()-1);
+    const y = clampYmd( ymdInTZ(n) );
+    datePicker.value = y;
+    await renderForDate(y);
   });
 
-  quickYestBtn?.addEventListener("click", () => {
-    const n = nowInTZ();
-    n.setUTCDate(n.getUTCDate() - 1);
-    const y = clampYmd(ymdInTZ(n));
-    if (datePicker) datePicker.value = y;
-    renderForDate(y);
-  });
-
-  searchBtn?.addEventListener("click", doSearch);
-  searchInput?.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") doSearch();
-  });
-});
+  searchBtn?.addEventListener('click', doSearch);
+  searchInput?.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
+})();
 </script>
+
 
 </body>
 </html>
