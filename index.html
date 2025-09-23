@@ -3,196 +3,227 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>RicoBet • Daily Prizes</title>
+<title>RicoBet • Spins Of Glory</title>
 <meta name="theme-color" content="#121125" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <style>
   :root{
-    /* ===== THEME ===== */
+    /* ======= QUICK SETTINGS ======= */
+    /* Optional background image: put your URL below */
+    --bg-image: url("https://ricobr.ft-crm.com/media-api/serve/85c9bc7e-50c8-46fb-933c-359f7c0f9767_1.jpg"); /* e.g. url("https://your-cdn/background.jpg") */
+
+    /* Brand palette */
     --bg:#0f1129; --card:#121125; --ink:#1b1c33; --ring:#2a2e58;
     --tx:#f2f3ff; --mut:#c7cbff; --gold:#ffe26a; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
     --row-h:56px;
-
-    /* ===== BACKGROUND IMAGE (change this URL) ===== */
-    --bg-img:url('https://images.unsplash.com/photo-1604079628040-94301bb21b91?q=80&w=1800&auto=format&fit=crop'); /* <— replace if you want */
   }
-
   *{box-sizing:border-box}
-  html,body{height:100%}
   body{
-    margin:0; color:var(--tx);
-    font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
-
-    /* layered background: image + vignette + soft gradients */
+    margin:0;
     background:
-      radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.12),transparent),
-      radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.12),transparent),
-      linear-gradient(180deg, rgba(15,17,41,.85), rgba(15,17,41,.92)),
+      radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
+      radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
       var(--bg);
+    background-image:
+      radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
+      radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
+      var(--bg-image);
+    background-size: auto, auto, cover;
+    background-position: center;
+    color:var(--tx);
+    font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif
   }
-  body::before{
-    content:"";
-    position:fixed; inset:0;
-    background-image: var(--bg-img);
-    background-size:cover; background-position:center;
-    filter:blur(6px) brightness(.45) saturate(1.1);
-    z-index:-2;
-    transform:scale(1.05);
-  }
+  .wrap{max-width:1080px; margin:24px auto 44px; padding:0 16px}
 
-  .wrap{max-width:1080px; margin:24px auto 40px; padding:0 16px}
-
-  /* Topbar */
   .topbar{display:flex; justify-content:center; align-items:center; margin-bottom:12px}
   .logo-img{height:36px;width:auto;display:block}
   @media (max-width:520px){ .logo-img{height:28px} }
 
-  /* Card frame with animated edge glow */
-  .card{
-    position:relative; border:1px solid rgba(255,255,255,.12); border-radius:18px; background:rgba(18,17,37,.78);
-    box-shadow:0 20px 60px rgba(0,0,0,.35);
-  }
-  .card::before{
+  .card{position:relative; border:1px solid var(--ring); border-radius:18px; background:rgba(18,17,37,.8)}
+  .glow::before{
     content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
-    background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1));
-    background-size:400% 100%;
+    background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1)); background-size:400% 100%;
     -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor; mask-composite:exclude;
-    animation:shine 9s linear infinite; pointer-events:none;
+    -webkit-mask-composite:xor; mask-composite:exclude; animation:shine 9s linear infinite; pointer-events:none;
   }
   @keyframes shine{0%{background-position:0% 0}100%{background-position:400% 0}}
 
-  /* HERO */
+  /* ====== HERO ====== */
   .hero.card{padding:18px}
-  .hero-title{
-    margin:0 0 10px 0; font-size:28px; font-weight:900; letter-spacing:.3px; line-height:1.15;
+
+  /* 3D title */
+  .title-3d{
+    margin:2px 0 2px;
+    font-weight:900;
+    letter-spacing:.4px;
+    color:#ffffff;
+    /* layered shadows to simulate depth */
+    text-shadow:
+      0 1px 0 #c9c9ff,
+      0 2px 0 #b6b6ff,
+      0 3px 0 #a3a3ff,
+      0 4px 0 #9090ff,
+      0 10px 20px rgba(0,0,0,.35),
+      0 0 24px rgba(120,115,245,.45);
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,.25));
+    position:relative;
+    /* gentle float */
+    animation:floaty 5s ease-in-out infinite;
+  }
+  @keyframes floaty{
+    0%,100%{ transform:translateY(0) }
+    50%{ transform:translateY(-2px) }
+  }
+  /* subtle inner sheen */
+  .title-3d::after{
+    content:"";
+    position:absolute; inset:0;
+    background:radial-gradient(120% 60% at 50% 0%, rgba(120,115,245,.18), transparent 50%);
+    mix-blend-mode:screen; pointer-events:none; border-radius:6px;
+  }
+
+  /* responsive sizes */
+  .title-3d{font-size:42px; line-height:1.05}
+  @media (max-width:720px){ .title-3d{font-size:34px} }
+  @media (max-width:520px){ .title-3d{font-size:28px} }
+
+  /* Shimmer subtitle (smaller) */
+  .hero-subtitle{
+    margin:6px 0 0;
+    font-weight:800;
+    font-size:18px;
     background:linear-gradient(90deg,var(--g1),var(--a3),var(--g2),var(--g1));
     -webkit-background-clip:text; background-clip:text; color:transparent;
     background-size:300% 100%; animation:shine 6s linear infinite
   }
-  @media (max-width:520px){ .hero-title{font-size:22px} }
+  @media (max-width:520px){ .hero-subtitle{font-size:16px} }
+
   .sub{margin:12px 0 0; color:var(--mut)}
 
-  /* COUNTDOWN (rings) */
-  .ring-wrap{display:flex; justify-content:flex-start}
-  .ring-timer{
-    display:flex;gap:16px;align-items:center;padding:12px;border-radius:14px;
-    background:#161733e6;border:1px solid rgba(255,255,255,.15);
-    box-shadow:0 10px 30px rgba(0,0,0,.25);
+  /* COUNTDOWN */
+  .ring-row{display:flex; justify-content:flex-start; margin-top:10px}
+  .ring-timer{display:flex;gap:16px;align-items:center;padding:10px 12px;border-radius:14px;
+    background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .ring{position:relative;width:92px;height:92px;display:grid;place-items:center}
+  .ring svg{width:92px;height:92px;transform:rotate(-90deg)}
+  .ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:8}
+  .ring .fg{fill:none;stroke:url(#ring-grad);stroke-width:8;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(120,115,245,.5))}
+  .value{position:absolute;font-weight:900;font-size:22px;letter-spacing:.5px;transition:transform .25s ease}
+  .value.bump{transform:translateY(-3px)}
+  .ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
+  @media (max-width:520px){
+    .ring{width:78px;height:78px}
+    .ring svg{width:78px;height:78px}
+    .value{font-size:18px}
   }
-  .ring{position:relative;width:100px;height:100px;display:grid;place-items:center}
-  .ring svg{width:100px;height:100px;transform:rotate(-90deg)}
-  .ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:10}
-  .ring .fg{fill:none;stroke:url(#ring-grad);stroke-width:10;stroke-linecap:round;filter:drop-shadow(0 0 10px rgba(120,115,245,.55))}
-  .ring .value{position:absolute;font-weight:900;font-size:26px;letter-spacing:.5px;text-shadow:0 0 8px rgba(120,115,245,.45)}
-  .ring .label{position:absolute;bottom:10px;font-size:11px;color:#c7cbff;letter-spacing:.35px}
-  .ring.pulse .value{animation:pulse 1.6s ease-in-out infinite}
-  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-  @media (max-width:560px){ .ring{width:82px;height:82px} .ring svg{width:82px;height:82px} .ring .value{font-size:22px} }
 
-  /* PANEL (winners) */
-  .panel.card{padding:14px;margin-top:18px}
+  /* WINNERS TABLE */
+  .panel.card{padding:14px}
   .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
   .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
   .filters{display:flex; gap:8px; flex-wrap:wrap}
   .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
         background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
-  .chip b{font-weight:900}
+  .chip button{all:unset; cursor:pointer}
 
-  /* search */
-  .search-wrap{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:6px 0 10px}
-  .search-input{appearance:none; background:#141534; border:1px solid rgba(255,255,255,.15); color:#fff;
-    border-radius:10px; padding:9px 12px; min-width:220px; outline:none}
-  .search-btn{cursor:pointer; background:linear-gradient(90deg,var(--g1),var(--g2)); border:0; color:#fff;
-    font-weight:900; border-radius:10px; padding:9px 14px}
-  .search-result{color:#dfe3ff; font-weight:700}
-
-  /* FIXED COLUMNS – grid + min-width so mobile can horizontal-scroll */
-  .board-wrap{overflow-x:auto}
-  .board{min-width:720px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
-  .row{display:grid; grid-template-columns:84px 1fr 200px; gap:10px; align-items:center; padding:12px 12px;
+  .board-wrap{overflow:auto}
+  .board{min-width:680px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
+  .row{display:grid; grid-template-columns:88px 1fr 200px; gap:10px; align-items:center; padding:12px 12px;
        background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
        border-bottom:1px solid rgba(255,255,255,.06)}
   .row.head{background:rgba(255,255,255,.05); font-weight:900; color:#dfe3ff}
   .row:last-child{border-bottom:none}
-  .rank{display:inline-flex; align-items:center; justify-content:center; width:46px; height:30px; border-radius:999px;
+  .rank{display:inline-flex; align-items:center; justify-content:center; width:44px; height:28px; border-radius:999px;
         background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); font-weight:900}
   .rank.top1{background:linear-gradient(90deg,#ffef9a,#ffd84a); color:#191b32}
   .rank.top2{background:linear-gradient(90deg,#e5e9ff,#cbd2ff); color:#191b32}
   .rank.top3{background:linear-gradient(90deg,#ffd3b5,#ffae7a); color:#191b32}
-  .player{display:flex; align-items:center; gap:10px; min-width:0}
-  .avatar{flex:0 0 28px; width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
-  .mask{opacity:.95; font-weight:700; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .player{display:flex; align-items:center; gap:10px}
+  .avatar{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
+  .mask{opacity:.95; font-weight:700; letter-spacing:.2px}
   .payout{font-variant-numeric:tabular-nums; font-weight:800; text-align:right}
-  .viewport{max-height:calc(var(--row-h) * 6); overflow-y:auto}
+  .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
   .viewport::-webkit-scrollbar{height:8px;width:8px}
   .viewport::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
   .hit{outline:2px solid var(--a3); border-radius:8px}
 
-  /* CTA row */
-  .cta-row{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
-  .btn{display:inline-block; padding:12px 18px; border-radius:12px; text-decoration:none;
-    font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25)}
+  .search-wrap{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+  .search-input{appearance:none; background:#141534; border:1px solid rgba(255,255,255,.15); color:#fff;
+    border-radius:10px; padding:8px 10px; min-width:220px; outline:none}
+  .search-btn{cursor:pointer; background:linear-gradient(90deg,var(--g1),var(--g2)); border:0; color:#fff;
+    font-weight:900; border-radius:10px; padding:8px 12px}
+  .search-result{color:#dfe3ff; font-weight:700}
+
+  .cta-row{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:center}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:12px; text-decoration:none;
+      font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25); transition:transform .15s ease}
+  .btn:hover{transform:translateY(-2px)}
   .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
   .btn--dark{background:#1a1b34}
+  .support{margin-top:8px; text-align:center; color:#cfd3ff}
+  .support a{color:#a5b0ff; font-weight:800; text-decoration:underline}
 
-  /* Support line */
-  .support{margin:10px 0 0; text-align:center; color:#d7dbff}
-  .support a{color:#a0a8ff; font-weight:700; text-decoration:none}
-  .support a:hover{text-decoration:underline}
+  .sharebar{
+    margin-top:18px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:14px 16px; border-radius:14px; background:#0f216a; border:1px solid #2c3ea0; color:#fff;
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+  }
+  .sharebar b{font-size:18px; letter-spacing:.5px; text-shadow:0 2px 0 rgba(0,0,0,.35)}
+  .share-actions{display:flex; gap:10px}
+  .sharebtn{
+    display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:999px;
+    background:#142b90; border:1px solid rgba(255,255,255,.18); text-decoration:none; transition:transform .15s ease;
+  }
+  .sharebtn:hover{transform:translateY(-2px)}
+  .sharebtn img{width:22px;height:22px}
+  .wa{background:#0b3b0b}
 
-  /* Divider before FAQ (FAQ has no box now) */
-  .divider{height:1px; background:linear-gradient(90deg,transparent,#3a3f72,transparent); margin:24px 0 12px}
-
-  .faq h3{margin:0 0 8px 0; font-size:18px}
-  details{background:transparent; border:1px solid rgba(255,255,255,.12);
-          border-radius:12px; padding:10px 12px; margin:8px 0}
+  .divider{height:1px; margin:26px 0 8px; background:linear-gradient(90deg,transparent,#394080,transparent)}
+  .faq h3{margin:0 0 6px 0; font-size:16px; color:#dfe3ff}
+  details{background:#141534; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px; margin:8px 0}
   summary{cursor:pointer; font-weight:700}
   details p{margin:8px 0 0 0; color:#dfe3ff}
 </style>
 </head>
 <body>
   <div class="wrap">
-
-    <!-- Logo -->
     <div class="topbar" aria-label="RicoBet">
       <img src="https://ricobr.ft-crm.com/media-api/serve/c5570255-af15-4915-8b16-907d5bc7f999_Rico_Logo.png" alt="RicoBet" class="logo-img" />
     </div>
 
     <!-- HERO -->
-    <section class="hero card">
-      <h1 class="hero-title">Daily Prizes of USD 10,000</h1>
+    <section class="hero card glow">
+      <h1 class="title-3d">Spins Of Glory</h1>
+      <div class="hero-subtitle">Daily Prizes of USD 5,000</div>
 
-      <div class="ring-wrap">
-        <div class="ring-timer" aria-label="Countdown to midnight (Mexico City)">
-          <!-- H -->
-          <div class="ring pulse" data-unit="h">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <defs>
-                <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#ff6ec4"/><stop offset="100%" stop-color="#7873f5"/>
-                </linearGradient>
-              </defs>
-              <circle class="bg" cx="60" cy="60" r="44"></circle>
-              <circle class="fg" cx="60" cy="60" r="44"></circle>
+      <!-- Countdown -->
+      <div class="ring-row">
+        <div class="ring-timer" aria-label="Countdown to midnight (UTC-6)">
+          <div class="ring" data-unit="h">
+            <svg viewBox="0 0 72 72" aria-hidden="true">
+              <defs><linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff6ec4"/><stop offset="100%" stop-color="#7873f5"/></linearGradient></defs>
+              <circle class="bg" cx="36" cy="36" r="30"></circle>
+              <circle class="fg" cx="36" cy="36" r="30"></circle>
             </svg>
-            <div class="value">00</div><div class="label">HRS</div>
+            <div class="value">00</div>
+            <div class="label">HRS</div>
           </div>
-          <!-- M -->
-          <div class="ring pulse" data-unit="m">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <circle class="bg" cx="60" cy="60" r="44"></circle>
-              <circle class="fg" cx="60" cy="60" r="44"></circle>
+          <div class="ring" data-unit="m">
+            <svg viewBox="0 0 72 72" aria-hidden="true">
+              <circle class="bg" cx="36" cy="36" r="30"></circle>
+              <circle class="fg" cx="36" cy="36" r="30"></circle>
             </svg>
-            <div class="value">00</div><div class="label">MIN</div>
+            <div class="value">00</div>
+            <div class="label">MIN</div>
           </div>
-          <!-- S -->
-          <div class="ring pulse" data-unit="s">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <circle class="bg" cx="60" cy="60" r="44"></circle>
-              <circle class="fg" cx="60" cy="60" r="44"></circle>
+          <div class="ring" data-unit="s">
+            <svg viewBox="0 0 72 72" aria-hidden="true">
+              <circle class="bg" cx="36" cy="36" r="30"></circle>
+              <circle class="fg" cx="36" cy="36" r="30"></circle>
             </svg>
-            <div class="value">00</div><div class="label">SEC</div>
+            <div class="value">00</div>
+            <div class="label">SEC</div>
           </div>
         </div>
       </div>
@@ -201,22 +232,19 @@
     </section>
 
     <!-- WINNERS -->
-    <section class="panel card">
+    <section class="panel card glow" style="margin-top:18px">
       <div class="panel-head">
         <h2 class="title">🏆 Top 20 • <span id="boardDate">—</span></h2>
         <div class="filters">
-          <span class="chip">🗓️ <b id="lastUpdated">—</b> (Mexico City)</span>
-          <a class="chip" href="#" id="refresh">⟳ Refresh</a>
-          <label class="chip" title="Pick a date">📅&nbsp;
-            <input id="datePicker" type="date"
-              style="background:transparent;border:0;color:#fff;outline:none">
-          </label>
+          <span class="chip"><span>🧭</span><span>Last update: <b id="lastUpdated">—</b></span></span>
+          <span class="chip"><button id="refresh">⟳ Refresh</button></span>
+          <label class="chip" title="Pick a date">📅&nbsp;<input id="datePicker" type="date" style="background:transparent;border:0;color:#fff;outline:none"></label>
           <span class="chip" id="quickToday" style="cursor:pointer">📆 Today</span>
           <span class="chip" id="quickYesterday" style="cursor:pointer">🗓️ Yesterday</span>
         </div>
       </div>
 
-      <div class="search-wrap">
+      <div class="search-wrap" style="margin:6px 0 10px;">
         <input class="search-input" id="searchInput" type="text" placeholder="Search your full username…" />
         <button class="search-btn" id="searchBtn">Search</button>
         <span class="search-result" id="searchResult"></span>
@@ -234,23 +262,32 @@
       </div>
     </section>
 
-    <!-- CTA -->
+    <!-- CTAs -->
     <div class="cta-row">
       <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener">▶ PLAY NOW</a>
       <a class="btn btn--dark" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">👥 JOIN COMMUNITY</a>
     </div>
-    <p class="support">
-      Need help? Message our support on Telegram and we’ll assist you:
-      <a href="https://t.me/ricobetbr2bot" target="_blank" rel="noopener">Contact Support</a>
-    </p>
+    <p class="support">Need help? Message our support on Telegram and we’ll assist you: <a href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">Contact Support</a></p>
 
-    <!-- Divider + FAQ (no box) -->
+    <!-- Share bar -->
+    <div class="sharebar">
+      <b>SHARE WITH YOUR FRIENDS</b>
+      <div class="share-actions">
+        <a id="shareTg" class="sharebtn" title="Share on Telegram" target="_blank" rel="noopener">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram">
+        </a>
+        <a id="shareWa" class="sharebtn wa" title="Share on WhatsApp" target="_blank" rel="noopener">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
+        </a>
+      </div>
+    </div>
+
     <div class="divider"></div>
     <section class="faq">
       <h3>FAQ &amp; Terms</h3>
       <details>
         <summary>What is the Daily Prizes event?</summary>
-        <p>Top players are ranked by daily <b>Turnover</b> on eligible Pragmatic Play slot games. The board resets at 00:00 in Mexico City time.</p>
+        <p>Top players are ranked by daily <b>Turnover</b> on eligible Pragmatic Play slot games. The board resets at 00:00 (UTC-6).</p>
       </details>
       <details>
         <summary>How do I qualify?</summary>
@@ -264,280 +301,191 @@
         <summary>When are winners confirmed?</summary>
         <p>Winners are finalized after the daily reset. Any suspicious or abusive activity may void eligibility.</p>
       </details>
-      <details>
-        <summary>Full Terms &amp; Conditions</summary>
-        <p>
-          • Leaderboard window follows the configured start/end dates (below).<br>
-          • Only real-money wagers count toward Turnover.<br>
-          • Accounts must be verified and in good standing.<br>
-          • The operator may amend/cancel the event to prevent abuse or fraud.<br>
-          • Local laws and platform rules apply.
-        </p>
-      </details>
     </section>
-
   </div>
 
 <script>
-/* ========================== CONFIG (EDIT THESE) ========================== */
-// 1) Google Sheet CSV (published-to-web link)
-const RICOBET_DATA_CSV =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
-
-// 2) Event window (used for date picker clamp & countdown)
-const EVENT_START_YMD = "2025-09-23";
-const EVENT_END_YMD   = "2025-10-31";
-
-// 3) Display
-const RICOBET_TIMEZONE = "America/Mexico_City";
+/* ====== CONFIG ====== */
+const DATA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
+const EVENT_START_YMD  = "2025-09-23";
+const EVENT_END_YMD    = "2025-10-31";
+const TIMEZONE = "America/Mexico_City"; // UTC-6/UTC-5 with DST
 const CURRENCY = { symbol: "$", code: "USD" };
-/* ======================================================================= */
 
+/* ====== Elements ====== */
 const $ = s=>document.querySelector(s);
 const rowsEl = $('#rows'), updatedEl = $('#lastUpdated'), boardDateEl = $('#boardDate');
-const refreshBtn = $('#refresh'), datePicker = $('#datePicker');
-const todayBtn = $('#quickToday'), yestBtn = $('#quickYesterday');
+const refreshBtn = $('#refresh'), datePicker = $('#datePicker'), todayBtn = $('#quickToday'), yestBtn = $('#quickYesterday');
 const searchInput = $('#searchInput'), searchBtn = $('#searchBtn'), searchResult = $('#searchResult');
 
+/* ====== Helpers ====== */
 const fmtMoney = n => `${CURRENCY.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
 const pad2 = n => String(n).padStart(2,'0');
-
-function nowInTZ(){
-  const now = new Date();
-  const toParts = (tz)=> new Intl.DateTimeFormat('en-CA',{
-    timeZone:tz, hourCycle:'h23', year:'numeric', month:'2-digit', day:'2-digit',
-    hour:'2-digit', minute:'2-digit', second:'2-digit'
-  }).formatToParts(now).reduce((a,p)=>{a[p.type]=p.value; return a;},{});
-  const utc = toParts('UTC'), loc = toParts(RICOBET_TIMEZONE);
-  const utcEpoch = Date.parse(`${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`);
-  const tzEpoch  = Date.parse(`${loc.year}-${loc.month}-${loc.day}T${loc.hour}:${loc.minute}:${loc.second}Z`);
-  return new Date(now.getTime() + (tzEpoch - utcEpoch));
-}
-const ymdInTZ = d => new Intl.DateTimeFormat('en-CA',{timeZone:RICOBET_TIMEZONE,year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+const toTZ = (d=new Date(), tz=TIMEZONE, opts={}) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, ...opts });
+const ymdInTZ = d => toTZ(d, TIMEZONE, {year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
 const cmpYmd = (a,b)=>a.localeCompare(b);
-const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : (cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD:ymd);
+const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD : ymd;
 
-/* ===== Countdown to next midnight in Mexico City ===== */
-(function startCountdown(){
-  const R=44, C=2*Math.PI*R;
-  function setStroke(el,p){ el.style.strokeDasharray=`${C}`; el.style.strokeDashoffset=`${C*(1-p)}`; }
-  const $h=$('.ring[data-unit="h"]'), $m=$('.ring[data-unit="m"]'), $s=$('.ring[data-unit="s"]');
+/* ====== Countdown to next midnight (TZ) ====== */
+(function countdown(){
+  const rings = {
+    h: document.querySelector('.ring[data-unit="h"] .value'),
+    m: document.querySelector('.ring[data-unit="m"] .value'),
+    s: document.querySelector('.ring[data-unit="s"] .value'),
+  };
+  const fgH = document.querySelector('.ring[data-unit="h"] .fg');
+  const fgM = document.querySelector('.ring[data-unit="m"] .fg');
+  const fgS = document.querySelector('.ring[data-unit="s"] .fg');
+  const CIRC = 2 * Math.PI * 30;
+  [fgH,fgM,fgS].forEach(el=>{ el.style.strokeDasharray=`${CIRC}`; });
 
-  function nextMidnight(){
-    const n = nowInTZ();
-    const [Y,M,D] = ymdInTZ(n).split('-').map(Number);
-    // next midnight in Mexico City
-    return new Date(Date.UTC(Y, M-1, D+1, 6, 0, 0)); // midnight local equals 06:00 UTC during UTC-6
+  function nextMidnightTZ(){
+    const now = new Date();
+    const parts = toTZ(now, TIMEZONE, {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'})
+      .formatToParts(now).reduce((a,p)=>{a[p.type]=p.value; return a;}, {});
+    const Y = +parts.year, M = +parts.month, D = +parts.day;
+    return new Date(Date.UTC(Y, M-1, D+1, 0, 0, 0));
   }
-
   function tick(){
-    const t = nextMidnight();
-    const diff = Math.max(0, t - nowInTZ());
-    let seconds = Math.floor(diff/1000);
-    const h = Math.floor(seconds/3600); seconds %= 3600;
-    const m = Math.floor(seconds/60);  const s = seconds%60;
+    const target = nextMidnightTZ();
+    const now = new Date();
+    let diff = target - now; if (diff < 0) diff = 0;
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
 
-    $h.querySelector('.value').textContent = pad2(h);
-    $m.querySelector('.value').textContent = pad2(m);
-    $s.querySelector('.value').textContent = pad2(s);
-    setStroke($h.querySelector('.fg'), Math.min(1, h/24));
-    setStroke($m.querySelector('.fg'), Math.min(1, m/60));
-    setStroke($s.querySelector('.fg'), Math.min(1, s/60));
+    const old = {h:rings.h.textContent, m:rings.m.textContent, s:rings.s.textContent};
+    const nh = pad2(h), nm = pad2(m), ns = pad2(s);
+    rings.h.textContent = nh; rings.m.textContent = nm; rings.s.textContent = ns;
+    ['h','m','s'].forEach(k=>{ if (old[k]!==({h:nh,m:nm,s:ns}[k])) { rings[k].classList.add('bump'); setTimeout(()=>rings[k].classList.remove('bump'),150); } });
 
-    requestAnimationFrame(()=>setTimeout(tick, 200));
+    fgH.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, h/24))}`;
+    fgM.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, m/60))}`;
+    fgS.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, s/60))}`;
+
+    requestAnimationFrame(()=>setTimeout(tick, 250));
   }
   tick();
 })();
 
-/* ===== CSV fetch + parse ===== */
-let CSV_CACHE = null, CSV_CACHE_TIME = 0;
-async function fetchCSV(){
-  const now = Date.now();
-  if (CSV_CACHE && now - CSV_CACHE_TIME < 60*1000) return CSV_CACHE; // 60s cache
-  const url = RICOBET_DATA_CSV + `&nocache=${now}`;
+/* ====== CSV LOADER ====== */
+let cache = []; // {date, rank, name, amount}
+async function loadCSV(){
+  const url = DATA_CSV_URL + (DATA_CSV_URL.includes('?')?'&':'?') + 't=' + Date.now();
   const res = await fetch(url, {cache:'no-store'});
-  if(!res.ok) throw new Error('Failed to load Google Sheet CSV');
+  if(!res.ok) throw new Error('CSV fetch failed');
   const text = await res.text();
-  CSV_CACHE = text; CSV_CACHE_TIME = now;
-  return text;
+
+  const lines = text.split(/\r?\n/).filter(Boolean);
+  const out = [];
+  for (let i=1;i<lines.length;i++){
+    const raw = lines[i].split(',');
+    if (raw.length < 3) continue;
+    const date = raw[0].trim();
+    const rank = Number(raw[1]?.trim() || 0);
+    const username = (raw[2]||'').trim();
+    const turnover = Number(String(raw[3]||'0').replace(/[$,\s]/g,''));
+    if (!date || !username) continue;
+    out.push({date, rank, name: username, amount: isNaN(turnover)?0:turnover});
+  }
+  cache = out;
+
+  updatedEl.textContent = new Intl.DateTimeFormat('en-US',{
+    timeZone: TIMEZONE, year:'numeric',month:'numeric',day:'numeric',
+    hour:'numeric',minute:'2-digit',second:'2-digit'
+  }).format(new Date());
 }
 
-function parseCSV(text){
-  // Simple CSV parser that handles quotes & commas
-  const rows = [];
-  let i=0, cell='', row=[], inQ=false;
-  while (i<text.length){
-    const c = text[i++];
-    if (inQ){
-      if (c === '"'){
-        if (text[i] === '"'){ cell+='"'; i++; } else inQ=false;
-      } else cell+=c;
-    } else {
-      if (c === '"'){ inQ=true; }
-      else if (c === ','){ row.push(cell); cell=''; }
-      else if (c === '\n'){ row.push(cell); rows.push(row); row=[]; cell=''; }
-      else if (c === '\r'){ /* skip */ }
-      else cell+=c;
-    }
-  }
-  if (cell.length || row.length) { row.push(cell); rows.push(row); }
-  const header = rows.shift().map(h=>h.trim().toLowerCase());
-  const idx = (name)=> header.findIndex(h=>h===name);
-  const idDate = idx('date'), idRank = idx('rank'), idUser = idx('username'), idTurn = idx('turnover');
-
-  const out = {};
-  for (const r of rows){
-    const date = (r[idDate]||'').trim();
-    if (!date) continue;
-    const rankRaw = (r[idRank]||'').trim();
-    const rank = rankRaw ? Number(rankRaw) : null;
-    const name = (r[idUser]||'').trim();
-    const amtRaw = (r[idTurn]||'').replaceAll(',','').trim();
-    const amount = amtRaw ? Number(amtRaw) : 0;
-
-    if (!out[date]) out[date] = [];
-    out[date].push({ rank, name, amount });
-  }
-  return out;
-}
-
+/* ====== RENDER ====== */
 function maskUsername(name){
-  if(!name) return 'Player';
-  const s = String(name);
-  if (s.length <= 6){
-    const keep = Math.max(1, Math.floor(s.length/3));
-    return `${s.slice(0, keep)}****${s.slice(-keep)}`;
-  }
-  const left = Math.floor((s.length - 4)/2);
-  return s.slice(0,left)+'****'+s.slice(left+4);
+  const s = String(name||'');
+  if(s.length<=6){ const keep=Math.max(1,Math.floor(s.length/3)); return `${s.slice(0,keep)}****${s.slice(-keep)}`; }
+  const left=Math.floor((s.length-4)/2); return s.slice(0,left)+'****'+s.slice(left+4);
 }
-
-/* ===== Render ===== */
-function renderRows(items){
+function renderDay(ymd){
+  boardDateEl.textContent = ymd;
   rowsEl.innerHTML = '';
-  // show only Top 20, but keep dataset name for hit highlight
-  for (const r of items.slice(0,20)){
-    const div = document.createElement('div');
-    div.className = 'row';
-    div.dataset.nameOriginal = r.name || '';
-    div.innerHTML = `
-      <div><span class="rank ${r.rank===1?'top1':r.rank===2?'top2':r.rank===3?'top3':''}">${r.rank ?? '-'}</span></div>
+  const dayRows = cache.filter(r=>r.date===ymd);
+  if (!dayRows.length){
+    rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${ymd}.</div><div></div></div>`;
+    return;
+  }
+  const withRank = dayRows.some(r=>r.rank>0);
+  const sorted = dayRows.slice().sort((a,b)=>{
+    if(withRank){
+      const ar = a.rank||99999, br = b.rank||99999;
+      return ar - br;
+    }
+    return (b.amount||0)-(a.amount||0);
+  });
+
+  const top20 = sorted.slice(0,20);
+  for(const r of top20){
+    const row = document.createElement('div');
+    row.className='row';
+    row.dataset.nameOriginal = r.name;
+    const dot = r.rank===1?'top1':r.rank===2?'top2':r.rank===3?'top3':'';
+    const rankShown = r.rank>0 ? r.rank : (sorted.indexOf(r)+1);
+    row.innerHTML = `
+      <div><span class="rank ${dot}">${rankShown}</span></div>
       <div class="player"><span class="avatar" aria-hidden="true"></span><span class="mask">${maskUsername(r.name)}</span></div>
       <div class="payout">${fmtMoney(r.amount)}</div>`;
-    rowsEl.appendChild(div);
+    rowsEl.appendChild(row);
   }
 }
 
-async function renderForDate(ymd){
-  const clamped = clampYmd(ymd);
-  datePicker.value = clamped;
-  boardDateEl.textContent = clamped;
-
-  try{
-    const csv = await fetchCSV();
-    const byDate = parseCSV(csv);
-    const list = (byDate[clamped] || []).slice();
-
-    // Stable sorting:
-    // 1) if any rank present, sort by rank asc (nulls pushed after), then amount desc
-    // 2) else sort by amount desc
-    const anyRank = list.some(x => Number.isFinite(x.rank));
-    if (anyRank){
-      list.sort((a,b)=>{
-        const ra = Number.isFinite(a.rank) ? a.rank : Infinity;
-        const rb = Number.isFinite(b.rank) ? b.rank : Infinity;
-        if (ra !== rb) return ra - rb;
-        return (b.amount||0) - (a.amount||0);
-      });
-      // fill missing rank numbers with 21+ so badge still shows something
-      let n = 1;
-      for (const x of list){
-        if (!Number.isFinite(x.rank)) x.rank = n;
-        n++;
-      }
-    } else {
-      list.sort((a,b)=>(b.amount||0)-(a.amount||0));
-      list.forEach((x,i)=> x.rank = i+1);
-    }
-
-    renderRows(list);
-
-    // "Last update" shows NOW in Mexico City
-    const nowMX = new Intl.DateTimeFormat('en-US', {timeZone: RICOBET_TIMEZONE,dateStyle:'short', timeStyle:'medium'}).format(new Date());
-    updatedEl.textContent = nowMX;
-
-  }catch(e){
-    console.error(e);
-    rowsEl.innerHTML = `<div class="row"><div></div><div>Could not load leaderboard.</div><div></div></div>`;
-    updatedEl.textContent = '—';
-  }
+/* ====== SEARCH ====== */
+function findRank(ymd, name){
+  const dayRows = cache.filter(r=>r.date===ymd);
+  if (!dayRows.length) return null;
+  const withRank = dayRows.some(r=>r.rank>0);
+  const sorted = withRank
+    ? dayRows.slice().sort((a,b)=>(a.rank||99999)-(b.rank||99999))
+    : dayRows.slice().sort((a,b)=>(b.amount||0)-(a.amount||0));
+  const idx = sorted.findIndex(r => String(r.name).toLowerCase()===String(name).toLowerCase());
+  if (idx===-1) return null;
+  return { rank: withRank ? (sorted[idx].rank||idx+1) : idx+1, name: sorted[idx].name };
 }
 
-/* ===== Search (exact username on selected day) ===== */
-async function doSearch(){
-  const q = (searchInput.value||'').trim();
-  searchResult.textContent='';
-  if(!q) return;
+async function refreshFor(ymd){ await loadCSV(); renderDay(ymd); }
 
-  try{
-    const csv = await fetchCSV();
-    const byDate = parseCSV(csv);
-    const ymd = datePicker.value;
-    const list = (byDate[ymd] || []).slice();
-
-    if(!list.length){ searchResult.textContent='No data for selected date.'; return; }
-
-    // sort same as display to get correct rank
-    const anyRank = list.some(x => Number.isFinite(x.rank));
-    if (anyRank){
-      list.sort((a,b)=>{
-        const ra = Number.isFinite(a.rank) ? a.rank : Infinity;
-        const rb = Number.isFinite(b.rank) ? b.rank : Infinity;
-        if (ra !== rb) return ra - rb;
-        return (b.amount||0) - (a.amount||0);
-      });
-      let n=1; for (const x of list){ if(!Number.isFinite(x.rank)) x.rank=n; n++; }
-    } else {
-      list.sort((a,b)=>(b.amount||0)-(a.amount||0));
-      list.forEach((x,i)=> x.rank=i+1);
-    }
-
-    const idx = list.findIndex(r => (r.name||'').toLowerCase() === q.toLowerCase());
-    if (idx === -1){ searchResult.textContent = `No exact match for "${q}" on ${ymd}.`; return; }
-
-    const rank = list[idx].rank;
-    const isTop20 = rank <= 20;
-    searchResult.textContent = isTop20 ? `✅ ${q} is #${rank} today.` : `ℹ️ ${q} is #${rank} today — not in Top 20.`;
-
-    if (isTop20){
-      const row = Array.from(rowsEl.children).find(el => (el.dataset.nameOriginal||'').toLowerCase() === q.toLowerCase());
-      if (row){ rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit')); row.classList.add('hit');
-        row.scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(()=>row.classList.remove('hit'), 2600);
-      }
-    }
-  }catch(e){
-    console.error(e); searchResult.textContent='Search error. Try again.';
-  }
-}
-
-/* ===== Init ===== */
-(function init(){
-  datePicker.min = EVENT_START_YMD;
-  datePicker.max = EVENT_END_YMD;
-
-  const today = clampYmd( ymdInTZ(nowInTZ()) );
+/* ====== INIT ====== */
+(async function init(){
+  datePicker.min = EVENT_START_YMD; datePicker.max = EVENT_END_YMD;
+  const today = clampYmd( ymdInTZ(new Date()) );
   datePicker.value = today;
-  renderForDate(today);
 
-  refreshBtn.addEventListener('click', e=>{ e.preventDefault(); renderForDate(datePicker.value); });
-  datePicker.addEventListener('change', ()=> renderForDate(datePicker.value));
-  todayBtn.addEventListener('click', ()=>{ const y = clampYmd( ymdInTZ(nowInTZ()) ); datePicker.value=y; renderForDate(y); });
-  yestBtn.addEventListener('click', ()=>{ const n = nowInTZ(); n.setUTCDate(n.getUTCDate()-1); const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; renderForDate(y); });
+  await refreshFor(today);
 
+  refreshBtn.addEventListener('click', async (e)=>{ e.preventDefault(); await refreshFor(datePicker.value); });
+  datePicker.addEventListener('change', ()=> renderDay(clampYmd(datePicker.value)));
+  todayBtn.addEventListener('click', async ()=>{ const y = clampYmd( ymdInTZ(new Date()) ); datePicker.value=y; await refreshFor(y); });
+  yestBtn.addEventListener('click', async ()=>{
+    const n = new Date(); n.setDate(n.getDate()-1);
+    const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; await refreshFor(y);
+  });
+
+  function doSearch(){
+    const q = (searchInput.value||'').trim();
+    searchResult.textContent='';
+    if(!q) return;
+    const ymd = datePicker.value;
+    const hit = findRank(ymd, q);
+    if(!hit){ searchResult.textContent = `No exact match for "${q}" on ${ymd}.`; return; }
+    const topRow = Array.from(rowsEl.children).find(el => el.dataset.nameOriginal?.toLowerCase()===q.toLowerCase());
+    searchResult.textContent = hit.rank<=20 ? `✅ ${q} is #${hit.rank} today.` : `ℹ️ ${q} is #${hit.rank} today — not in Top 20.`;
+    if(topRow){ rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit')); topRow.classList.add('hit'); topRow.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>topRow.classList.remove('hit'),2500); }
+  }
   searchBtn.addEventListener('click', doSearch);
   searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
+
+  // Share links
+  const shareUrl = location.href.split('#')[0];
+  const tg = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('Join Rico.bet today with this exclusive New Player Power Start Package!')}`;
+  const wa = `https://api.whatsapp.com/send?text=${encodeURIComponent('Join Rico.bet today with this exclusive New Player Power Start Package! 👉 ' + shareUrl)}`;
+  document.getElementById('shareTg').href = tg;
+  document.getElementById('shareWa').href = wa;
 })();
 </script>
 </body>
 </html>
-
