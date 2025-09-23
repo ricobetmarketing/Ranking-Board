@@ -245,212 +245,440 @@
   </div>
 
 <script>
-  /* ===== LIVE SOURCE (Google Sheet CSV you provided) ===== */
-  window.RICOBET_DATA_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
+/* =========================
+   RICOBET — CONFIG
+   ========================= */
+const RICOBET_DATA_CSV =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
 
-  /* ===== EVENT WINDOW ===== */
-  window.EVENT_START_YMD  = "2025-09-23";   // first date in your sheet
-  window.EVENT_END_YMD    = "2025-10-31";   // last date in your sheet
+const EVENT_START_YMD  = "2025-09-23";  // first date available in your sheet
+const EVENT_END_YMD    = "2025-10-31";  // last date available in your sheet
 
-  /* ===== LOCALE ===== */
-  window.RICOBET_TIMEZONE = "America/Mexico_City"; // Mexico time (UTC-6/-5 DST)
-  window.RICOBET_CURRENCY = { symbol: "$", code: "USD" };
+// Mexico City (will automatically handle DST; UTC-6 in winter, UTC-5 in summer)
+const TZ = "America/Mexico_City";
 
-  /* ==== DOM shortcuts ==== */
-  const $ = s=>document.querySelector(s);
-  const rowsEl = $('#rows'), updatedEl = $('#lastUpdated'), boardDateEl = $('#boardDate');
-  const refreshBtn = $('#refresh'), datePicker = $('#datePicker'), todayBtn = $('#quickToday'), yestBtn = $('#quickYesterday');
-  const searchInput = $('#searchInput'), searchBtn = $('#searchBtn'), searchResult = $('#searchResult');
+// Currency symbol for turnover display
+const CURRENCY = { symbol: "$", code: "USD" };
 
-  /* ==== Helpers ==== */
-  const CUR = window.RICOBET_CURRENCY;
-  const fmtMoney = n => `${CUR.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
-  const pad2 = n => String(n).padStart(2,'0');
+/* =========================
+   DOM SHORTCUTS
+   ========================= */
+const $ = (s) => document.querySelector(s);
+const rowsEl        = $("#rows");
+const updatedEl     = $("#lastUpdated");
+const boardDateEl   = $("#boardDate");
+const refreshBtn    = $("#refresh");
+const datePicker    = $("#datePicker");
+const quickTodayBtn = $("#quickToday");
+const quickYestBtn  = $("#quickYesterday");
+const searchInput   = $("#searchInput");
+const searchBtn     = $("#searchBtn");
+const searchResult  = $("#searchResult");
 
-  function nowInTZ(){
-    const now = new Date();
-    const partsFor = (z) => new Intl.DateTimeFormat('en-CA', {
-      timeZone:z, hourCycle:'h23', year:'numeric', month:'2-digit', day:'2-digit',
-      hour:'2-digit', minute:'2-digit', second:'2-digit'
-    }).formatToParts(now).reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
-    const utc = partsFor('UTC'); const tz = partsFor(window.RICOBET_TIMEZONE);
-    const utcEpoch = Date.parse(`${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`);
-    const tzEpoch  = Date.parse(`${tz.year}-${tz.month}-${tz.day}T${tz.hour}:${tz.minute}:${tz.second}Z`);
-    return new Date(now.getTime() + (tzEpoch - utcEpoch));
+/* =========================
+   HELPERS (time, formatters)
+   ========================= */
+const pad2 = (n) => String(n).padStart(2, "0");
+const fmtMoney = (n) =>
+  `${CURRENCY.symbol} ${Number(n || 0).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+
+function nowInTZ() {
+  const now = new Date();
+  const toParts = (zone) =>
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: zone,
+      hourCycle: "h23",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    })
+      .formatToParts(now)
+      .reduce((a, p) => ((a[p.type] = p.value), a), {});
+  const utc = toParts("UTC");
+  const tz = toParts(TZ);
+  const utcEpoch = Date.parse(
+    `${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`
+  );
+  const tzEpoch = Date.parse(
+    `${tz.year}-${tz.month}-${tz.day}T${tz.hour}:${tz.minute}:${tz.second}Z`
+  );
+  return new Date(now.getTime() + (tzEpoch - utcEpoch));
+}
+
+const ymdInTZ = (d) =>
+  new Intl.DateTimeFormat("en-CA", {
+    timeZone: TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(d);
+
+const cmpYmd = (a, b) => a.localeCompare(b);
+const clampYmd = (ymd) =>
+  cmpYmd(ymd, EVENT_START_YMD) < 0
+    ? EVENT_START_YMD
+    : cmpYmd(ymd, EVENT_END_YMD) > 0
+    ? EVENT_END_YMD
+    : ymd;
+
+function fmtDateTimeInTZ(dateObj) {
+  // US-style like your screenshot: 9/23/2025, 4:16:34 PM
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: TZ,
+    dateStyle: "short",
+    timeStyle: "medium",
+  }).format(dateObj);
+}
+
+/* =========================
+   COUNTDOWN (neon rings)
+   ========================= */
+function nextMidnightInsideWindow() {
+  const n = nowInTZ();
+  const today = ymdInTZ(n);
+  if (cmpYmd(today, EVENT_START_YMD) < 0) {
+    // Before event window: count down to start
+    const [Y, M, D] = EVENT_START_YMD.split("-").map(Number);
+    return new Date(Date.UTC(Y, M - 1, D, 0, 0, 0));
   }
-  const ymdInTZ = (date) => new Intl.DateTimeFormat('en-CA', {timeZone: window.RICOBET_TIMEZONE, year:'numeric', month:'2-digit', day:'2-digit'}).format(date);
-  const cmpYmd = (a,b)=>a.localeCompare(b);
-  const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD : ymd;
+  if (cmpYmd(today, EVENT_END_YMD) > 0) {
+    // After event window
+    return null;
+  }
+  const [Y, M, D] = today.split("-").map(Number);
+  return new Date(Date.UTC(Y, M - 1, D + 1, 0, 0, 0));
+}
 
-  /* ==== Countdown ==== */
-  (function startRings(){
-    const rH = document.querySelector('.ring[data-unit="h"]');
-    const rM = document.querySelector('.ring[data-unit="m"]');
-    const rS = document.querySelector('.ring[data-unit="s"]');
-    const R=30, C=2*Math.PI*R;
-    function setStroke(el,p){ el.style.strokeDasharray=`${C}`; el.style.strokeDashoffset=`${C*(1-Math.max(0,Math.min(1,p)))}`; }
-    function update($ring,val,max){
-      if(!$ring)return; $ring.querySelector('.value').textContent = pad2(val);
-      setStroke($ring.querySelector('.fg'), val/max);
+function splitHMS(ms) {
+  if (ms < 0) ms = 0;
+  const h = Math.floor(ms / 3600000);
+  const m = Math.floor((ms % 3600000) / 60000);
+  const s = Math.floor((ms % 60000) / 1000);
+  return { h, m, s };
+}
+
+(function startRings() {
+  const rH = document.querySelector('.ring[data-unit="h"]');
+  const rM = document.querySelector('.ring[data-unit="m"]');
+  const rS = document.querySelector('.ring[data-unit="s"]');
+  if (!rH || !rM || !rS) return;
+
+  const R = 30;
+  const C = 2 * Math.PI * R;
+  const setStroke = (el, p) => {
+    el.style.strokeDasharray = `${C}`;
+    el.style.strokeDashoffset = `${C * (1 - Math.max(0, Math.min(1, p)))}`;
+  };
+  const update = ($ring, val, max) => {
+    if (!$ring) return;
+    $ring.querySelector(".value").textContent = pad2(val);
+    setStroke($ring.querySelector(".fg"), val / max);
+  };
+
+  (function tick() {
+    const tgt = nextMidnightInsideWindow();
+    if (!tgt) {
+      [rH, rM, rS].forEach((r) => {
+        r.querySelector(".value").textContent = "—";
+        r.querySelector(".label").textContent = "ENDED";
+        setStroke(r.querySelector(".fg"), 0);
+      });
+      return;
     }
-    function nextMidnightInWindow(){
-      const n = nowInTZ(), today = ymdInTZ(n);
-      if (cmpYmd(today,EVENT_START_YMD)<0) return new Date(`${EVENT_START_YMD}T00:00:00Z`);
-      if (cmpYmd(today,EVENT_END_YMD)>0) return null;
-      const [Y,M,D] = today.split('-').map(Number);
-      return new Date(Date.UTC(Y,M-1,D+1,0,0,0));
-    }
-    function splitHMS(ms){ if(ms<0)ms=0; const h=Math.floor(ms/3600000), m=Math.floor((ms%3600000)/60000), s=Math.floor((ms%60000)/1000); return {h,m,s}; }
-    (function tick(){
-      const tgt = nextMidnightInWindow();
-      if(!tgt){ [rH,rM,rS].forEach(r=>{ r.querySelector('.value').textContent='—'; r.querySelector('.label').textContent='ENDED'; setStroke(r.querySelector('.fg'),0); }); return; }
-      const diff = tgt - nowInTZ();
-      const {h,m,s} = splitHMS(diff);
-      update(rH,h,24); update(rM,m,60); update(rS,s,60);
-      requestAnimationFrame(()=>setTimeout(tick,250));
-    })();
+    const diff = tgt - nowInTZ();
+    const { h, m, s } = splitHMS(diff);
+    update(rH, h, 24);
+    update(rM, m, 60);
+    update(rS, s, 60);
+    requestAnimationFrame(() => setTimeout(tick, 250));
   })();
+})();
 
-  /* ==== CSV loader ==== */
-  async function fetchCSV(){
-    const url = window.RICOBET_DATA_CSV + (window.RICOBET_DATA_CSV.includes('?')?'&':'?') + 'v=' + Date.now();
-    const res = await fetch(url, {cache:'no-store'});
-    if(!res.ok) throw new Error('CSV fetch failed');
-    return await res.text();
-  }
-  function parseCSV(text){
-    // expects header: date, rank, name, amount
-    const lines = text.trim().split(/\r?\n/);
-    const header = lines.shift().split(',').map(s=>s.trim().toLowerCase());
-    const idx = {
-      date: header.indexOf('date'),
-      rank: header.indexOf('rank'),
-      name: header.indexOf('name'),
-      amount: header.indexOf('amount')
-    };
-    const byDate = new Map();
-    for(const line of lines){
-      if(!line.trim()) continue;
-      const cells = line.split(',').map(s=>s.trim());
-      const d = cells[idx.date];
-      const r = Number(cells[idx.rank]||'');
-      const n = cells[idx.name] || '';
-      const a = Number(cells[idx.amount]||0);
-      if(!d || !n) continue;
-      if(!byDate.has(d)) byDate.set(d, []);
-      byDate.get(d).push({rank: Number.isFinite(r) && r>0 ? r : undefined, name:n, amount:a});
-    }
-    return byDate;
-  }
+/* =========================
+   CSV LOADER (Google Sheet)
+   ========================= */
 
-  function maskUsername(name){
-    if(!name) return 'Player';
-    const s=String(name);
-    if(s.length<=6){ const keep=Math.max(1,Math.floor(s.length/3)); return `${s.slice(0,keep)}****${s.slice(-keep)}`; }
-    const left=Math.floor((s.length-4)/2); return s.slice(0,left)+'****'+s.slice(left+4);
-  }
+// Small, safe CSV parser (handles quoted commas/newlines)
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let i = 0;
+  let inQuotes = false;
 
-  function renderRows(dayRows){
-    rowsEl.innerHTML='';
-    // If rank provided -> sort by rank; else by amount desc
-    const sorted = dayRows.slice().sort((a,b)=>{
-      if(a.rank && b.rank) return a.rank - b.rank;
-      if(a.rank && !b.rank) return -1;
-      if(!a.rank && b.rank) return 1;
-      return (b.amount||0) - (a.amount||0);
-    }).map((r,i)=>({ rank: r.rank ?? (i+1), ...r }));
+  while (i < text.length) {
+    const ch = text[i];
 
-    const top20 = sorted.slice(0,20);
-    for(const r of top20){
-      const row = document.createElement('div');
-      row.className='row';
-      row.dataset.nameOriginal=r.name;
-      row.innerHTML = `
-        <div><span class="rank ${r.rank===1?'top1':r.rank===2?'top2':r.rank===3?'top3':''}">${r.rank}</span></div>
-        <div class="player"><span class="avatar" aria-hidden="true"></span><span class="mask">${maskUsername(r.name)}</span></div>
-        <div class="payout">${fmtMoney(r.amount)}</div>`;
-      rowsEl.appendChild(row);
+    if (inQuotes) {
+      if (ch === '"') {
+        if (text[i + 1] === '"') {
+          cell += '"';
+          i += 2;
+        } else {
+          inQuotes = false;
+          i++;
+        }
+      } else {
+        cell += ch;
+        i++;
+      }
+    } else {
+      if (ch === '"') {
+        inQuotes = true;
+        i++;
+      } else if (ch === ",") {
+        row.push(cell);
+        cell = "";
+        i++;
+      } else if (ch === "\r") {
+        i++; // skip
+      } else if (ch === "\n") {
+        row.push(cell);
+        rows.push(row);
+        row = [];
+        cell = "";
+        i++;
+      } else {
+        cell += ch;
+        i++;
+      }
     }
   }
+  // last cell
+  row.push(cell);
+  rows.push(row);
+  return rows;
+}
 
-  let DATA = null; // Map<date, Array<rows>>
+let SHEET_CACHE = null; // { map: { 'YYYY-MM-DD': [rows...] }, lastFetched: Date }
 
-  async function renderForDate(ymd){
-    const clamped = clampYmd(ymd);
-    if(datePicker) datePicker.value = clamped;
-    boardDateEl.textContent = clamped;
+async function loadSheet() {
+  const url = `${RICOBET_DATA_CSV}&_=${Date.now()}`; // cache-bust
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to load Google Sheet CSV");
+  const text = await res.text();
+  const grid = parseCSV(text);
 
-    try{
-      if(!DATA){
-        const csv = await fetchCSV();
-        DATA = parseCSV(csv);
-      }
-      const rows = DATA.get(clamped);
-      if(!rows || !rows.length){
-        rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${clamped}.</div><div></div></div>`;
-      }else{
-        renderRows(rows);
-      }
-      // Last update shown in Mexico time
-      const mexNow = new Date().toLocaleString('en-US', { timeZone: 'America/Mexico_City' });
-      updatedEl.textContent = mexNow;
-    }catch(e){
-      console.error(e);
-      rowsEl.innerHTML = `<div class="row"><div></div><div>Could not load leaderboard.</div><div></div></div>`;
-      updatedEl.textContent = '—';
+  // Expect headers: date, rank, username, turnover
+  const headers = grid.shift().map((h) => h.trim().toLowerCase());
+  const iDate = headers.indexOf("date");
+  const iRank = headers.indexOf("rank");
+  const iName = headers.indexOf("username");
+  const iAmt = headers.indexOf("turnover");
+  if (iDate < 0 || iName < 0 || iAmt < 0) {
+    throw new Error("Missing required columns: date, username, turnover");
+  }
+
+  const map = {};
+  for (const r of grid) {
+    const date = (r[iDate] || "").trim();
+    const name = (r[iName] || "").trim();
+    const rankRaw = (r[iRank] || "").trim();
+    const amtRaw = (r[iAmt] || "").trim();
+
+    if (!date) continue; // ignore blank rows / separators
+    if (!map[date]) map[date] = [];
+
+    const amount = Number(String(amtRaw).replace(/[^0-9.]/g, "")) || 0;
+    const rank = Number(rankRaw) || null; // allow gaps like #37, #56
+    if (!name && !amount) continue; // nothing meaningful on this line
+
+    map[date].push({ rank, name, amount });
+  }
+
+  SHEET_CACHE = { map, lastFetched: new Date() };
+  return SHEET_CACHE;
+}
+
+/* =========================
+   RENDERING
+   ========================= */
+function maskUsername(name) {
+  if (!name) return "Player";
+  const s = String(name);
+  if (s.length <= 6) {
+    const k = Math.max(1, Math.floor(s.length / 3));
+    return `${s.slice(0, k)}****${s.slice(-k)}`;
+  }
+  const left = Math.floor((s.length - 4) / 2);
+  return s.slice(0, left) + "****" + s.slice(left + 4);
+}
+
+function sortByAmountDesc(a, b) {
+  return (b.amount || 0) - (a.amount || 0);
+}
+
+function computedRank(index, row) {
+  // Prefer explicit rank from sheet; else fallback to index+1 (after sorting)
+  return row.rank && row.rank > 0 ? row.rank : index + 1;
+}
+
+function renderRowsForDay(rows) {
+  rowsEl.innerHTML = "";
+
+  // Sort all rows by turnover to compute fallback ranks, but slice Top 20 for display
+  const sorted = rows.slice().sort(sortByAmountDesc);
+  const top20 = sorted.slice(0, 20);
+
+  for (let i = 0; i < top20.length; i++) {
+    const r = top20[i];
+    const rank = computedRank(i, r);
+
+    const row = document.createElement("div");
+    row.className = "row";
+    row.dataset.nameOriginal = r.name;
+
+    row.innerHTML = `
+      <div>
+        <span class="rank ${rank === 1 ? "top1" : rank === 2 ? "top2" : rank === 3 ? "top3" : ""}">
+          ${rank}
+        </span>
+      </div>
+      <div class="player">
+        <span class="avatar" aria-hidden="true"></span>
+        <span class="mask">${maskUsername(r.name)}</span>
+      </div>
+      <div class="payout">${fmtMoney(r.amount)}</div>
+    `;
+    rowsEl.appendChild(row);
+  }
+}
+
+async function renderForDate(ymd) {
+  const clamped = clampYmd(ymd);
+  if (datePicker) datePicker.value = clamped;
+  if (boardDateEl) boardDateEl.textContent = clamped;
+
+  try {
+    const cache = SHEET_CACHE || (await loadSheet());
+    const rows = cache.map[clamped] || [];
+
+    if (!rows.length) {
+      rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${clamped}.</div><div></div></div>`;
+    } else {
+      renderRowsForDay(rows);
     }
+
+    // Show the time we last fetched, formatted in Mexico City time
+    if (updatedEl) updatedEl.textContent = fmtDateTimeInTZ(cache.lastFetched);
+  } catch (e) {
+    console.error(e);
+    rowsEl.innerHTML = `<div class="row"><div></div><div>Could not load leaderboard.</div><div></div></div>`;
+    if (updatedEl) updatedEl.textContent = "—";
+  }
+}
+
+/* =========================
+   SEARCH (full username, exact match, any rank)
+   ========================= */
+async function doSearch() {
+  const q = (searchInput?.value || "").trim();
+  if (!q) {
+    if (searchResult) searchResult.textContent = "";
+    return;
   }
 
-  async function doSearch(){
-    const q = (searchInput.value||'').trim();
-    searchResult.textContent='';
-    if(!q) return;
-    try{
-      if(!DATA){
-        const csv = await fetchCSV();
-        DATA = parseCSV(csv);
+  try {
+    const cache = SHEET_CACHE || (await loadSheet());
+    const ymd = datePicker?.value || ymdInTZ(nowInTZ());
+    const rows = cache.map[clampYmd(ymd)] || [];
+    if (!rows.length) {
+      if (searchResult) searchResult.textContent = "No data for selected date.";
+      return;
+    }
+
+    // Rank logic: prefer explicit rank; otherwise use position in amount-desc order
+    const sorted = rows.slice().sort(sortByAmountDesc);
+    let foundRank = null;
+
+    // Look by exact case-insensitive match on the original username
+    for (let i = 0; i < sorted.length; i++) {
+      const r = sorted[i];
+      if (String(r.name).toLowerCase() === q.toLowerCase()) {
+        foundRank = r.rank && r.rank > 0 ? r.rank : i + 1;
+        break;
       }
-      const ymd = datePicker.value || ymdInTZ(nowInTZ());
-      const rows = DATA.get(ymd) || [];
-      if(!rows.length){ searchResult.textContent='No data for selected date.'; return; }
+    }
 
-      // Sorting to compute true rank across all rows
-      const sorted = rows.slice().sort((a,b)=>{
-        if(a.rank && b.rank) return a.rank - b.rank;
-        if(a.rank && !b.rank) return -1;
-        if(!a.rank && b.rank) return 1;
-        return (b.amount||0) - (a.amount||0);
-      }).map((r,i)=>({ rank: r.rank ?? (i+1), ...r }));
+    if (foundRank == null) {
+      if (searchResult) searchResult.textContent = `No exact match for "${q}" on ${ymd}.`;
+      return;
+    }
 
-      const idx = sorted.findIndex(r => String(r.name).toLowerCase()===q.toLowerCase());
-      if(idx===-1){ searchResult.textContent = `No exact match for "${q}" on ${ymd}.`; return; }
+    if (searchResult) {
+      searchResult.textContent =
+        foundRank <= 20 ? `✅ ${q} is #${foundRank} today.` : `ℹ️ ${q} is #${foundRank} today — not in Top 20.`;
+    }
 
-      const rank = idx+1;
-      const isTop20 = rank <= 20;
-      searchResult.textContent = isTop20 ? `✅ ${q} is #${rank} today.` : `ℹ️ ${q} is #${rank} today — not in Top 20.`;
-
-      if(isTop20){
-        const row = Array.from(rowsEl.children).find(el=>el.dataset.nameOriginal?.toLowerCase()===q.toLowerCase());
-        if(row){ rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit')); row.classList.add('hit'); row.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>row.classList.remove('hit'),2500); }
+    // If Top-20 and visible on the list, highlight it
+    if (foundRank <= 20) {
+      const row = Array.from(rowsEl.children).find(
+        (el) => el.dataset && el.dataset.nameOriginal && el.dataset.nameOriginal.toLowerCase() === q.toLowerCase()
+      );
+      if (row) {
+        rowsEl.querySelectorAll(".hit").forEach((e) => e.classList.remove("hit"));
+        row.classList.add("hit");
+        row.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(() => row.classList.remove("hit"), 2500);
       }
-    }catch(e){ console.error(e); searchResult.textContent='Search error. Try again.'; }
+    }
+  } catch (e) {
+    console.error(e);
+    if (searchResult) searchResult.textContent = "Search error. Try again.";
   }
+}
 
-  /* ==== Init ==== */
-  (async function init(){
-    if(datePicker){ datePicker.min = EVENT_START_YMD; datePicker.max = EVENT_END_YMD; }
-    const today = clampYmd( ymdInTZ(nowInTZ()) );
-    if(datePicker) datePicker.value = today;
-    await renderForDate(today);
+/* =========================
+   INIT
+   ========================= */
+document.addEventListener("DOMContentLoaded", async () => {
+  // Date picker window
+  if (datePicker) {
+    datePicker.min = EVENT_START_YMD;
+    datePicker.max = EVENT_END_YMD;
+  }
+  const todayClamped = clampYmd(ymdInTZ(nowInTZ()));
+  if (datePicker) datePicker.value = todayClamped;
 
-    refreshBtn.addEventListener('click', async (e)=>{ e.preventDefault(); DATA=null; await renderForDate(datePicker.value); });
-    datePicker.addEventListener('change', async ()=> renderForDate(datePicker.value));
-    todayBtn.addEventListener('click', async ()=>{ const y = clampYmd( ymdInTZ(nowInTZ()) ); datePicker.value=y; await renderForDate(y); });
-    yestBtn.addEventListener('click', async ()=>{ const n = nowInTZ(); n.setUTCDate(n.getUTCDate()-1); const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; await renderForDate(y); });
+  // First render
+  await renderForDate(todayClamped);
 
-    searchBtn.addEventListener('click', doSearch);
-    searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
-  })();
+  // UI events
+  refreshBtn?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    // Force re-fetch from Google Sheet
+    SHEET_CACHE = null;
+    await renderForDate(datePicker.value);
+  });
+
+  datePicker?.addEventListener("change", () => renderForDate(datePicker.value));
+
+  quickTodayBtn?.addEventListener("click", () => {
+    const y = clampYmd(ymdInTZ(nowInTZ()));
+    if (datePicker) datePicker.value = y;
+    renderForDate(y);
+  });
+
+  quickYestBtn?.addEventListener("click", () => {
+    const n = nowInTZ();
+    n.setUTCDate(n.getUTCDate() - 1);
+    const y = clampYmd(ymdInTZ(n));
+    if (datePicker) datePicker.value = y;
+    renderForDate(y);
+  });
+
+  searchBtn?.addEventListener("click", doSearch);
+  searchInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") doSearch();
+  });
+});
 </script>
+
 </body>
 </html>
