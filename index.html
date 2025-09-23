@@ -6,159 +6,193 @@
 <title>RicoBet • Daily Prizes</title>
 <meta name="theme-color" content="#121125" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <style>
   :root{
+    /* ===== THEME ===== */
     --bg:#0f1129; --card:#121125; --ink:#1b1c33; --ring:#2a2e58;
     --tx:#f2f3ff; --mut:#c7cbff; --gold:#ffe26a; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
     --row-h:56px;
+
+    /* ===== BACKGROUND IMAGE (change this URL) ===== */
+    --bg-img:url('https://images.unsplash.com/photo-1604079628040-94301bb21b91?q=80&w=1800&auto=format&fit=crop'); /* <— replace if you want */
   }
+
   *{box-sizing:border-box}
+  html,body{height:100%}
   body{
-    margin:0;
+    margin:0; color:var(--tx);
+    font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
+
+    /* layered background: image + vignette + soft gradients */
     background:
-      radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
-      radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
+      radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.12),transparent),
+      radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.12),transparent),
+      linear-gradient(180deg, rgba(15,17,41,.85), rgba(15,17,41,.92)),
       var(--bg);
-    color:var(--tx);
-    font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif
   }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image: var(--bg-img);
+    background-size:cover; background-position:center;
+    filter:blur(6px) brightness(.45) saturate(1.1);
+    z-index:-2;
+    transform:scale(1.05);
+  }
+
   .wrap{max-width:1080px; margin:24px auto 40px; padding:0 16px}
 
-  /* Top bar (smaller logo) */
+  /* Topbar */
   .topbar{display:flex; justify-content:center; align-items:center; margin-bottom:12px}
-  .logo-img{height:36px;width:auto;display:block; filter:drop-shadow(0 3px 8px rgba(0,0,0,.4))}
+  .logo-img{height:36px;width:auto;display:block}
   @media (max-width:520px){ .logo-img{height:28px} }
 
-  /* Hero */
-  .hero{
-    position:relative; overflow:hidden; border:1px solid var(--ring); border-radius:18px;
-    background:linear-gradient(135deg,rgba(255,110,196,.08),rgba(120,115,245,.08)); padding:18px
+  /* Card frame with animated edge glow */
+  .card{
+    position:relative; border:1px solid rgba(255,255,255,.12); border-radius:18px; background:rgba(18,17,37,.78);
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
   }
-  .hero::before{
-    /* animated glow frame */
+  .card::before{
     content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
-    background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1)); background-size:400% 100%;
+    background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1));
+    background-size:400% 100%;
     -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor; mask-composite:exclude; animation:shine 9s linear infinite; pointer-events:none;
+    -webkit-mask-composite:xor; mask-composite:exclude;
+    animation:shine 9s linear infinite; pointer-events:none;
   }
+  @keyframes shine{0%{background-position:0% 0}100%{background-position:400% 0}}
+
+  /* HERO */
+  .hero.card{padding:18px}
   .hero-title{
-    margin:0; font-size:28px; font-weight:900; letter-spacing:.3px; line-height:1.15;
+    margin:0 0 10px 0; font-size:28px; font-weight:900; letter-spacing:.3px; line-height:1.15;
     background:linear-gradient(90deg,var(--g1),var(--a3),var(--g2),var(--g1));
     -webkit-background-clip:text; background-clip:text; color:transparent;
     background-size:300% 100%; animation:shine 6s linear infinite
   }
-  @keyframes shine{0%{background-position:0% 0}100%{background-position:300% 0}}
   @media (max-width:520px){ .hero-title{font-size:22px} }
-  .sub{margin:10px 0 0; color:var(--mut)}
+  .sub{margin:12px 0 0; color:var(--mut)}
 
-  /* Ring countdown */
-  .ring-row{display:flex; justify-content:flex-start; margin-top:10px}
-  .ring-timer{display:flex;gap:16px;align-items:center;padding:10px 12px;border-radius:14px;
-    background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)}
-  .ring{position:relative;width:92px;height:92px;display:grid;place-items:center; animation:float 4s ease-in-out infinite}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-  .ring svg{width:92px;height:92px;transform:rotate(-90deg)}
-  .ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:8}
-  .ring .fg{fill:none;stroke:url(#ring-grad);stroke-width:8;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(120,115,245,.5))}
-  .ring .value{position:absolute;font-weight:900;font-size:22px;letter-spacing:.5px}
-  .ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
-  @media (max-width:520px){
-    .ring{width:78px;height:78px}
-    .ring svg{width:78px;height:78px}
-    .ring .value{font-size:18px}
+  /* COUNTDOWN (rings) */
+  .ring-wrap{display:flex; justify-content:flex-start}
+  .ring-timer{
+    display:flex;gap:16px;align-items:center;padding:12px;border-radius:14px;
+    background:#161733e6;border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
   }
+  .ring{position:relative;width:100px;height:100px;display:grid;place-items:center}
+  .ring svg{width:100px;height:100px;transform:rotate(-90deg)}
+  .ring .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:10}
+  .ring .fg{fill:none;stroke:url(#ring-grad);stroke-width:10;stroke-linecap:round;filter:drop-shadow(0 0 10px rgba(120,115,245,.55))}
+  .ring .value{position:absolute;font-weight:900;font-size:26px;letter-spacing:.5px;text-shadow:0 0 8px rgba(120,115,245,.45)}
+  .ring .label{position:absolute;bottom:10px;font-size:11px;color:#c7cbff;letter-spacing:.35px}
+  .ring.pulse .value{animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  @media (max-width:560px){ .ring{width:82px;height:82px} .ring svg{width:82px;height:82px} .ring .value{font-size:22px} }
 
-  /* Panel */
-  .panel{margin-top:18px; background:var(--card); border:1px solid var(--ring); border-radius:18px; padding:14px; position:relative}
-  .panel::before{
-    content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
-    background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1)); background-size:400% 100%;
-    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor; mask-composite:exclude; animation:shine 9s linear infinite; pointer-events:none;
-  }
+  /* PANEL (winners) */
+  .panel.card{padding:14px;margin-top:18px}
   .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
   .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
   .filters{display:flex; gap:8px; flex-wrap:wrap}
   .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
         background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
-  .board{margin-top:8px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
-  .row{display:grid; grid-template-columns:72px 1fr 160px; gap:10px; align-items:center; padding:12px 12px;
+  .chip b{font-weight:900}
+
+  /* search */
+  .search-wrap{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:6px 0 10px}
+  .search-input{appearance:none; background:#141534; border:1px solid rgba(255,255,255,.15); color:#fff;
+    border-radius:10px; padding:9px 12px; min-width:220px; outline:none}
+  .search-btn{cursor:pointer; background:linear-gradient(90deg,var(--g1),var(--g2)); border:0; color:#fff;
+    font-weight:900; border-radius:10px; padding:9px 14px}
+  .search-result{color:#dfe3ff; font-weight:700}
+
+  /* FIXED COLUMNS – grid + min-width so mobile can horizontal-scroll */
+  .board-wrap{overflow-x:auto}
+  .board{min-width:720px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
+  .row{display:grid; grid-template-columns:84px 1fr 200px; gap:10px; align-items:center; padding:12px 12px;
        background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
-       border-bottom:1px solid rgba(255,255,255,.06); transition:background .25s, transform .1s}
-  .row:hover{background:linear-gradient(180deg,rgba(120,115,245,.10),transparent); transform:translateY(-1px)}
+       border-bottom:1px solid rgba(255,255,255,.06)}
   .row.head{background:rgba(255,255,255,.05); font-weight:900; color:#dfe3ff}
   .row:last-child{border-bottom:none}
-  .rank{display:inline-flex; align-items:center; justify-content:center; width:44px; height:28px; border-radius:999px;
+  .rank{display:inline-flex; align-items:center; justify-content:center; width:46px; height:30px; border-radius:999px;
         background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); font-weight:900}
   .rank.top1{background:linear-gradient(90deg,#ffef9a,#ffd84a); color:#191b32}
   .rank.top2{background:linear-gradient(90deg,#e5e9ff,#cbd2ff); color:#191b32}
   .rank.top3{background:linear-gradient(90deg,#ffd3b5,#ffae7a); color:#191b32}
-  .player{display:flex; align-items:center; gap:10px}
-  .avatar{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3)); box-shadow:0 0 10px rgba(120,115,245,.25)}
-  .mask{opacity:.95; font-weight:700; letter-spacing:.2px}
-  .payout{font-variant-numeric:tabular-nums; font-weight:800}
-  .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
+  .player{display:flex; align-items:center; gap:10px; min-width:0}
+  .avatar{flex:0 0 28px; width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
+  .mask{opacity:.95; font-weight:700; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .payout{font-variant-numeric:tabular-nums; font-weight:800; text-align:right}
+  .viewport{max-height:calc(var(--row-h) * 6); overflow-y:auto}
   .viewport::-webkit-scrollbar{height:8px;width:8px}
   .viewport::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
   .hit{outline:2px solid var(--a3); border-radius:8px}
 
-  /* CTA (only two buttons + small support sentence) */
-  .cta-block{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+  /* CTA row */
+  .cta-row{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
   .btn{display:inline-block; padding:12px 18px; border-radius:12px; text-decoration:none;
-    font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25);
-    transform:translateZ(0); transition:transform .12s ease, box-shadow .2s ease}
-  .btn:hover{transform:translateY(-1px); box-shadow:0 10px 24px rgba(0,0,0,.35), 0 0 20px rgba(120,115,245,.35)}
+    font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25)}
   .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
   .btn--dark{background:#1a1b34}
-  .support-note{margin-top:6px; text-align:center; color:#cfd3ff}
 
-  /* Divider + minimalist FAQ (no box) */
-  .divider{height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent); margin:26px 0 14px}
-  .faq h3{margin:0 0 10px 0; font-size:18px}
-  .faq details{background:#141534; border:1px solid rgba(255,255,255,.12);
-        border-radius:12px; padding:10px 12px; margin:8px 0}
-  .faq summary{cursor:pointer; font-weight:700}
-  .faq p{margin:8px 0 0 0; color:#dfe3ff}
+  /* Support line */
+  .support{margin:10px 0 0; text-align:center; color:#d7dbff}
+  .support a{color:#a0a8ff; font-weight:700; text-decoration:none}
+  .support a:hover{text-decoration:underline}
+
+  /* Divider before FAQ (FAQ has no box now) */
+  .divider{height:1px; background:linear-gradient(90deg,transparent,#3a3f72,transparent); margin:24px 0 12px}
+
+  .faq h3{margin:0 0 8px 0; font-size:18px}
+  details{background:transparent; border:1px solid rgba(255,255,255,.12);
+          border-radius:12px; padding:10px 12px; margin:8px 0}
+  summary{cursor:pointer; font-weight:700}
+  details p{margin:8px 0 0 0; color:#dfe3ff}
 </style>
 </head>
 <body>
   <div class="wrap">
+
     <!-- Logo -->
     <div class="topbar" aria-label="RicoBet">
       <img src="https://ricobr.ft-crm.com/media-api/serve/c5570255-af15-4915-8b16-907d5bc7f999_Rico_Logo.png" alt="RicoBet" class="logo-img" />
     </div>
 
-    <!-- Title + Countdown -->
-    <section class="hero">
+    <!-- HERO -->
+    <section class="hero card">
       <h1 class="hero-title">Daily Prizes of USD 10,000</h1>
 
-      <div class="ring-row">
-        <div class="ring-timer" aria-label="Countdown to midnight">
-          <div class="ring" data-unit="h">
-            <svg viewBox="0 0 72 72" aria-hidden="true">
-              <defs><linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff6ec4"/><stop offset="100%" stop-color="#7873f5"/></linearGradient></defs>
-              <circle class="bg" cx="36" cy="36" r="30"></circle>
-              <circle class="fg" cx="36" cy="36" r="30"></circle>
+      <div class="ring-wrap">
+        <div class="ring-timer" aria-label="Countdown to midnight (Mexico City)">
+          <!-- H -->
+          <div class="ring pulse" data-unit="h">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#ff6ec4"/><stop offset="100%" stop-color="#7873f5"/>
+                </linearGradient>
+              </defs>
+              <circle class="bg" cx="60" cy="60" r="44"></circle>
+              <circle class="fg" cx="60" cy="60" r="44"></circle>
             </svg>
-            <div class="value">00</div>
-            <div class="label">HRS</div>
+            <div class="value">00</div><div class="label">HRS</div>
           </div>
-          <div class="ring" data-unit="m">
-            <svg viewBox="0 0 72 72" aria-hidden="true">
-              <circle class="bg" cx="36" cy="36" r="30"></circle>
-              <circle class="fg" cx="36" cy="36" r="30"></circle>
+          <!-- M -->
+          <div class="ring pulse" data-unit="m">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="bg" cx="60" cy="60" r="44"></circle>
+              <circle class="fg" cx="60" cy="60" r="44"></circle>
             </svg>
-            <div class="value">00</div>
-            <div class="label">MIN</div>
+            <div class="value">00</div><div class="label">MIN</div>
           </div>
-          <div class="ring" data-unit="s">
-            <svg viewBox="0 0 72 72" aria-hidden="true">
-              <circle class="bg" cx="36" cy="36" r="30"></circle>
-              <circle class="fg" cx="36" cy="36" r="30"></circle>
+          <!-- S -->
+          <div class="ring pulse" data-unit="s">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="bg" cx="60" cy="60" r="44"></circle>
+              <circle class="fg" cx="60" cy="60" r="44"></circle>
             </svg>
-            <div class="value">00</div>
-            <div class="label">SEC</div>
+            <div class="value">00</div><div class="label">SEC</div>
           </div>
         </div>
       </div>
@@ -166,384 +200,344 @@
       <p class="sub">Play in Pragmatic Play Slot Games to win the daily prizes !</p>
     </section>
 
-    <!-- Winners -->
-    <section class="panel">
+    <!-- WINNERS -->
+    <section class="panel card">
       <div class="panel-head">
         <h2 class="title">🏆 Top 20 • <span id="boardDate">—</span></h2>
         <div class="filters">
-          <span class="chip">🔄 Last update: <b id="lastUpdated">—</b></span>
+          <span class="chip">🗓️ <b id="lastUpdated">—</b> (Mexico City)</span>
           <a class="chip" href="#" id="refresh">⟳ Refresh</a>
-          <label class="chip" title="Pick a date">
-            📅&nbsp;<input id="datePicker" type="date" style="background:transparent;border:0;color:#fff;outline:none">
+          <label class="chip" title="Pick a date">📅&nbsp;
+            <input id="datePicker" type="date"
+              style="background:transparent;border:0;color:#fff;outline:none">
           </label>
           <span class="chip" id="quickToday" style="cursor:pointer">📆 Today</span>
           <span class="chip" id="quickYesterday" style="cursor:pointer">🗓️ Yesterday</span>
         </div>
       </div>
 
-      <!-- Search -->
-      <div class="search-wrap" style="display:flex;gap:8px;align-items:center;margin:6px 0 10px;">
+      <div class="search-wrap">
         <input class="search-input" id="searchInput" type="text" placeholder="Search your full username…" />
         <button class="search-btn" id="searchBtn">Search</button>
-        <span class="search-result" id="searchResult" style="margin-left:6px;color:#dfe3ff;font-weight:700"></span>
+        <span class="search-result" id="searchResult"></span>
       </div>
 
-      <div class="board">
-        <div class="row head">
-          <div>#</div>
-          <div>Player</div>
-          <div>Turnover</div>
+      <div class="board-wrap">
+        <div class="board">
+          <div class="row head">
+            <div>#</div>
+            <div>Player</div>
+            <div style="text-align:right">Turnover</div>
+          </div>
+          <div id="rows" class="viewport" aria-live="polite"></div>
         </div>
-        <div id="rows" class="viewport" aria-live="polite"></div>
       </div>
     </section>
 
     <!-- CTA -->
-    <div class="cta-block">
+    <div class="cta-row">
       <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener">▶ PLAY NOW</a>
       <a class="btn btn--dark" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">👥 JOIN COMMUNITY</a>
     </div>
-    <div class="support-note">Need help? Message our support on Telegram and we’ll assist you.</div>
+    <p class="support">
+      Need help? Message our support on Telegram and we’ll assist you:
+      <a href="https://t.me/ricobetbr2bot" target="_blank" rel="noopener">Contact Support</a>
+    </p>
 
-    <!-- Divider + FAQ (no surrounding box) -->
+    <!-- Divider + FAQ (no box) -->
     <div class="divider"></div>
     <section class="faq">
       <h3>FAQ &amp; Terms</h3>
-
       <details>
         <summary>What is the Daily Prizes event?</summary>
-        <p>Top players are ranked by daily <b>Turnover</b> on eligible Pragmatic Play slot games. The board resets at 00:00 (server time).</p>
+        <p>Top players are ranked by daily <b>Turnover</b> on eligible Pragmatic Play slot games. The board resets at 00:00 in Mexico City time.</p>
       </details>
-
       <details>
         <summary>How do I qualify?</summary>
         <p>Place real-money bets on participating Pragmatic Play slots during the event day.</p>
       </details>
-
       <details>
         <summary>How is Turnover calculated?</summary>
         <p>Turnover is the total amount wagered per player on the qualified games during the selected day.</p>
       </details>
-
       <details>
         <summary>When are winners confirmed?</summary>
         <p>Winners are finalized after the daily reset. Any suspicious or abusive activity may void eligibility.</p>
       </details>
-
       <details>
         <summary>Full Terms &amp; Conditions</summary>
         <p>
-          • Event runs from the configured start to end dates below.<br>
+          • Leaderboard window follows the configured start/end dates (below).<br>
           • Only real-money wagers count toward Turnover.<br>
-          • Pragmatic Play slot availability may vary by region.<br>
           • Accounts must be verified and in good standing.<br>
           • The operator may amend/cancel the event to prevent abuse or fraud.<br>
           • Local laws and platform rules apply.
         </p>
       </details>
     </section>
+
   </div>
 
 <script>
-/* ===================== CONFIG ===================== */
-window.RICOBET_DATA_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
+/* ========================== CONFIG (EDIT THESE) ========================== */
+// 1) Google Sheet CSV (published-to-web link)
+const RICOBET_DATA_CSV =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
 
-/* Event window (picker clamp, default date, countdown) */
-window.EVENT_START_YMD = "2025-09-23";
-window.EVENT_END_YMD   = "2025-10-31";
+// 2) Event window (used for date picker clamp & countdown)
+const EVENT_START_YMD = "2025-09-23";
+const EVENT_END_YMD   = "2025-10-31";
 
-/* Locale */
-const TZ  = "America/Mexico_City";              // Mexico time (UTC-6 / DST aware)
-const CUR = { symbol: "$", code: "USD" };
+// 3) Display
+const RICOBET_TIMEZONE = "America/Mexico_City";
+const CURRENCY = { symbol: "$", code: "USD" };
+/* ======================================================================= */
 
-/* ===================== DOM SHORTCUTS ===================== */
-const $  = sel => document.querySelector(sel);
-const $$ = sel => Array.from(document.querySelectorAll(sel));
+const $ = s=>document.querySelector(s);
+const rowsEl = $('#rows'), updatedEl = $('#lastUpdated'), boardDateEl = $('#boardDate');
+const refreshBtn = $('#refresh'), datePicker = $('#datePicker');
+const todayBtn = $('#quickToday'), yestBtn = $('#quickYesterday');
+const searchInput = $('#searchInput'), searchBtn = $('#searchBtn'), searchResult = $('#searchResult');
 
-const rowsEl        = $('#rows');
-const updatedEl     = $('#lastUpdated');
-const boardDateEl   = $('#boardDate');
-const refreshBtn    = $('#refresh');
-const datePicker    = $('#datePicker');
-const todayBtn      = $('#quickToday');
-const yestBtn       = $('#quickYesterday');
-const searchInput   = $('#searchInput');
-const searchBtn     = $('#searchBtn');
-const searchResult  = $('#searchResult');
-
-/* ===================== UTILITIES ===================== */
+const fmtMoney = n => `${CURRENCY.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
 const pad2 = n => String(n).padStart(2,'0');
-const fmtMoney = n => `${CUR.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
-const ymdCmp = (a,b) => a.localeCompare(b);
 
 function nowInTZ(){
   const now = new Date();
-  const parts = (z) => new Intl.DateTimeFormat('en-CA',{
-    timeZone:z, hourCycle:'h23', year:'numeric', month:'2-digit', day:'2-digit',
+  const toParts = (tz)=> new Intl.DateTimeFormat('en-CA',{
+    timeZone:tz, hourCycle:'h23', year:'numeric', month:'2-digit', day:'2-digit',
     hour:'2-digit', minute:'2-digit', second:'2-digit'
-  }).formatToParts(now).reduce((a,p)=>{a[p.type]=p.value; return a;}, {});
-  const utc = parts('UTC'), tz = parts(TZ);
+  }).formatToParts(now).reduce((a,p)=>{a[p.type]=p.value; return a;},{});
+  const utc = toParts('UTC'), loc = toParts(RICOBET_TIMEZONE);
   const utcEpoch = Date.parse(`${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`);
-  const tzEpoch  = Date.parse(`${tz.year}-${tz.month}-${tz.day}T${tz.hour}:${tz.minute}:${tz.second}Z`);
+  const tzEpoch  = Date.parse(`${loc.year}-${loc.month}-${loc.day}T${loc.hour}:${loc.minute}:${loc.second}Z`);
   return new Date(now.getTime() + (tzEpoch - utcEpoch));
 }
+const ymdInTZ = d => new Intl.DateTimeFormat('en-CA',{timeZone:RICOBET_TIMEZONE,year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+const cmpYmd = (a,b)=>a.localeCompare(b);
+const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : (cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD:ymd);
 
-const ymdInTZ = (d) => new Intl.DateTimeFormat('en-CA',{timeZone:TZ, year:'numeric', month:'2-digit', day:'2-digit'}).format(d);
-const clampYmd = (ymd) => {
-  const min = window.EVENT_START_YMD, max = window.EVENT_END_YMD;
-  if (ymdCmp(ymd,min)<0) return min;
-  if (ymdCmp(ymd,max)>0) return max;
-  return ymd;
-};
-
-function nextMidnightTZ(){
-  const n = nowInTZ();
-  const [Y,M,D] = ymdInTZ(n).split('-').map(Number);
-  // "tomorrow at 00:00 in TZ"
-  return new Date(Date.UTC(Y, M-1, D+1, 0, 0, 0));
-}
-
-function fmtInTZ(dt){
-  return new Intl.DateTimeFormat('en-US', {
-    timeZone: TZ,
-    year:'numeric', month:'numeric', day:'numeric',
-    hour:'numeric', minute:'numeric', second:'numeric'
-  }).format(dt);
-}
-
-/* ===================== COUNTDOWN (RINGS) ===================== */
+/* ===== Countdown to next midnight in Mexico City ===== */
 (function startCountdown(){
-  const ringH = document.querySelector('.ring[data-unit="h"]');
-  const ringM = document.querySelector('.ring[data-unit="m"]');
-  const ringS = document.querySelector('.ring[data-unit="s"]');
-  if (!ringH || !ringM || !ringS) return;
+  const R=44, C=2*Math.PI*R;
+  function setStroke(el,p){ el.style.strokeDasharray=`${C}`; el.style.strokeDashoffset=`${C*(1-p)}`; }
+  const $h=$('.ring[data-unit="h"]'), $m=$('.ring[data-unit="m"]'), $s=$('.ring[data-unit="s"]');
 
-  const R = 30, C = 2*Math.PI*R;
-  const setStroke = (el, pct) => {
-    el.style.strokeDasharray = `${C}`;
-    el.style.strokeDashoffset = `${C * (1 - Math.max(0, Math.min(1, pct)))}`;
-  };
-  const setVal = (ring, v, max) => {
-    ring.querySelector('.value').textContent = pad2(v);
-    setStroke(ring.querySelector('.fg'), v/max);
-  };
+  function nextMidnight(){
+    const n = nowInTZ();
+    const [Y,M,D] = ymdInTZ(n).split('-').map(Number);
+    // next midnight in Mexico City
+    return new Date(Date.UTC(Y, M-1, D+1, 6, 0, 0)); // midnight local equals 06:00 UTC during UTC-6
+  }
 
   function tick(){
-    const target = nextMidnightTZ();
-    let diff = target - nowInTZ();
-    if (diff < 0) diff = 0;
-    const h = Math.floor(diff/3600000);
-    const m = Math.floor((diff%3600000)/60000);
-    const s = Math.floor((diff%60000)/1000);
-    setVal(ringH, h, 24);
-    setVal(ringM, m, 60);
-    setVal(ringS, s, 60);
-    requestAnimationFrame(()=>setTimeout(tick, 250));
+    const t = nextMidnight();
+    const diff = Math.max(0, t - nowInTZ());
+    let seconds = Math.floor(diff/1000);
+    const h = Math.floor(seconds/3600); seconds %= 3600;
+    const m = Math.floor(seconds/60);  const s = seconds%60;
+
+    $h.querySelector('.value').textContent = pad2(h);
+    $m.querySelector('.value').textContent = pad2(m);
+    $s.querySelector('.value').textContent = pad2(s);
+    setStroke($h.querySelector('.fg'), Math.min(1, h/24));
+    setStroke($m.querySelector('.fg'), Math.min(1, m/60));
+    setStroke($s.querySelector('.fg'), Math.min(1, s/60));
+
+    requestAnimationFrame(()=>setTimeout(tick, 200));
   }
   tick();
-
-  // Auto-refresh data at midnight (Mexico time)
-  function scheduleMidnightRefresh(){
-    const ms = nextMidnightTZ() - nowInTZ() + 1000;
-    setTimeout(()=>{
-      const today = clampYmd( ymdInTZ(nowInTZ()) );
-      if (datePicker) datePicker.value = today;
-      renderForDate(today, /*forceReload*/true);
-      scheduleMidnightRefresh();
-    }, ms);
-  }
-  scheduleMidnightRefresh();
-
-  // Subtle pulse on digits
-  $$('.ring .value').forEach(v => v.style.animation = 'pulse 1.2s ease-in-out infinite');
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
-  `;
-  document.head.appendChild(style);
 })();
 
-/* ===================== DATA (CSV) ===================== */
-let cache = { when: 0, mapByDate: new Map() };
-const CACHE_MS = 30*1000; // re-fetch at most every 30s when clicking Refresh
-
+/* ===== CSV fetch + parse ===== */
+let CSV_CACHE = null, CSV_CACHE_TIME = 0;
 async function fetchCSV(){
-  const url = window.RICOBET_DATA_CSV + '&_=' + Date.now();
+  const now = Date.now();
+  if (CSV_CACHE && now - CSV_CACHE_TIME < 60*1000) return CSV_CACHE; // 60s cache
+  const url = RICOBET_DATA_CSV + `&nocache=${now}`;
   const res = await fetch(url, {cache:'no-store'});
-  if (!res.ok) throw new Error('CSV load failed');
-  return res.text();
+  if(!res.ok) throw new Error('Failed to load Google Sheet CSV');
+  const text = await res.text();
+  CSV_CACHE = text; CSV_CACHE_TIME = now;
+  return text;
 }
 
-// very light CSV splitter (commas outside quotes)
-const splitCSVLine = line => line.match(/("([^"]|"")*"|[^,]*)/g).filter(x=>x!=='');
-
-function buildMap(csvText){
-  const lines = csvText.split(/\r?\n/).filter(Boolean);
-  const head = splitCSVLine(lines.shift()).map(h=>h.trim().toLowerCase());
-  const ci = {
-    date: head.indexOf('date'),
-    rank: head.indexOf('rank'),
-    user: head.indexOf('username'),
-    turn: head.indexOf('turnover'),
-  };
-  const map = new Map(); // date => {rows:[], last_updated: Date}
-  for (const line of lines){
-    const cols = splitCSVLine(line).map(c => c.replace(/^"(.*)"$/,'$1').trim());
-    const date = cols[ci.date];
-    const rank = cols[ci.rank] ? Number(cols[ci.rank]) : null;
-    const name = cols[ci.user] || '';
-    // allow "300,000.00"
-    const amt  = cols[ci.turn] ? Number(String(cols[ci.turn]).replace(/,/g,'')) : 0;
-
-    if (!date || !name) continue;
-    if (!map.has(date)) map.set(date, { rows: [], last_updated: new Date() });
-    map.get(date).rows.push({ name, amount: amt, official_rank: rank });
-  }
-  return map;
-}
-
-async function ensureData(force=false){
-  if (!force && (Date.now() - cache.when) < CACHE_MS && cache.mapByDate.size) return cache.mapByDate;
-  const txt = await fetchCSV();
-  cache.mapByDate = buildMap(txt);
-  cache.when = Date.now();
-  return cache.mapByDate;
-}
-
-/* ===================== RENDER ===================== */
-function maskUsername(name){
-  const s = String(name||'');
-  if (s.length <= 6){
-    const keep = Math.max(1, Math.floor(s.length/3));
-    return `${s.slice(0,keep)}****${s.slice(-keep)}`;
-  }
-  const left = Math.floor((s.length-4)/2);
-  return s.slice(0,left) + '****' + s.slice(left+4);
-}
-
-function renderRows(dayData){
-  rowsEl.innerHTML = '';
-  if (!dayData || !dayData.rows || !dayData.rows.length){
-    rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${datePicker.value}.</div><div></div></div>`;
-    return;
-  }
-
-  // Order to display:
-  // 1) If CSV provides rank numbers, order by that; otherwise by turnover desc.
-  const ordered = dayData.rows.slice().sort((a,b)=>{
-    if (a.official_rank && b.official_rank) return a.official_rank - b.official_rank;
-    if (a.official_rank && !b.official_rank) return -1;
-    if (!a.official_rank && b.official_rank) return 1;
-    return (b.amount||0) - (a.amount||0);
-  });
-
-  // Show Top 20 visually as 1..20 (to avoid “jump” look)
-  const top = ordered.slice(0,20);
-  top.forEach((r, i) => {
-    const displayRank = i+1;
-    const badgeClass = displayRank===1?'top1':displayRank===2?'top2':displayRank===3?'top3':'';
-    const officialNote = (r.official_rank && r.official_rank!==displayRank)
-      ? `<small style="opacity:.7;margin-left:6px">(#${r.official_rank} official)</small>` : '';
-
-    const row = document.createElement('div');
-    row.className = 'row';
-    row.dataset.nameOriginal = r.name;
-    row.dataset.officialRank = r.official_rank || displayRank;
-    row.innerHTML = `
-      <div><span class="rank ${badgeClass}">${displayRank}</span></div>
-      <div class="player">
-        <span class="avatar" aria-hidden="true"></span>
-        <span class="mask">${maskUsername(r.name)}</span>
-        ${officialNote}
-      </div>
-      <div class="payout">${fmtMoney(r.amount)}</div>
-    `;
-    rowsEl.appendChild(row);
-  });
-
-  if (updatedEl) updatedEl.textContent = fmtInTZ(new Date());
-}
-
-async function renderForDate(ymd, forceReload=false){
-  boardDateEl.textContent = ymd;
-  const map = await ensureData(forceReload);
-  const day = map.get(ymd);
-  renderRows(day);
-}
-
-/* ===================== SEARCH (up to Top 100) ===================== */
-async function doSearch(){
-  const q = (searchInput.value||'').trim();
-  searchResult.textContent = '';
-  if (!q) return;
-
-  const map = await ensureData();
-  const ymd = datePicker.value;
-  const day = map.get(ymd);
-  if (!day || !day.rows?.length){ searchResult.textContent = 'No data for selected date.'; return; }
-
-  // Build up to 100 sorted by official rank then turnover
-  const sorted = day.rows.slice().sort((a,b)=>{
-    if (a.official_rank && b.official_rank) return a.official_rank - b.official_rank;
-    if (a.official_rank && !b.official_rank) return -1;
-    if (!a.official_rank && b.official_rank) return 1;
-    return (b.amount||0) - (a.amount||0);
-  }).slice(0,100);
-
-  const idx = sorted.findIndex(r => String(r.name).toLowerCase() === q.toLowerCase());
-  if (idx === -1){ searchResult.textContent = `No exact match for "${q}" on ${ymd}.`; return; }
-
-  const officialRank = sorted[idx].official_rank || (idx+1);
-  const inTop20 = idx < 20; // position in our display slice
-  searchResult.textContent = inTop20
-    ? `✅ ${q} is #${officialRank} today.`
-    : `ℹ️ ${q} is #${officialRank} today — not in Top 20.`;
-
-  if (inTop20){
-    const row = $$('#rows .row')[idx];
-    if (row){
-      $$('#rows .hit').forEach(e=>e.classList.remove('hit'));
-      row.classList.add('hit');
-      row.scrollIntoView({behavior:'smooth', block:'center'});
-      setTimeout(()=>row.classList.remove('hit'), 2500);
+function parseCSV(text){
+  // Simple CSV parser that handles quotes & commas
+  const rows = [];
+  let i=0, cell='', row=[], inQ=false;
+  while (i<text.length){
+    const c = text[i++];
+    if (inQ){
+      if (c === '"'){
+        if (text[i] === '"'){ cell+='"'; i++; } else inQ=false;
+      } else cell+=c;
+    } else {
+      if (c === '"'){ inQ=true; }
+      else if (c === ','){ row.push(cell); cell=''; }
+      else if (c === '\n'){ row.push(cell); rows.push(row); row=[]; cell=''; }
+      else if (c === '\r'){ /* skip */ }
+      else cell+=c;
     }
   }
+  if (cell.length || row.length) { row.push(cell); rows.push(row); }
+  const header = rows.shift().map(h=>h.trim().toLowerCase());
+  const idx = (name)=> header.findIndex(h=>h===name);
+  const idDate = idx('date'), idRank = idx('rank'), idUser = idx('username'), idTurn = idx('turnover');
+
+  const out = {};
+  for (const r of rows){
+    const date = (r[idDate]||'').trim();
+    if (!date) continue;
+    const rankRaw = (r[idRank]||'').trim();
+    const rank = rankRaw ? Number(rankRaw) : null;
+    const name = (r[idUser]||'').trim();
+    const amtRaw = (r[idTurn]||'').replaceAll(',','').trim();
+    const amount = amtRaw ? Number(amtRaw) : 0;
+
+    if (!out[date]) out[date] = [];
+    out[date].push({ rank, name, amount });
+  }
+  return out;
 }
 
-/* ===================== INIT & EVENTS ===================== */
-(async function init(){
-  if (datePicker){
-    datePicker.min = window.EVENT_START_YMD;
-    datePicker.max = window.EVENT_END_YMD;
+function maskUsername(name){
+  if(!name) return 'Player';
+  const s = String(name);
+  if (s.length <= 6){
+    const keep = Math.max(1, Math.floor(s.length/3));
+    return `${s.slice(0, keep)}****${s.slice(-keep)}`;
   }
+  const left = Math.floor((s.length - 4)/2);
+  return s.slice(0,left)+'****'+s.slice(left+4);
+}
+
+/* ===== Render ===== */
+function renderRows(items){
+  rowsEl.innerHTML = '';
+  // show only Top 20, but keep dataset name for hit highlight
+  for (const r of items.slice(0,20)){
+    const div = document.createElement('div');
+    div.className = 'row';
+    div.dataset.nameOriginal = r.name || '';
+    div.innerHTML = `
+      <div><span class="rank ${r.rank===1?'top1':r.rank===2?'top2':r.rank===3?'top3':''}">${r.rank ?? '-'}</span></div>
+      <div class="player"><span class="avatar" aria-hidden="true"></span><span class="mask">${maskUsername(r.name)}</span></div>
+      <div class="payout">${fmtMoney(r.amount)}</div>`;
+    rowsEl.appendChild(div);
+  }
+}
+
+async function renderForDate(ymd){
+  const clamped = clampYmd(ymd);
+  datePicker.value = clamped;
+  boardDateEl.textContent = clamped;
+
+  try{
+    const csv = await fetchCSV();
+    const byDate = parseCSV(csv);
+    const list = (byDate[clamped] || []).slice();
+
+    // Stable sorting:
+    // 1) if any rank present, sort by rank asc (nulls pushed after), then amount desc
+    // 2) else sort by amount desc
+    const anyRank = list.some(x => Number.isFinite(x.rank));
+    if (anyRank){
+      list.sort((a,b)=>{
+        const ra = Number.isFinite(a.rank) ? a.rank : Infinity;
+        const rb = Number.isFinite(b.rank) ? b.rank : Infinity;
+        if (ra !== rb) return ra - rb;
+        return (b.amount||0) - (a.amount||0);
+      });
+      // fill missing rank numbers with 21+ so badge still shows something
+      let n = 1;
+      for (const x of list){
+        if (!Number.isFinite(x.rank)) x.rank = n;
+        n++;
+      }
+    } else {
+      list.sort((a,b)=>(b.amount||0)-(a.amount||0));
+      list.forEach((x,i)=> x.rank = i+1);
+    }
+
+    renderRows(list);
+
+    // "Last update" shows NOW in Mexico City
+    const nowMX = new Intl.DateTimeFormat('en-US', {timeZone: RICOBET_TIMEZONE,dateStyle:'short', timeStyle:'medium'}).format(new Date());
+    updatedEl.textContent = nowMX;
+
+  }catch(e){
+    console.error(e);
+    rowsEl.innerHTML = `<div class="row"><div></div><div>Could not load leaderboard.</div><div></div></div>`;
+    updatedEl.textContent = '—';
+  }
+}
+
+/* ===== Search (exact username on selected day) ===== */
+async function doSearch(){
+  const q = (searchInput.value||'').trim();
+  searchResult.textContent='';
+  if(!q) return;
+
+  try{
+    const csv = await fetchCSV();
+    const byDate = parseCSV(csv);
+    const ymd = datePicker.value;
+    const list = (byDate[ymd] || []).slice();
+
+    if(!list.length){ searchResult.textContent='No data for selected date.'; return; }
+
+    // sort same as display to get correct rank
+    const anyRank = list.some(x => Number.isFinite(x.rank));
+    if (anyRank){
+      list.sort((a,b)=>{
+        const ra = Number.isFinite(a.rank) ? a.rank : Infinity;
+        const rb = Number.isFinite(b.rank) ? b.rank : Infinity;
+        if (ra !== rb) return ra - rb;
+        return (b.amount||0) - (a.amount||0);
+      });
+      let n=1; for (const x of list){ if(!Number.isFinite(x.rank)) x.rank=n; n++; }
+    } else {
+      list.sort((a,b)=>(b.amount||0)-(a.amount||0));
+      list.forEach((x,i)=> x.rank=i+1);
+    }
+
+    const idx = list.findIndex(r => (r.name||'').toLowerCase() === q.toLowerCase());
+    if (idx === -1){ searchResult.textContent = `No exact match for "${q}" on ${ymd}.`; return; }
+
+    const rank = list[idx].rank;
+    const isTop20 = rank <= 20;
+    searchResult.textContent = isTop20 ? `✅ ${q} is #${rank} today.` : `ℹ️ ${q} is #${rank} today — not in Top 20.`;
+
+    if (isTop20){
+      const row = Array.from(rowsEl.children).find(el => (el.dataset.nameOriginal||'').toLowerCase() === q.toLowerCase());
+      if (row){ rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit')); row.classList.add('hit');
+        row.scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(()=>row.classList.remove('hit'), 2600);
+      }
+    }
+  }catch(e){
+    console.error(e); searchResult.textContent='Search error. Try again.';
+  }
+}
+
+/* ===== Init ===== */
+(function init(){
+  datePicker.min = EVENT_START_YMD;
+  datePicker.max = EVENT_END_YMD;
+
   const today = clampYmd( ymdInTZ(nowInTZ()) );
-  if (datePicker) datePicker.value = today;
-  await renderForDate(today, /*forceReload*/true);
+  datePicker.value = today;
+  renderForDate(today);
 
-  refreshBtn?.addEventListener('click', async e => {
-    e.preventDefault();
-    await renderForDate(datePicker.value, /*forceReload*/true);
-  });
-  datePicker?.addEventListener('change', async () => {
-    await renderForDate(datePicker.value);
-  });
-  todayBtn?.addEventListener('click', async ()=>{
-    const y = clampYmd( ymdInTZ(nowInTZ()) );
-    datePicker.value = y;
-    await renderForDate(y);
-  });
-  yestBtn?.addEventListener('click', async ()=>{
-    const n = nowInTZ(); n.setUTCDate(n.getUTCDate()-1);
-    const y = clampYmd( ymdInTZ(n) );
-    datePicker.value = y;
-    await renderForDate(y);
-  });
+  refreshBtn.addEventListener('click', e=>{ e.preventDefault(); renderForDate(datePicker.value); });
+  datePicker.addEventListener('change', ()=> renderForDate(datePicker.value));
+  todayBtn.addEventListener('click', ()=>{ const y = clampYmd( ymdInTZ(nowInTZ()) ); datePicker.value=y; renderForDate(y); });
+  yestBtn.addEventListener('click', ()=>{ const n = nowInTZ(); n.setUTCDate(n.getUTCDate()-1); const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; renderForDate(y); });
 
-  searchBtn?.addEventListener('click', doSearch);
-  searchInput?.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
+  searchBtn.addEventListener('click', doSearch);
+  searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
 })();
 </script>
-
-
 </body>
 </html>
+
