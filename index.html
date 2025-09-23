@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>RicoBet • September Winners</title>
+<title>RicoBet • Daily Prizes</title>
 <meta name="theme-color" content="#121125" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -94,36 +94,25 @@
     font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25)}
   .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
   .btn--dark{background:#1a1b34}
+  .btn--outline{background:transparent; border-color:#3a3f72}
 
   /* Glow frames */
-  .hero::before, .panel::before{
+  .hero::before, .panel::before, .faq::before{
     content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
     background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1)); background-size:400% 100%;
     -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
     -webkit-mask-composite:xor; mask-composite:exclude; animation:shine 9s linear infinite; pointer-events:none;
   }
 
-/* FAQ / T&C */
-.faq{margin-top:22px; background:var(--card); border:1px solid var(--ring);
-     border-radius:18px; padding:16px; position:relative}
-.faq h3{margin:0 0 10px 0; font-size:18px}
-details{background:#141534; border:1px solid rgba(255,255,255,.12);
-        border-radius:12px; padding:10px 12px; margin:8px 0}
-summary{cursor:pointer; font-weight:700}
-details p{margin:8px 0 0 0; color:#dfe3ff}
-.faq-cta{margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
-
-/* Glow frame for FAQ (optional, matches other cards) */
-.faq::before{
-  content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
-  background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1));
-  background-size:400% 100%;
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor; mask-composite:exclude;
-  animation:shine 9s linear infinite; pointer-events:none;
-}
-
-  
+  /* FAQ / T&C */
+  .faq{margin-top:22px; background:var(--card); border:1px solid var(--ring);
+       border-radius:18px; padding:16px; position:relative}
+  .faq h3{margin:0 0 10px 0; font-size:18px}
+  details{background:#141534; border:1px solid rgba(255,255,255,.12);
+          border-radius:12px; padding:10px 12px; margin:8px 0}
+  summary{cursor:pointer; font-weight:700}
+  details p{margin:8px 0 0 0; color:#dfe3ff}
+  .faq-cta{margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
 </style>
 </head>
 <body>
@@ -202,46 +191,47 @@ details p{margin:8px 0 0 0; color:#dfe3ff}
       </div>
     </section>
 
+    <!-- FAQ -->
     <section class="faq">
-  <h3>FAQ &amp; Terms</h3>
+      <h3>FAQ &amp; Terms</h3>
 
-  <details>
-    <summary>What is the Daily Prizes event?</summary>
-    <p>Top players are ranked by daily <b>Turnover</b> on eligible Pragmatic Play slot games. The board resets at 00:00 (server time).</p>
-  </details>
+      <details>
+        <summary>What is the Daily Prizes event?</summary>
+        <p>Top players are ranked by daily <b>Turnover</b> on eligible Pragmatic Play slot games. The board resets at 00:00 (server time).</p>
+      </details>
 
-  <details>
-    <summary>How do I qualify?</summary>
-    <p>Place real-money bets on participating Pragmatic Play slots during the event day.</p>
-  </details>
+      <details>
+        <summary>How do I qualify?</summary>
+        <p>Place real-money bets on participating Pragmatic Play slots during the event day.</p>
+      </details>
 
-  <details>
-    <summary>How is Turnover calculated?</summary>
-    <p>Turnover is the total amount wagered per player on the qualified games during the selected day.</p>
-  </details>
+      <details>
+        <summary>How is Turnover calculated?</summary>
+        <p>Turnover is the total amount wagered per player on the qualified games during the selected day.</p>
+      </details>
 
-  <details>
-    <summary>When are winners confirmed?</summary>
-    <p>Winners are finalized after the daily reset. Any suspicious or abusive activity may void eligibility.</p>
-  </details>
+      <details>
+        <summary>When are winners confirmed?</summary>
+        <p>Winners are finalized after the daily reset. Any suspicious or abusive activity may void eligibility.</p>
+      </details>
 
-  <details>
-    <summary>Full Terms &amp; Conditions</summary>
-    <p>
-      • Event runs in September 2025 window configured on this page, resetting daily at 00:00 in the configured server timezone.<br>
-      • Only real-money wagers count toward Turnover.<br>
-      • Pragmatic Play slot availability may vary by region.<br>
-      • Accounts must be verified and in good standing.<br>
-      • The operator may amend/cancel the event to prevent abuse or fraud.<br>
-      • Local laws and platform rules apply.
-    </p>
-  </details>
+      <details>
+        <summary>Full Terms &amp; Conditions</summary>
+        <p>
+          • Event runs from the configured September–October window, resetting daily at 00:00 in the configured server timezone.<br>
+          • Only real-money wagers count toward Turnover.<br>
+          • Pragmatic Play slot availability may vary by region.<br>
+          • Accounts must be verified and in good standing.<br>
+          • The operator may amend/cancel the event to prevent abuse or fraud.<br>
+          • Local laws and platform rules apply.
+        </p>
+      </details>
 
-  <div class="faq-cta">
-    <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener">▶ PLAY NOW</a>
-    <a class="btn btn--outline" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">💬 Customer Support</a>
-  </div>
-</section>
+      <div class="faq-cta">
+        <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener">▶ PLAY NOW</a>
+        <a class="btn btn--outline" href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">💬 Customer Support</a>
+      </div>
+    </section>
 
     <!-- CTAs -->
     <div class="cta-block">
@@ -251,13 +241,14 @@ details p{margin:8px 0 0 0; color:#dfe3ff}
   </div>
 
 <script>
-/* ===== CONFIG: September window ===== */
-const RICOBET_DATA_DIR = './data';
-const RICOBET_MONTH    = '2025-09';      // loads ./data/winners-2025-09.json
-const EVENT_START_YMD  = '2025-09-01';
-const EVENT_END_YMD    = '2025-09-30';
-const RICOBET_TIMEZONE = 'America/Mexico_City';
-const CURRENCY = { symbol: '$', code: 'USD' };
+/* =========================
+   CONFIG — update as needed
+   ========================= */
+window.RICOBET_DATA_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
+window.EVENT_START_YMD  = "2025-09-23";   // first date in your sheet
+window.EVENT_END_YMD    = "2025-10-31";   // last date in your sheet
+window.RICOBET_TIMEZONE = "America/Mexico_City";
+window.RICOBET_CURRENCY = { symbol: "$", code: "USD" };
 
 /* ===== Helpers ===== */
 const $ = s=>document.querySelector(s);
@@ -265,7 +256,7 @@ const rowsEl = $('#rows'), updatedEl = $('#lastUpdated'), boardDateEl = $('#boar
 const refreshBtn = $('#refresh'), datePicker = $('#datePicker'), todayBtn = $('#quickToday'), yestBtn = $('#quickYesterday');
 const searchInput = $('#searchInput'), searchBtn = $('#searchBtn'), searchResult = $('#searchResult');
 
-const fmtMoney = n => `${CURRENCY.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+const fmtMoney = n => `${window.RICOBET_CURRENCY.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
 const pad2 = n => String(n).padStart(2,'0');
 
 function nowInTZ(){
@@ -273,19 +264,19 @@ function nowInTZ(){
   const toParts = (z)=> new Intl.DateTimeFormat('en-CA',{
     timeZone:z,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'
   }).formatToParts(now).reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
-  const utc=toParts('UTC'), tz=toParts(RICOBET_TIMEZONE);
+  const utc=toParts('UTC'), tz=toParts(window.RICOBET_TIMEZONE);
   const utcEpoch = Date.parse(`${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`);
   const tzEpoch  = Date.parse(`${tz.year}-${tz.month}-${tz.day}T${tz.hour}:${tz.minute}:${tz.second}Z`);
   return new Date(now.getTime() + (tzEpoch-utcEpoch));
 }
-const ymdInTZ = d => new Intl.DateTimeFormat('en-CA',{timeZone:RICOBET_TIMEZONE,year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+const ymdInTZ = d => new Intl.DateTimeFormat('en-CA',{timeZone:window.RICOBET_TIMEZONE,year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
 const cmpYmd = (a,b)=>a.localeCompare(b);
-const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD : ymd;
+const clampYmd = ymd => cmpYmd(ymd,window.EVENT_START_YMD)<0?window.EVENT_START_YMD : cmpYmd(ymd,window.EVENT_END_YMD)>0?window.EVENT_END_YMD : ymd;
 
 function nextMidnightInWindow(){
   const n = nowInTZ(), today = ymdInTZ(n);
-  if (cmpYmd(today,EVENT_START_YMD)<0) return new Date(`${EVENT_START_YMD}T00:00:00Z`);
-  if (cmpYmd(today,EVENT_END_YMD)>0) return null;
+  if (cmpYmd(today,window.EVENT_START_YMD)<0) return new Date(`${window.EVENT_START_YMD}T00:00:00Z`);
+  if (cmpYmd(today,window.EVENT_END_YMD)>0) return null;
   const [Y,M,D] = today.split('-').map(Number);
   return new Date(Date.UTC(Y,M-1,D+1,0,0,0));
 }
@@ -312,14 +303,92 @@ function splitHMS(ms){ if(ms<0)ms=0; const h=Math.floor(ms/3600000), m=Math.floo
   })();
 })();
 
-/* ===== Data ===== */
-const monthCache = new Map();
-async function fetchMonth(month){
-  if(monthCache.has(month)) return monthCache.get(month);
-  const url = `${RICOBET_DATA_DIR}/winners-${month}.json?v=${Date.now()}`;
-  const res = await fetch(url,{cache:'no-store'});
-  if(!res.ok) throw new Error('Failed to load '+url);
-  const json = await res.json(); monthCache.set(month,json); return json;
+/* ===== CSV loader (robust to quoted fields) ===== */
+function parseCSV(text){
+  const rows = [];
+  let i=0, field="", inQuotes=false, row=[];
+  while(i<text.length){
+    const c=text[i];
+    if(inQuotes){
+      if(c==='\"'){
+        if(text[i+1]==='\"'){ field+='\"'; i++; } else { inQuotes=false; }
+      }else{ field+=c; }
+    }else{
+      if(c==='\"'){ inQuotes=true; }
+      else if(c===','){ row.push(field); field=""; }
+      else if(c==='\n'){ row.push(field); rows.push(row); row=[]; field=""; }
+      else if(c==='\r'){ /* ignore */ }
+      else{ field+=c; }
+    }
+    i++;
+  }
+  if(field.length>0 || row.length>0){ row.push(field); rows.push(row); }
+  return rows;
+}
+
+async function fetchCSV(url){
+  const res = await fetch(url, { cache: "no-store" });
+  if(!res.ok) throw new Error("Failed to fetch CSV");
+  const text = await res.text();
+  const rows = parseCSV(text).filter(r => r.length && r.some(x=>String(x).trim()!==""));
+  if(!rows.length) return { days: [] };
+
+  // header
+  const header = rows[0].map(h=>String(h).trim().toLowerCase());
+  const idx = (name) => header.indexOf(name);
+
+  // Accept either "username" or "name"
+  const iDate = idx("date");
+  const iRank = idx("rank");
+  let iUser = idx("username"); if(iUser===-1) iUser = idx("name");
+  const iTurn = idx("turnover");
+
+  const byDate = new Map();
+
+  for(let r=1; r<rows.length; r++){
+    const row = rows[r];
+    const date = (row[iDate]||"").trim();
+    const name = (row[iUser]||"").trim();
+    const rankRaw = (row[iRank]||"").toString().trim();
+    const rank = rankRaw ? parseInt(rankRaw, 10) : null;
+    const amount = parseFloat((row[iTurn]||"").toString().replace(/[, ]/g,'')) || 0;
+
+    if(!date || !name) continue;
+    if(!byDate.has(date)) byDate.set(date, { date, last_updated: new Date().toISOString(), rows: [] });
+    byDate.get(date).rows.push({ date, rank: Number.isFinite(rank)?rank:null, name, amount });
+  }
+
+  // Sort inside each day: explicit rank first; then by amount desc; then name
+  const days = Array.from(byDate.values()).map(d=>{
+    d.rows.sort((a,b)=>{
+      const ar=a.rank, br=b.rank;
+      if(ar!=null && br!=null) return ar-br;
+      if(ar!=null) return -1;
+      if(br!=null) return 1;
+      const am=(b.amount||0)-(a.amount||0);
+      if(am!==0) return am;
+      return String(a.name).localeCompare(String(b.name));
+    });
+    return d;
+  }).sort((a,b)=> a.date.localeCompare(b.date)); // chronological
+
+  return { days };
+}
+
+/* ===== Data facade (from CSV; cached) ===== */
+const dataCache = { data:null };
+async function getData(){
+  if (dataCache.data) return dataCache.data;
+  dataCache.data = await fetchCSV(window.RICOBET_DATA_CSV);
+  return dataCache.data;
+}
+function bestDay(data, targetYmd){
+  if(!data?.days?.length) return null;
+  // Pick exact, else latest <= target
+  const exact = data.days.find(d=>d.date===targetYmd);
+  if (exact) return exact;
+  const before = data.days.filter(d=>d.date<=targetYmd).sort((a,b)=>b.date.localeCompare(a.date))[0];
+  return before || data.days[data.days.length-1];
 }
 function maskUsername(name){
   if(!name) return 'Player';
@@ -327,39 +396,44 @@ function maskUsername(name){
   if(s.length<=6){ const keep=Math.max(1,Math.floor(s.length/3)); return `${s.slice(0,keep)}****${s.slice(-keep)}`; }
   const left=Math.floor((s.length-4)/2); return s.slice(0,left)+'****'+s.slice(left+4);
 }
+
+/* ===== Rendering ===== */
 function renderRows(day){
   rowsEl.innerHTML='';
-  const items = (day.rows||[]).slice().sort((a,b)=>(b.amount||0)-(a.amount||0)).map((r,i)=>({rank:r.rank??(i+1),...r})).slice(0,20);
-  for(const r of items){
+  // top 20 only
+  const top20 = (day.rows||[]).slice(0,20);
+  for(const r of top20){
     const row = document.createElement('div');
     row.className='row';
     row.dataset.nameOriginal=r.name;
+    const rank = r.rank ?? (top20.indexOf(r)+1);
     row.innerHTML = `
-      <div><span class="rank ${r.rank===1?'top1':r.rank===2?'top2':r.rank===3?'top3':''}">${r.rank}</span></div>
+      <div><span class="rank ${rank===1?'top1':rank===2?'top2':rank===3?'top3':''}">${rank}</span></div>
       <div class="player"><span class="avatar" aria-hidden="true"></span><span class="mask">${maskUsername(r.name)}</span></div>
       <div class="payout">${fmtMoney(r.amount)}</div>`;
     rowsEl.appendChild(row);
   }
-  updatedEl.textContent = day.last_updated ? new Date(day.last_updated).toLocaleString() : 'now';
+  updatedEl && (updatedEl.textContent = day.last_updated ? new Date(day.last_updated).toLocaleString() : 'now');
 }
-function bestDay(data, targetYmd){
-  if(!data?.days?.length) return null;
-  const sorted = data.days.slice().sort((a,b)=>b.date.localeCompare(a.date));
-  return sorted.find(d=>d.date===targetYmd) || sorted.find(d=>d.date<=targetYmd) || sorted[0];
-}
+
+/* ===== Controller ===== */
 async function renderForDate(ymd){
   const clamped = clampYmd(ymd);
   if(datePicker) datePicker.value = clamped;
-  boardDateEl.textContent = clamped;
+  boardDateEl && (boardDateEl.textContent = clamped);
   try{
-    const month = await fetchMonth(RICOBET_MONTH);
-    const day = bestDay(month, clamped);
-    if(!day){ rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${clamped}.</div><div></div></div>`; updatedEl.textContent='—'; return; }
+    const data = await getData();
+    const day = bestDay(data, clamped);
+    if(!day){
+      rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${clamped}.</div><div></div></div>`;
+      updatedEl && (updatedEl.textContent = '—');
+      return;
+    }
     renderRows(day);
   }catch(e){
     console.error(e);
     rowsEl.innerHTML = `<div class="row"><div></div><div>Could not load leaderboard.</div><div></div></div>`;
-    updatedEl.textContent='—';
+    updatedEl && (updatedEl.textContent = '—');
   }
 }
 
@@ -369,38 +443,56 @@ async function doSearch(){
   searchResult.textContent='';
   if(!q) return;
   try{
-    const month = await fetchMonth(RICOBET_MONTH);
+    const data = await getData();
     const ymd = datePicker.value;
-    const day = bestDay(month, ymd);
+    const day = bestDay(data, ymd);
     if(!day || !day.rows?.length){ searchResult.textContent='No data for selected date.'; return; }
-    const sorted = day.rows.slice().sort((a,b)=>(b.amount||0)-(a.amount||0));
-    const idx = sorted.findIndex(r => String(r.name).toLowerCase()===q.toLowerCase());
+
+    // day.rows is already sorted by explicit rank first; else by turnover
+    const idx = day.rows.findIndex(r => String(r.name).toLowerCase()===q.toLowerCase());
     if(idx===-1){ searchResult.textContent = `No exact match for "${q}" on ${day.date}.`; return; }
-    const rank = idx+1, isTop20 = rank<=20;
-    searchResult.textContent = isTop20 ? `✅ ${q} is #${rank} today.` : `ℹ️ ${q} is #${rank} today — not in Top 20.`;
+
+    // True rank: if explicit rank exists on that row use it; else position index+1
+    const row = day.rows[idx];
+    const rank = (row.rank!=null ? row.rank : idx+1);
+    const isTop20 = rank <= 20;
+
+    searchResult.textContent = isTop20
+      ? `✅ ${q} is #${rank} today.`
+      : `ℹ️ ${q} is #${rank} today — not in Top 20.`;
+
     if(isTop20){
-      const row = Array.from(rowsEl.children).find(el=>el.dataset.nameOriginal?.toLowerCase()===q.toLowerCase());
-      if(row){ rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit')); row.classList.add('hit'); row.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>row.classList.remove('hit'),2500); }
+      // highlight if visible
+      const visRow = Array.from(rowsEl.children).find(el=>el.dataset.nameOriginal?.toLowerCase()===q.toLowerCase());
+      if(visRow){
+        rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit'));
+        visRow.classList.add('hit');
+        visRow.scrollIntoView({behavior:'smooth',block:'center'});
+        setTimeout(()=>visRow.classList.remove('hit'),2500);
+      }
     }
-  }catch(e){ console.error(e); searchResult.textContent='Search error. Try again.'; }
+  }catch(e){
+    console.error(e);
+    searchResult.textContent='Search error. Try again.';
+  }
 }
 
-/* ===== Init (Today & Yesterday shortcuts) ===== */
+/* ===== Init ===== */
 (function init(){
-  // clamp picker to September
-  if(datePicker){ datePicker.min = EVENT_START_YMD; datePicker.max = EVENT_END_YMD; }
+  if(datePicker){ datePicker.min = window.EVENT_START_YMD; datePicker.max = window.EVENT_END_YMD; }
   const today = clampYmd( ymdInTZ(nowInTZ()) );
-  datePicker.value = today;
+  if(datePicker) datePicker.value = today;
   renderForDate(today);
 
-  refreshBtn.addEventListener('click', e=>{ e.preventDefault(); renderForDate(datePicker.value); });
-  datePicker.addEventListener('change', ()=> renderForDate(datePicker.value));
-  todayBtn.addEventListener('click', ()=>{ const y = clampYmd( ymdInTZ(nowInTZ()) ); datePicker.value=y; renderForDate(y); });
-  yestBtn.addEventListener('click', ()=>{ const n = nowInTZ(); n.setUTCDate(n.getUTCDate()-1); const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; renderForDate(y); });
+  refreshBtn && refreshBtn.addEventListener('click', e=>{ e.preventDefault(); renderForDate(datePicker.value); });
+  datePicker && datePicker.addEventListener('change', ()=> renderForDate(datePicker.value));
+  todayBtn && todayBtn.addEventListener('click', ()=>{ const y = clampYmd( ymdInTZ(nowInTZ()) ); datePicker.value=y; renderForDate(y); });
+  yestBtn && yestBtn.addEventListener('click', ()=>{ const n = nowInTZ(); n.setUTCDate(n.getUTCDate()-1); const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; renderForDate(y); });
 
-  searchBtn.addEventListener('click', doSearch);
-  searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
+  searchBtn && searchBtn.addEventListener('click', doSearch);
+  searchInput && searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
 })();
 </script>
 </body>
 </html>
+
