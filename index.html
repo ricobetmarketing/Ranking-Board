@@ -1,227 +1,772 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>RicoBet • Spins Of Glory</title>
-<meta name="theme-color" content="#121125" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RicoBet • Spins Of Glory</title>
+  <meta name="theme-color" content="#121125">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 
-<style>
-  :root{
-    --bg-image: url("https://ricobr.ft-crm.com/media-api/serve/a02f364f-bea1-4a99-ae4c-211994eced91_2.png");
-    --bg:#0f1129; --card:#121125; --ring:#2a2e58;
-    --tx:#f2f3ff; --mut:#c7cbff; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
-    --row-h:56px;
-    --c1:#ffd84a; --c2:#dfe6ff; --c3:#ffc19b;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    /* fixed background that never moves */
-    background:
-      radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
-      radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
-      var(--bg-image), var(--bg);
-    background-size:auto,auto,cover,auto;
-    background-position:center;
-    background-attachment:fixed,fixed,fixed,fixed;
-    color:var(--tx);
-    font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif
-  }
-  .wrap{max-width:1080px; margin:24px auto 46px; padding:0 16px}
+  <style>
+    :root {
+      --bg-image: url("https://ricobr.ft-crm.com/media-api/serve/a02f364f-bea1-4a99-ae4c-211994eced91_2.png");
+      --bg: #0f1129;
+      --card: #121125;
+      --ring: #2a2e58;
+      --tx: #f2f3ff;
+      --mut: #c7cbff;
+      --g1: #ff6ec4;
+      --g2: #7873f5;
+      --a3: #78f3ff;
+      --row-h: 56px;
+      --c1: #ffd84a;
+      --c2: #dfe6ff;
+      --c3: #ffc19b;
+    }
 
-  .topbar{display:flex; justify-content:center; align-items:center; margin-bottom:12px}
-  .logo-img{height:36px;width:auto;display:block}
-  @media (max-width:520px){ .logo-img{height:28px} }
+    * {
+      box-sizing: border-box
+    }
 
-  .card{position:relative; border:1px solid var(--ring); border-radius:18px; background:rgba(18,17,37,.86)}
-  .glow::before{
-    content:""; position:absolute; inset:-2px; border-radius:20px; padding:2px;
-    background:linear-gradient(90deg,var(--g1),var(--g2),var(--a3),var(--g1)); background-size:400% 100%;
-    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor; mask-composite:exclude; animation:shine 9s linear infinite; pointer-events:none;
-  }
-  @keyframes shine{0%{background-position:0% 0}100%{background-position:400% 0}}
+    body {
+      margin: 0;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(255, 110, 196, .10), transparent),
+        radial-gradient(900px 500px at 100% 110%, rgba(120, 115, 245, .10), transparent),
+        var(--bg-image), var(--bg);
+      background-size: auto, auto, cover, auto;
+      background-position: center;
+      background-attachment: fixed, fixed, fixed, fixed;
+      /* background never moves */
+      color: var(--tx);
+      font: 14px/1.45 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif
+    }
 
-  /* ===== HERO ===== */
-  .hero.card{padding:18px; text-align:center}
-  .title-3d{
-    margin:2px 0 4px; font-weight:900; letter-spacing:.4px; color:#fff;
-    text-shadow:
-      0 1px 0 #c9c9ff, 0 2px 0 #b6b6ff, 0 3px 0 #a3a3ff, 0 4px 0 #9090ff,
-      0 10px 20px rgba(0,0,0,.35), 0 0 24px rgba(120,115,245,.45);
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,.25));
-    animation:floaty 5s ease-in-out infinite;
-    font-size:42px; line-height:1.05;
-  }
-  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-  @media (max-width:720px){ .title-3d{font-size:34px} }
-  @media (max-width:520px){ .title-3d{font-size:28px} }
+    .wrap {
+      max-width: 1080px;
+      margin: 24px auto 46px;
+      padding: 0 16px
+    }
 
-  /* one step smaller than the title */
-  .hero-subtitle{
-    margin:6px auto 8px; font-weight:800;
-    font-size:28px; /* desktop */
-    background:linear-gradient(90deg,var(--g1),var(--a3),var(--g2),var(--g1));
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    background-size:300% 100%; animation:shine 6s linear infinite
-  }
-  @media (max-width:720px){ .hero-subtitle{font-size:22px} }
-  @media (max-width:520px){ .hero-subtitle{font-size:18px} }
-  .sub{margin:12px 0 0; color:var(--mut)}
+    .topbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px
+    }
 
-  /* ==== NEW FLIP-CARD COUNTDOWN (UTC-3) ==== */
-  .flipbar{display:flex;gap:14px;justify-content:center;margin-top:10px}
-  .tile{
-    width:110px; height:86px; border-radius:14px; position:relative; overflow:hidden;
-    background:linear-gradient(180deg,#221f45,#191837); border:1px solid rgba(255,255,255,.18);
-    box-shadow:0 10px 30px rgba(0,0,0,.35);
-    display:grid; place-items:center;
-  }
-  .num{
-    font-weight:900; font-size:32px; letter-spacing:.5px;
-    background:linear-gradient(180deg,#fff,#d9dcff); -webkit-background-clip:text; color:transparent;
-    text-shadow:0 6px 22px rgba(120,115,245,.45);
-    animation:pop .25s ease;
-  }
-  .lab{position:absolute;bottom:6px;left:0;right:0;text-align:center;color:#c7cbff;font-size:10px;letter-spacing:.35px}
-  .tile::before{
-    content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 55%, transparent 45%, rgba(0,0,0,.15));
-    pointer-events:none;
-  }
-  .flip{animation:flip .5s ease}
-  @keyframes flip{0%{transform:rotateX(0)}50%{transform:rotateX(-60deg)}100%{transform:rotateX(0)}}
-  @keyframes pop{0%{transform:scale(.94)}100%{transform:scale(1)}}
-  @media (max-width:520px){ .tile{width:92px;height:74px} .num{font-size:26px} }
+    .logo-img {
+      height: 36px;
+      width: auto;
+      display: block
+    }
 
-  /* ===== TOP 3 Podium (compact so 3 side-by-side on mobile too) ===== */
-  .podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:end;margin:14px 0 4px}
-  .pod{
-    position:relative;border-radius:16px;text-align:center;padding:12px 8px 18px;
-    background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.03));
-    border:2px solid rgba(255,255,255,.24); box-shadow:0 14px 28px rgba(0,0,0,.38);
-  }
-  .pod--1{transform:translateY(-8px);background:linear-gradient(180deg,#3a2f6b,#211e46)}
-  .pod::after{
-    content:attr(data-ped); position:absolute; left:50%; transform:translateX(-50%); bottom:-14px;
-    width:48px; height:30px; border-radius:10px; display:grid; place-items:center;
-    font-weight:900; font-size:16px; color:#1a1b33;
-    border:2px solid rgba(255,255,255,.45); box-shadow:0 10px 18px rgba(0,0,0,.45);
-    background:var(--ped,#ffd84a);
-  }
-  .pod--1{ --ped:var(--c1) } .pod--2{ --ped:var(--c2) } .pod--3{ --ped:var(--c3) }
+    @media (max-width:520px) {
+      .logo-img {
+        height: 28px
+      }
+    }
 
-  .pod-rank{
-    position:absolute; top:6px; left:6px;
-    display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:22px;padding:0 8px;
-    border-radius:999px;font-weight:900;border:2px solid rgba(255,255,255,.35);
-    background:rgba(255,255,255,.92); color:#1b1b38; font-size:12px
-  }
-  .trophy{
-    position:absolute; top:-12px; right:-8px; width:42px; height:42px; border-radius:12px;
-    display:grid; place-items:center; font-size:20px; color:#1b1b38;
-    transform:rotate(-8deg); box-shadow:0 10px 18px rgba(0,0,0,.45);
-    border:3px solid rgba(255,255,255,.6); animation:wobble 2.4s ease-in-out infinite;
-    background:var(--tbg);
-  }
-  .t1{ --tbg: linear-gradient(135deg,#fff6b5,#ffd84a) }
-  .t2{ --tbg: linear-gradient(135deg,#f4f6ff,#dbe3ff) }
-  .t3{ --tbg: linear-gradient(135deg,#ffe0c9,#ffb07a) }
-  .trophy::after{ content:"🏆"; filter:drop-shadow(0 2px 0 rgba(0,0,0,.25)); }
-  @keyframes wobble{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(6deg) translateY(-4px)}}
+    .card {
+      position: relative;
+      border: 1px solid var(--ring);
+      border-radius: 18px;
+      background: rgba(18, 17, 37, .86)
+    }
 
-  .pod-avatar{
-    width:62px;height:62px;border-radius:16px;margin:10px auto 6px;
-    background:linear-gradient(135deg,var(--g2),var(--a3));background-size:cover;background-position:center;
-    border:3px solid rgba(255,255,255,.65); box-shadow:0 6px 14px rgba(0,0,0,.35);
-  }
-  .pod-name{font-weight:900;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
-  .pod-amt{margin-top:2px;font-weight:900;font-variant-numeric:tabular-nums;font-size:12px}
+    .glow::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 20px;
+      padding: 2px;
+      background: linear-gradient(90deg, var(--g1), var(--g2), var(--a3), var(--g1));
+      background-size: 400% 100%;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: shine 9s linear infinite;
+      pointer-events: none;
+    }
 
-  /* ===== LIST (#4–#20), 5 visible then scroll ===== */
-  .panel.card{padding:14px}
-  .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
-  .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
-  .filters{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+    @keyframes shine {
+      0% {
+        background-position: 0% 0
+      }
 
-  .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
-        background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
-  .search-input{appearance:none; background:#141534; border:1px solid rgba(255,255,255,.15); color:#fff;
-    border-radius:10px; padding:8px 10px; min-width:220px; outline:none}
-  .search-btn{cursor:pointer; background:linear-gradient(90deg,var(--g1),var(--g2)); border:0; color:#fff;
-    font-weight:900; border-radius:10px; padding:8px 12px}
+      100% {
+        background-position: 400% 0
+      }
+    }
 
-  .board{width:100%; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
-  .row{
-    display:grid; grid-template-columns:86px 1fr 150px; gap:10px; align-items:center;
-    padding:12px 12px; background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
-    border-bottom:1px solid rgba(255,255,255,.06)
-  }
-  .row.head{background:rgba(255,255,255,.08); font-weight:900; color:#dfe3ff}
-  .row:last-child{border-bottom:none}
-  .rank{
-    display:inline-flex;align-items:center;justify-content:center;min-width:56px;height:34px;padding:0 12px;
-    border-radius:18px;background:linear-gradient(180deg,#2c2b56,#1b1b38);
-    border:2px solid rgba(255,255,255,.28); font-weight:900; box-shadow:0 3px 0 rgba(0,0,0,.35)
-  }
-  .player{display:flex; align-items:center; gap:10px; min-width:0}
-  .avatar{
-    width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,var(--g2),var(--a3));
-    background-size:cover;background-position:center;border:2px solid rgba(255,255,255,.35); box-shadow:0 3px 0 rgba(0,0,0,.35)
-  }
-  .mask{flex:1 1 auto; font-weight:900; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:13px}
-  .payout{font-variant-numeric:tabular-nums; font-weight:900; text-align:right; font-size:12.5px}
+    /* ===== HERO ===== */
+    .hero.card {
+      padding: 18px;
+      text-align: center
+    }
 
-  @media (max-width:560px){ .row{grid-template-columns:74px 1fr 120px; padding:10px} .mask{font-size:12px} }
+    .title-3d {
+      margin: 2px 0 4px;
+      font-weight: 900;
+      letter-spacing: .4px;
+      color: #fff;
+      text-shadow:
+        0 1px 0 #c9c9ff, 0 2px 0 #b6b6ff, 0 3px 0 #a3a3ff, 0 4px 0 #9090ff,
+        0 10px 20px rgba(0, 0, 0, .35), 0 0 24px rgba(120, 115, 245, .45);
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, .25));
+      animation: floaty 5s ease-in-out infinite;
+      font-size: 42px;
+      line-height: 1.05;
+    }
 
-  .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
-  .viewport::-webkit-scrollbar{height:8px;width:8px}
-  .viewport::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
+    @keyframes floaty {
 
-  .hit{outline:2px solid var(--a3); border-radius:10px; animation:blink 1.2s ease-in-out 2}
-  @keyframes blink{0%,100%{box-shadow:0 0 0 0 rgba(120,115,245,.0)}50%{box-shadow:0 0 0 8px rgba(120,115,245,.35)}}
+      0%,
+      100% {
+        transform: translateY(0)
+      }
 
-  .pin{position:sticky;bottom:0;background:#1d1e3f;border-top:2px dashed rgba(255,255,255,.25)}
-  .pin .rank{background:linear-gradient(180deg,#4a2,#283);border-color:#7df5b1}
+      50% {
+        transform: translateY(-2px)
+      }
+    }
 
-  .cta-row{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:center}
-  .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:12px; text-decoration:none;
-      font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25); transition:transform .15s ease}
-  .btn:hover{transform:translateY(-2px)}
-  .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2)); box-shadow:0 0 0 0 rgba(120,115,245,.55); animation:pulse 2.4s ease-in-out infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(120,115,245,.55)}70%{box-shadow:0 0 0 18px rgba(120,115,245,0)}100%{box-shadow:0 0 0 0 rgba(120,115,245,0)}}
-  .btn--dark{background:#1a1b34}
+    @media (max-width:720px) {
+      .title-3d {
+        font-size: 34px
+      }
+    }
 
-  .support{margin-top:10px; text-align:center; color:#cfd3ff; text-shadow: 0 1px 0 rgba(0,0,0,.8), 0 6px 18px rgba(0,0,0,.35)}
-  .support a{color:#a5b0ff; font-weight:800; text-decoration:underline}
+    @media (max-width:520px) {
+      .title-3d {
+        font-size: 28px
+      }
+    }
 
-  .sharebar{margin-top:18px; display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:14px 16px; border-radius:14px; background:#0f216a; border:1px solid #2c3ea0; color:#fff; box-shadow:0 10px 25px rgba(0,0,0,.25)}
-  .sharebar b{font-size:18px; letter-spacing:.5px; text-shadow:0 2px 0 rgba(0,0,0,.35)}
-  .share-actions{display:flex; gap:10px}
-  .sharebtn{display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:999px; background:#142b90; border:1px solid rgba(255,255,255,.18); text-decoration:none; transition:transform .15s ease}
-  .sharebtn:hover{transform:translateY(-2px)}
-  .sharebtn img{width:22px;height:22px; filter: drop-shadow(0 1px 0 rgba(0,0,0,.35))}
-  .tg{background:#229ED9} .wa{background:#25D366}
+    /* one step smaller than the title */
+    .hero-subtitle {
+      margin: 6px auto 8px;
+      font-weight: 800;
+      font-size: 28px;
+      /* desktop */
+      background: linear-gradient(90deg, var(--g1), var(--a3), var(--g2), var(--g1));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      background-size: 300% 100%;
+      animation: shine 6s linear infinite
+    }
 
-  .divider{height:1px; margin:26px 0 8px; background:linear-gradient(90deg,transparent,#394080,transparent)}
+    @media (max-width:720px) {
+      .hero-subtitle {
+        font-size: 22px
+      }
+    }
 
-  /* ===== FAQ (unchanged) ===== */
-  .faq-panel{border-radius:18px; overflow:hidden}
-  .faq-panel > summary{list-style:none; cursor:pointer; padding:14px 16px; font-weight:900; font-size:16px; background:#17183a; color:#fff; display:flex; align-items:center; justify-content:space-between}
-  .faq-panel > summary::after{content:"▾"; opacity:.9; transition:transform .2s ease}
-  .faq-panel[open] > summary::after{ transform:rotate(180deg) }
-  .faq-body{padding:12px 14px; max-height:60vh; overflow:auto; background:#0f1030}
-  .faq-item{background:#141534; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px; margin:8px 0; box-shadow:0 8px 24px rgba(0,0,0,.2)}
-  .faq-item > summary{cursor:pointer; font-weight:800}
-  .faq-item p{margin:8px 0 0 0; color:#dfe3ff}
-</style>
+    @media (max-width:520px) {
+      .hero-subtitle {
+        font-size: 18px
+      }
+    }
+
+    .sub {
+      margin: 12px 0 0;
+      color: var(--mut)
+    }
+
+    /* ==== FLIP-CARD COUNTDOWN (D/H/M/S to Oct 31 23:59:59 UTC-3) ==== */
+    .flipbar {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      margin-top: 10px;
+      flex-wrap: wrap
+    }
+
+    .tile {
+      width: 110px;
+      height: 86px;
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #221f45, #191837);
+      border: 1px solid rgba(255, 255, 255, .18);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+      display: grid;
+      place-items: center;
+    }
+
+    .num {
+      font-weight: 900;
+      font-size: 32px;
+      letter-spacing: .5px;
+      background: linear-gradient(180deg, #fff, #d9dcff);
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 6px 22px rgba(120, 115, 245, .45);
+      animation: pop .25s ease;
+    }
+
+    .lab {
+      position: absolute;
+      bottom: 6px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #c7cbff;
+      font-size: 10px;
+      letter-spacing: .35px
+    }
+
+    .tile::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .08), transparent 55%, transparent 45%, rgba(0, 0, 0, .15));
+      pointer-events: none;
+    }
+
+    .flip {
+      animation: flip .5s ease
+    }
+
+    @keyframes flip {
+      0% {
+        transform: rotateX(0)
+      }
+
+      50% {
+        transform: rotateX(-60deg)
+      }
+
+      100% {
+        transform: rotateX(0)
+      }
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(.94)
+      }
+
+      100% {
+        transform: scale(1)
+      }
+    }
+
+    @media (max-width:520px) {
+      .tile {
+        width: 92px;
+        height: 74px
+      }
+
+      .num {
+        font-size: 26px
+      }
+    }
+
+    /* ===== TOP 3 Podium (compact; 3 columns on mobile) ===== */
+    .podium {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      align-items: end;
+      margin: 14px 0 4px
+    }
+
+    .pod {
+      position: relative;
+      border-radius: 16px;
+      text-align: center;
+      padding: 12px 8px 16px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .10), rgba(255, 255, 255, .03));
+      border: 2px solid rgba(255, 255, 255, .24);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, .38);
+    }
+
+    .pod--1 {
+      transform: translateY(-8px);
+      background: linear-gradient(180deg, #3a2f6b, #211e46)
+    }
+
+    /* corner rank pill */
+    .pod-rank {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-weight: 900;
+      border: 2px solid rgba(255, 255, 255, .35);
+      background: rgba(255, 255, 255, .92);
+      color: #1b1b38;
+      font-size: 12px
+    }
+
+    /* trophy replaces bottom “1” pill */
+    .trophy {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 48px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      border: 3px solid rgba(255, 255, 255, .6);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, .45);
+      background: var(--tbg);
+      font-size: 18px;
+      color: #1a1b38;
+      animation: wobble 2.4s ease-in-out infinite;
+    }
+
+    .t1 {
+      --tbg: linear-gradient(135deg, #fff6b5, #ffd84a)
+    }
+
+    .t2 {
+      --tbg: linear-gradient(135deg, #f4f6ff, #dbe3ff)
+    }
+
+    .t3 {
+      --tbg: linear-gradient(135deg, #ffe0c9, #ffb07a)
+    }
+
+    .trophy::after {
+      content: "🏆";
+      filter: drop-shadow(0 2px 0 rgba(0, 0, 0, .25));
+    }
+
+    @keyframes wobble {
+
+      0%,
+      100% {
+        transform: translateX(-50%) rotate(-2deg)
+      }
+
+      50% {
+        transform: translateX(-50%) rotate(5deg)
+      }
+    }
+
+    .pod-avatar {
+      width: 62px;
+      height: 62px;
+      border-radius: 16px;
+      margin: 14px auto 6px;
+      background: linear-gradient(135deg, var(--g2), var(--a3));
+      background-size: cover;
+      background-position: center;
+      border: 3px solid rgba(255, 255, 255, .65);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, .35);
+    }
+
+    .pod-name {
+      font-weight: 900;
+      letter-spacing: .2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 12px
+    }
+
+    .pod-amt {
+      margin-top: 2px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      font-size: 12px
+    }
+
+    /* ===== LIST (#4–#20), 5 visible then scroll ===== */
+    .panel.card {
+      padding: 14px
+    }
+
+    .panel-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px
+    }
+
+    .title {
+      margin: 0;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      color: #fff;
+      background: #1b1c33;
+      border: 1px solid rgba(255, 255, 255, .12)
+    }
+
+    .search-input {
+      appearance: none;
+      background: #141534;
+      border: 1px solid rgba(255, 255, 255, .15);
+      color: #fff;
+      border-radius: 10px;
+      padding: 8px 10px;
+      min-width: 220px;
+      outline: none
+    }
+
+    .search-btn {
+      cursor: pointer;
+      background: linear-gradient(90deg, var(--g1), var(--g2));
+      border: 0;
+      color: #fff;
+      font-weight: 900;
+      border-radius: 10px;
+      padding: 8px 12px
+    }
+
+    .board {
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .08)
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 86px 1fr 150px;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 12px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+      border-bottom: 1px solid rgba(255, 255, 255, .06)
+    }
+
+    .row.head {
+      background: rgba(255, 255, 255, .08);
+      font-weight: 900;
+      color: #dfe3ff
+    }
+
+    .row:last-child {
+      border-bottom: none
+    }
+
+    .rank {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 56px;
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #2c2b56, #1b1b38);
+      border: 2px solid rgba(255, 255, 255, .28);
+      font-weight: 900;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, .35)
+    }
+
+    .player {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--g2), var(--a3));
+      background-size: cover;
+      background-position: center;
+      border: 2px solid rgba(255, 255, 255, .35);
+      box-shadow: 0 3px 0 rgba(0, 0, 0, .35)
+    }
+
+    .mask {
+      flex: 1 1 auto;
+      font-weight: 900;
+      letter-spacing: .2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 13px
+    }
+
+    .payout {
+      font-variant-numeric: tabular-nums;
+      font-weight: 900;
+      text-align: right;
+      font-size: 12.5px
+    }
+
+    @media (max-width:560px) {
+      .row {
+        grid-template-columns: 74px 1fr 120px;
+        padding: 10px
+      }
+
+      .mask {
+        font-size: 12px
+      }
+    }
+
+    .viewport {
+      max-height: calc(var(--row-h) * 5);
+      overflow-y: auto
+    }
+
+    .viewport::-webkit-scrollbar {
+      height: 8px;
+      width: 8px
+    }
+
+    .viewport::-webkit-scrollbar-thumb {
+      background: #2b2d4e;
+      border-radius: 10px
+    }
+
+    .hit {
+      outline: 2px solid var(--a3);
+      border-radius: 10px;
+      animation: blink 1.2s ease-in-out 2
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(120, 115, 245, .0)
+      }
+
+      50% {
+        box-shadow: 0 0 0 8px rgba(120, 115, 245, .35)
+      }
+    }
+
+    .pin {
+      position: sticky;
+      bottom: 0;
+      background: #1d1e3f;
+      border-top: 2px dashed rgba(255, 255, 255, .25)
+    }
+
+    .pin .rank {
+      background: linear-gradient(180deg, #4a2, #283);
+      border-color: #7df5b1
+    }
+
+    .cta-row {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .25);
+      transition: transform .15s ease
+    }
+
+    .btn:hover {
+      transform: translateY(-2px)
+    }
+
+    .btn--pri {
+      background: linear-gradient(90deg, var(--g1), var(--g2));
+      box-shadow: 0 0 0 0 rgba(120, 115, 245, .55);
+      animation: pulse 2.4s ease-in-out infinite
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(120, 115, 245, .55)
+      }
+
+      70% {
+        box-shadow: 0 0 0 18px rgba(120, 115, 245, 0)
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(120, 115, 245, 0)
+      }
+    }
+
+    .btn--dark {
+      background: #1a1b34
+    }
+
+    .support {
+      margin-top: 10px;
+      text-align: center;
+      color: #cfd3ff;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, .8), 0 6px 18px rgba(0, 0, 0, .35)
+    }
+
+    .support a {
+      color: #a5b0ff;
+      font-weight: 800;
+      text-decoration: underline
+    }
+
+    .sharebar {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #0f216a;
+      border: 1px solid #2c3ea0;
+      color: #fff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .25)
+    }
+
+    .sharebar b {
+      font-size: 18px;
+      letter-spacing: .5px;
+      text-shadow: 0 2px 0 rgba(0, 0, 0, .35)
+    }
+
+    .share-actions {
+      display: flex;
+      gap: 10px
+    }
+
+    .sharebtn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: #142b90;
+      border: 1px solid rgba(255, 255, 255, .18);
+      text-decoration: none;
+      transition: transform .15s ease
+    }
+
+    .sharebtn:hover {
+      transform: translateY(-2px)
+    }
+
+    .sharebtn img {
+      width: 22px;
+      height: 22px;
+      filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .35))
+    }
+
+    .tg {
+      background: #229ED9
+    }
+
+    .wa {
+      background: #25D366
+    }
+
+    .divider {
+      height: 1px;
+      margin: 26px 0 8px;
+      background: linear-gradient(90deg, transparent, #394080, transparent)
+    }
+
+    /* ===== FAQ (same content you supplied earlier) kept below main card ===== */
+    .faq-panel {
+      border-radius: 18px;
+      overflow: hidden
+    }
+
+    .faq-panel>summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      font-weight: 900;
+      font-size: 16px;
+      background: #17183a;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .faq-panel>summary::after {
+      content: "▾";
+      opacity: .9;
+      transition: transform .2s ease
+    }
+
+    .faq-panel[open]>summary::after {
+      transform: rotate(180deg)
+    }
+
+    .faq-body {
+      padding: 12px 14px;
+      max-height: 60vh;
+      overflow: auto;
+      background: #0f1030
+    }
+
+    .faq-item {
+      background: #141534;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin: 8px 0;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .2)
+    }
+
+    .faq-item>summary {
+      cursor: pointer;
+      font-weight: 800
+    }
+
+    .faq-item p {
+      margin: 8px 0 0 0;
+      color: #dfe3ff
+    }
+  </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="topbar" aria-label="RicoBet">
-      <img src="https://ricobr.ft-crm.com/media-api/serve/c5570255-af15-4915-8b16-907d5bc7f999_Rico_Logo.png" alt="RicoBet" class="logo-img" />
+      <img src="https://ricobr.ft-crm.com/media-api/serve/c5570255-af15-4915-8b16-907d5bc7f999_Rico_Logo.png" alt="RicoBet" class="logo-img">
     </div>
 
     <!-- HERO -->
@@ -229,11 +774,24 @@
       <h1 class="title-3d">Spins Of Glory</h1>
       <div class="hero-subtitle">Daily Prizes of USD 5,000</div>
 
-      <!-- Flip-card countdown (UTC-3) -->
-      <div class="flipbar" aria-label="Countdown to midnight (UTC-3)">
-        <div class="tile" data-unit="h"><div class="num">00</div><div class="lab">HRS</div></div>
-        <div class="tile" data-unit="m"><div class="num">00</div><div class="lab">MIN</div></div>
-        <div class="tile" data-unit="s"><div class="num">00</div><div class="lab">SEC</div></div>
+      <!-- Flip-card countdown to Oct 31, 2025 23:59:59 UTC-3 -->
+      <div class="flipbar" aria-label="Countdown to event end (UTC-3)">
+        <div class="tile flip" data-unit="d">
+          <div class="num">37</div>
+          <div class="lab">DAYS</div>
+        </div>
+        <div class="tile flip" data-unit="h">
+          <div class="num">18</div>
+          <div class="lab">HRS</div>
+        </div>
+        <div class="tile flip" data-unit="m">
+          <div class="num">25</div>
+          <div class="lab">MIN</div>
+        </div>
+        <div class="tile flip" data-unit="s">
+          <div class="num">46</div>
+          <div class="lab">SEC</div>
+        </div>
       </div>
       <p class="sub">Play in Pragmatic Play Slot Games to win the daily prizes !</p>
     </section>
@@ -241,12 +799,11 @@
     <!-- WINNERS -->
     <section class="panel card glow" style="margin-top:18px">
       <div class="panel-head">
-        <h2 class="title">🏆 Top 20 • <span id="boardDate">—</span></h2>
+        <h2 class="title">🏆 Top 20 • <span id="boardDate">2025-10-01</span></h2>
         <div class="filters">
-          <label class="chip" title="Pick a date">📅&nbsp;<input id="datePicker" type="date" style="background:transparent;border:0;color:#fff;outline:none"></label>
+          <label class="chip" title="Pick a date">📅&nbsp;<input id="datePicker" type="date" style="background:transparent;border:0;color:#fff;outline:none" min="2025-10-01" max="2025-10-31"></label>
           <span class="chip" id="quickToday" style="cursor:pointer">📆 Today</span>
-          <!-- Search moved up to this row -->
-          <input class="search-input" id="searchInput" type="text" placeholder="Search your full username…" />
+          <input class="search-input" id="searchInput" type="text" placeholder="Search your full username…">
           <button class="search-btn" id="searchBtn">Search</button>
           <span id="searchResult" style="margin-left:6px;"></span>
         </div>
@@ -258,9 +815,17 @@
       <!-- List starts at #4 -->
       <div class="board">
         <div class="row head">
-          <div>#</div><div>Player</div><div style="text-align:right">Turnover</div>
+          <div>#</div>
+          <div>Player</div>
+          <div style="text-align:right">Turnover</div>
         </div>
-        <div id="rows" class="viewport" aria-live="polite"></div>
+        <div id="rows" class="viewport" aria-live="polite">
+          <div class="row">
+            <div></div>
+            <div>No results for 2025-10-01.</div>
+            <div></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -275,10 +840,10 @@
     <div class="sharebar">
       <b>SHARE WITH YOUR FRIENDS</b>
       <div class="share-actions">
-        <a id="shareTg" class="sharebtn tg" title="Share on Telegram" target="_blank" rel="noopener">
+        <a id="shareTg" class="sharebtn tg" title="Share on Telegram" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fricobr.ft-crm.com%2Fv2%2Femail-templates&amp;text=I%E2%80%99m%20chasing%20glory%20on%20the%20reels%E2%80%A6%20come%20join%20the%20battle%20for%20daily%20prizes!">
           <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram">
         </a>
-        <a id="shareWa" class="sharebtn wa" title="Share on WhatsApp" target="_blank" rel="noopener">
+        <a id="shareWa" class="sharebtn wa" title="Share on WhatsApp" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?text=I%E2%80%99m%20chasing%20glory%20on%20the%20reels%E2%80%A6%20come%20join%20the%20battle%20for%20daily%20prizes!%20%F0%9F%91%89%20https%3A%2F%2Fricobr.ft-crm.com%2Fv2%2Femail-templates">
           <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
         </a>
       </div>
@@ -286,285 +851,415 @@
 
     <div class="divider"></div>
 
-    <!-- === Your 15-item FAQ (unchanged content) === -->
+    <!-- === FAQ (your text) === -->
     <details class="faq-panel card glow">
       <summary>FAQ &amp; Terms</summary>
       <div class="faq-body">
-        <details class="faq-item"><summary>1. What is this event about?</summary>
+        <details class="faq-item">
+          <summary>1. What is this event about?</summary>
           <p>This is a daily leaderboard competition on Pragmatic Play games, running from 1st October to 31st October 2025. Players compete based on their daily turnover. The higher your turnover, the higher you rank, and the better the prize you’ll receive.</p>
         </details>
-        <details class="faq-item"><summary>2. How do I participate?</summary>
+        <details class="faq-item">
+          <summary>2. How do I participate?</summary>
           <p>Simply play any Pragmatic Play slot games during the event period. Your turnover (total bets) will be tracked automatically.</p>
         </details>
-        <details class="faq-item"><summary>3. How are prizes distributed?</summary>
+        <details class="faq-item">
+          <summary>3. How are prizes distributed?</summary>
           <p>Each day, the Top 20 players by turnover win a share of the $5,000 daily prize pool: 1st Place: $1,500 • 2nd–5th: $500 each • 6th–10th: $200 each • 11th–20th: $50 each</p>
         </details>
-        <details class="faq-item"><summary>4. What is the total prize pool?</summary>
+        <details class="faq-item">
+          <summary>4. What is the total prize pool?</summary>
           <p>The event runs for the month with a total pool of $150,000, split into $5,000 daily prizes.</p>
         </details>
-        <details class="faq-item"><summary>5. When does the leaderboard reset?</summary>
+        <details class="faq-item">
+          <summary>5. When does the leaderboard reset?</summary>
           <p>The leaderboard resets daily at 00:00. Each new day starts a fresh competition.</p>
         </details>
-        <details class="faq-item"><summary>6. How often is the leaderboard updated?</summary>
+        <details class="faq-item">
+          <summary>6. How often is the leaderboard updated?</summary>
           <p>The leaderboard is updated every 12 hours, so you can check your progress and see how close you are to the Top 20.</p>
         </details>
-        <details class="faq-item"><summary>7. How will I know my rank?</summary>
+        <details class="faq-item">
+          <summary>7. How will I know my rank?</summary>
           <p>You can check the live leaderboard on our site’s inbox. If you’re not in the Top 20, you can still see your current ranking by entering your username.</p>
         </details>
-        <details class="faq-item"><summary>8. When will I receive my prize?</summary>
+        <details class="faq-item">
+          <summary>8. When will I receive my prize?</summary>
           <p>Daily leaderboard prizes will be distributed the next day at 12:00 PM. You’ll see your winnings automatically credited to your account.</p>
         </details>
-        <details class="faq-item"><summary>9. What happens if there is a tie?</summary>
+        <details class="faq-item">
+          <summary>9. What happens if there is a tie?</summary>
           <p>If two players have the same turnover, the player who reached it earlier in the day will rank higher.</p>
         </details>
-        <details class="faq-item"><summary>10. Can I win multiple days?</summary>
+        <details class="faq-item">
+          <summary>10. Can I win multiple days?</summary>
           <p>Yes. You can win every day during the event — there are no limits.</p>
         </details>
-        <details class="faq-item"><summary>11. Are Free Spins or bonuses included in the leaderboard?</summary>
+        <details class="faq-item">
+          <summary>11. Are Free Spins or bonuses included in the leaderboard?</summary>
           <p>Yes, turnover from both cash and bonus play on Pragmatic Play slots counts. Other slot games and game categories do not count.</p>
         </details>
-        <details class="faq-item"><summary>12. Who is eligible?</summary>
+        <details class="faq-item">
+          <summary>12. Who is eligible?</summary>
           <p>All players who place bets on Pragmatic Play slot games throughout the month.</p>
         </details>
-        <details class="faq-item"><summary>13. Do wagering requirements apply to prizes?</summary>
+        <details class="faq-item">
+          <summary>13. Do wagering requirements apply to prizes?</summary>
           <p>Cash prizes: credited with x5 wagering.</p>
         </details>
-        <details class="faq-item"><summary>14. Can prizes be exchanged for other rewards?</summary>
+        <details class="faq-item">
+          <summary>14. Can prizes be exchanged for other rewards?</summary>
           <p>No. Prizes are non-transferable and cannot be exchanged.</p>
         </details>
-        <details class="faq-item"><summary>15. Terms &amp; conditions</summary>
+        <details class="faq-item">
+          <summary>15. Terms &amp; conditions</summary>
           <p>Rico.bet reserves the right to disqualify any players found to be engaging in fraud, scams, multiple accounts, or any activity that violates the integrity of the promotion. All other Rico.bet General Terms &amp; Conditions apply.</p>
         </details>
       </div>
     </details>
   </div>
 
-<script>
-/* ===== CONFIG ===== */
-const DATA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
-const EVENT_START_YMD  = "2025-09-23";
-const EVENT_END_YMD    = "2025-10-31";
-/* Explicit UTC-3 everywhere */
-const CURRENT_TZ = "Etc/GMT+3";
-const CURRENCY = { symbol: "$", code: "USD" };
+  <script>
+    /* ===== CONFIG ===== */
+    const DATA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
+    const EVENT_START_YMD = "2025-09-23";
+    const EVENT_END_YMD = "2025-10-31";
+    /* Fixed timezone UTC-3 for *everything* */
+    const CURRENT_TZ = "Etc/GMT+3";
+    const EVENT_END_TARGET = new Date("2025-10-31T23:59:59-03:00");
+    const CURRENCY = {
+      symbol: "$",
+      code: "USD"
+    };
 
-/* ===== Elements ===== */
-const $ = s=>document.querySelector(s);
-const rowsEl = $('#rows'), podiumEl = $('#podium'), boardDateEl = $('#boardDate');
-const datePicker = $('#datePicker'), searchInput = $('#searchInput'), searchBtn = $('#searchBtn'), searchResult = $('#searchResult');
+    /* ===== Elements ===== */
+    const $ = s => document.querySelector(s);
+    const rowsEl = $('#rows'),
+      podiumEl = $('#podium'),
+      boardDateEl = $('#boardDate');
+    const datePicker = $('#datePicker'),
+      searchInput = $('#searchInput'),
+      searchBtn = $('#searchBtn'),
+      searchResult = $('#searchResult');
 
-/* ===== Helpers ===== */
-const fmtMoney = n => `${CURRENCY.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
-const pad2 = n => String(n).padStart(2,'0');
-const toTZ = (d=new Date(), tz=CURRENT_TZ, opts={}) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, ...opts });
-const ymdInTZ = d => toTZ(d, CURRENT_TZ, {year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
-const cmpYmd = (a,b)=>a.localeCompare(b);
-const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD : ymd;
+    /* ===== Helpers ===== */
+    const fmtMoney = n => `${CURRENCY.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+    const pad2 = n => String(n).padStart(2, '0');
+    const toTZ = (d = new Date(), tz = CURRENT_TZ, opts = {}) => new Intl.DateTimeFormat('en-CA', {
+      timeZone: tz,
+      ...opts
+    });
+    const ymdInTZ = d => toTZ(d, CURRENT_TZ, {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).format(d);
+    const cmpYmd = (a, b) => a.localeCompare(b);
+    const clampYmd = ymd => cmpYmd(ymd, EVENT_START_YMD) < 0 ? EVENT_START_YMD : cmpYmd(ymd, EVENT_END_YMD) > 0 ? EVENT_END_YMD : ymd;
 
-function maskUsernameMiddle2(name){
-  const s = String(name||'');
-  if (s.length <= 2) return s[0] + '*' + (s[1]||'');
-  const midStart = Math.floor((s.length - 2)/2);
-  return s.slice(0, midStart) + '**' + s.slice(midStart + 2);
-}
-function bust(url){ if(!url) return ''; return url + (url.includes('?')?'&':'?') + 'v=' + Date.now(); }
-function avatarStyle(url){ return url ? `style="background-image:url('${bust(url)}');"` : ""; }
+    /* normalize & masking (hide middle 4) */
+    const normalizeName = (s) =>
+      String(s || "")
+      .normalize("NFKC")
+      .replace(/[\u200B-\u200D\uFEFF]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
 
-/* ===== Flip-card countdown to UTC-3 midnight ===== */
-function nextMidnightUTCm3(){
-  const now = new Date();
-  const parts = toTZ(now, CURRENT_TZ, {year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now)
-               .reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
-  const Y=+parts.year, M=+parts.month, D=+parts.day;
-  // Create a string with explicit -03:00 offset for next day 00:00
-  const nextStr = `${Y}-${pad2(M)}-${pad2(D+1)}T00:00:00-03:00`;
-  return new Date(nextStr);
-}
-(function countdown(){
-  const tiles = {
-    h: document.querySelector('.tile[data-unit="h"] .num'),
-    m: document.querySelector('.tile[data-unit="m"] .num'),
-    s: document.querySelector('.tile[data-unit="s"] .num'),
-  };
-  function tick(){
-    const target = nextMidnightUTCm3();
-    const now = new Date();
-    let diff = target - now; if (diff < 0) diff = 0;
-
-    const h = Math.floor(diff/3600000);
-    const m = Math.floor((diff%3600000)/60000);
-    const s = Math.floor((diff%60000)/1000);
-
-    const vals = {h:pad2(h), m:pad2(m), s:pad2(s)};
-    for (const k of ['h','m','s']){
-      const el = tiles[k];
-      if(!el) continue;
-      if(el.textContent !== vals[k]){ el.textContent = vals[k]; el.parentElement.classList.remove('flip'); void el.parentElement.offsetWidth; el.parentElement.classList.add('flip'); }
+    function maskMiddle4(name) {
+      const s = String(name || '');
+      if (s.length <= 4) { // short names: keep first/last if possible
+        if (s.length <= 2) return s[0] + (s[1] ? '*' + s[1] : '');
+        return s[0] + "**" + s.slice(-1);
+      }
+      const left = Math.floor((s.length - 4) / 2);
+      return s.slice(0, left) + "****" + s.slice(left + 4);
     }
-    requestAnimationFrame(()=>setTimeout(tick, 250));
-  }
-  tick();
-})();
 
-/* ===== Robust CSV parser ===== */
-function parseCSV(text){
-  const rows=[]; let cur=[], curVal='', inQ=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i], n=text[i+1];
-    if(c==='\"'){ if(inQ && n==='\"'){curVal+='\"'; i++;} else inQ=!inQ; }
-    else if(c===',' && !inQ){ cur.push(curVal); curVal=''; }
-    else if((c==='\n' || c==='\r') && !inQ){
-      if(curVal!=='' || c==='\n'){ cur.push(curVal); curVal=''; rows.push(cur); cur=[]; }
-      if(c==='\r' && n==='\n'){ i++; }
-    } else { curVal+=c; }
-  }
-  if(curVal!=='' || cur.length){ cur.push(curVal); rows.push(cur); }
-  return rows;
-}
+    function bust(url) {
+      if (!url) return '';
+      return url + (url.includes('?') ? '&' : '?') + 'v=' + Date.now();
+    }
 
-/* ===== CSV loader ===== */
-let cache = [];
-async function loadCSV(){
-  const url = DATA_CSV_URL + (DATA_CSV_URL.includes('?')?'&':'?') + 't=' + Date.now();
-  const res = await fetch(url, {cache:'no-store'});
-  if(!res.ok) throw new Error('CSV fetch failed');
-  const text = await res.text();
+    function avatarStyle(url) {
+      return url ? `style="background-image:url('${bust(url)}');"` : "";
+    }
 
-  const table = parseCSV(text).filter(r=>r.length);
-  if(table.length<2) return;
-  const header = table[0].map(h=>h.trim().toLowerCase());
-  const idx = {
-    date: header.indexOf('date'),
-    rank: header.indexOf('rank'),
-    name: header.indexOf('username'),
-    amount: header.indexOf('turnover'),
-    avatar: header.indexOf('avatar'),
-  };
-  const out = [];
-  for(let i=1;i<table.length;i++){
-    const r = table[i];
-    const date   = (r[idx.date]||'').trim();
-    const rank   = Number((r[idx.rank]||'').trim()||0);
-    const name   = (r[idx.name]||'').trim();
-    const amtStr = String(r[idx.amount]||'0').replace(/[$,\s]/g,'');
-    const amount = Number(amtStr)||0;
-    const avatar = (r[idx.avatar]||'').trim();
-    if(!date || !name) continue;
-    out.push({date, rank, name, amount, avatar});
-  }
-  cache = out;
-}
+    /* ===== Flip-card countdown to event end ===== */
+    (function countdown() {
+      const tiles = {
+        d: document.querySelector('.tile[data-unit="d"] .num'),
+        h: document.querySelector('.tile[data-unit="h"] .num'),
+        m: document.querySelector('.tile[data-unit="m"] .num'),
+        s: document.querySelector('.tile[data-unit="s"] .num'),
+      };
 
-/* ===== Render ===== */
-function trophyClass(rank){ return rank===1?'trophy t1' : rank===2?'trophy t2':'trophy t3'; }
+      function tick() {
+        const now = new Date();
+        let diff = EVENT_END_TARGET - now;
+        if (diff < 0) diff = 0;
 
-function renderDay(ymd){
-  boardDateEl.textContent = ymd;
-  rowsEl.innerHTML = '';
-  podiumEl.innerHTML = '';
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
 
-  const dayRows = cache.filter(r=>r.date===ymd);
-  if (!dayRows.length){
-    rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${ymd}.</div><div></div></div>`;
-    return;
-  }
-  const withRank = dayRows.some(r=>r.rank>0);
-  const sorted = dayRows.slice().sort((a,b)=> withRank ? (a.rank||99999)-(b.rank||99999) : (b.amount||0)-(a.amount||0));
+        const vals = {
+          d: String(d),
+          h: pad2(h),
+          m: pad2(m),
+          s: pad2(s)
+        };
+        for (const k of ['d', 'h', 'm', 's']) {
+          const el = tiles[k];
+          if (!el) continue;
+          if (el.textContent !== vals[k]) {
+            el.textContent = vals[k];
+            el.parentElement.classList.remove('flip');
+            void el.parentElement.offsetWidth;
+            el.parentElement.classList.add('flip');
+          }
+        }
+        requestAnimationFrame(() => setTimeout(tick, 250));
+      }
+      tick();
+    })();
 
-  // Podium 1–3 (center = #1, left = #2, right = #3)
-  const top3 = sorted.slice(0,3);
-  [1,0,2].forEach((i)=>{
-    const r = top3[i]; if(!r) return;
-    const cls = i===0?'pod--1' : i===1?'pod--2':'pod--3';
-    const shownRank = withRank ? (r.rank || i+1) : (i+1);
-    podiumEl.insertAdjacentHTML('beforeend', `
-      <div class="pod ${cls}" data-ped="${i+1}">
+    /* ===== Robust CSV parser ===== */
+    function parseCSV(text) {
+      const rows = [];
+      let cur = [],
+        curVal = '',
+        inQ = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i],
+          n = text[i + 1];
+        if (c === '\"') {
+          if (inQ && n === '\"') {
+            curVal += '\"';
+            i++;
+          } else inQ = !inQ;
+        } else if (c === ',' && !inQ) {
+          cur.push(curVal);
+          curVal = '';
+        } else if ((c === '\n' || c === '\r') && !inQ) {
+          if (curVal !== '' || c === '\n') {
+            cur.push(curVal);
+            curVal = '';
+            rows.push(cur);
+            cur = [];
+          }
+          if (c === '\r' && n === '\n') {
+            i++;
+          }
+        } else {
+          curVal += c;
+        }
+      }
+      if (curVal !== '' || cur.length) {
+        cur.push(curVal);
+        rows.push(cur);
+      }
+      return rows;
+    }
+
+    /* ===== CSV loader ===== */
+    let cache = [];
+    async function loadCSV() {
+      const url = DATA_CSV_URL + (DATA_CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now();
+      const res = await fetch(url, {
+        cache: 'no-store'
+      });
+      if (!res.ok) throw new Error('CSV fetch failed');
+      const text = await res.text();
+
+      const table = parseCSV(text).filter(r => r.length);
+      if (table.length < 2) return;
+      const header = table[0].map(h => h.trim().toLowerCase());
+      const idx = {
+        date: header.indexOf('date'),
+        rank: header.indexOf('rank'),
+        name: header.indexOf('username'),
+        amount: header.indexOf('turnover'),
+        avatar: header.indexOf('avatar'),
+      };
+      const out = [];
+      for (let i = 1; i < table.length; i++) {
+        const r = table[i];
+        const date = (r[idx.date] || '').trim();
+        const rank = Number((r[idx.rank] || '').trim() || 0);
+        const name = normalizeName(r[idx.name] || '');
+        const amtStr = String(r[idx.amount] || '0').replace(/[$,\s]/g, '');
+        const amount = Number(amtStr) || 0;
+        const avatar = (r[idx.avatar] || '').trim();
+        if (!date || !name) continue;
+        out.push({
+          date,
+          rank,
+          name,
+          amount,
+          avatar
+        });
+      }
+      cache = out;
+    }
+
+    /* ===== Helpers for sorting & rendering ===== */
+    function getSortedDay(ymd) {
+      const dayRows = cache.filter(r => r.date === ymd);
+      if (!dayRows.length) return [];
+      const hasRank = dayRows.some(r => r.rank > 0);
+      return dayRows.slice().sort((a, b) => hasRank ? (a.rank || 99999) - (b.rank || 99999) : (b.amount || 0) - (a.amount || 0));
+    }
+
+    function trophyClass(rank) {
+      return rank === 1 ? 'trophy t1' : rank === 2 ? 'trophy t2' : 'trophy t3';
+    }
+
+    /* ===== Render ===== */
+    function renderDay(ymd) {
+      boardDateEl.textContent = ymd;
+      rowsEl.innerHTML = '';
+      podiumEl.innerHTML = '';
+
+      const sorted = getSortedDay(ymd);
+      if (!sorted.length) {
+        rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${ymd}.</div><div></div></div>`;
+        return;
+      }
+
+      // Podium 1–3 (center = #1, left = #2, right = #3)
+      const top3 = sorted.slice(0, 3);
+      [1, 0, 2].forEach((i) => {
+        const r = top3[i];
+        if (!r) return;
+        const cls = i === 0 ? 'pod--1' : i === 1 ? 'pod--2' : 'pod--3';
+        const shownRank = r.rank > 0 ? r.rank : (i + 1);
+        podiumEl.insertAdjacentHTML('beforeend', `
+      <div class="pod ${cls}">
         <div class="pod-rank">#${shownRank}</div>
         <div class="${trophyClass(shownRank)}" aria-hidden="true"></div>
         <div class="pod-avatar" ${avatarStyle(r.avatar)}></div>
-        <div class="pod-name">${maskUsernameMiddle2(r.name)}</div>
+        <div class="pod-name">${maskMiddle4(r.name)}</div>
         <div class="pod-amt">${fmtMoney(r.amount)}</div>
       </div>
     `);
-  });
+      });
 
-  // List 4–20
-  sorted.slice(3,20).forEach((r, idx)=>{
-    const rankShown = withRank ? (r.rank||idx+4) : (idx+4);
-    rowsEl.insertAdjacentHTML('beforeend', `
-      <div class="row" data-name="${r.name}">
+      // List 4–20
+      sorted.slice(3, 20).forEach((r, idx) => {
+        const rankShown = r.rank > 0 ? r.rank : (idx + 4);
+        rowsEl.insertAdjacentHTML('beforeend', `
+      <div class="row" data-name="${normalizeName(r.name)}">
         <div><span class="rank">#${rankShown}</span></div>
         <div class="player">
           <span class="avatar" ${avatarStyle(r.avatar)}></span>
-          <span class="mask">${maskUsernameMiddle2(r.name)}</span>
+          <span class="mask">${maskMiddle4(r.name)}</span>
         </div>
         <div class="payout">${fmtMoney(r.amount)}</div>
       </div>
     `);
-  });
-}
+      });
+    }
 
-/* ===== Search (#1–#100 highlight or pin) ===== */
-function findSorted(ymd){
-  const dayRows = cache.filter(r=>r.date===ymd);
-  if(!dayRows.length) return [];
-  const withRank = dayRows.some(r=>r.rank>0);
-  return dayRows.slice().sort((a,b)=> withRank ? (a.rank||99999)-(b.rank||99999) : (b.amount||0)-(a.amount||0));
-}
-function doSearch(){
-  const q = (searchInput.value||'').trim();
-  searchResult.textContent='';
-  if(!q) return;
-  const ymd = datePicker.value;
-  const sorted = findSorted(ymd);
-  const idx = sorted.findIndex(r => String(r.name).toLowerCase()===q.toLowerCase());
-  if(idx===-1){ searchResult.textContent = `No exact match for "${q}" on ${ymd}.`; return; }
-  const rank = idx+1;
-  const hit = sorted[idx];
-  if(rank<=20){
-    searchResult.textContent = `✅ ${q} is #${rank} today.`;
-    const el = Array.from(rowsEl.children).find(e=> (e.dataset.name||'').toLowerCase()===q.toLowerCase());
-    if(el){ rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit')); el.classList.add('hit'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
-  }else if(rank<=100){
-    searchResult.textContent = `ℹ️ ${q} is #${rank} today (Top 100).`;
-    const existing = rowsEl.querySelector('.pin'); if(existing) existing.remove();
-    rowsEl.insertAdjacentHTML('beforeend', `
+    /* ===== Search (works even if not Top 20; shows up to Top 100 pin) ===== */
+    function doSearch() {
+      const q = normalizeName((searchInput.value || ''));
+      searchResult.textContent = '';
+      if (!q) return;
+
+      const ymd = datePicker.value;
+      const sorted = getSortedDay(ymd);
+      if (!sorted.length) {
+        searchResult.textContent = `No data for ${ymd}.`;
+        return;
+      }
+
+      const matches = sorted.filter(r => normalizeName(r.name) === q);
+      if (matches.length === 0) {
+        searchResult.textContent = `No exact match for "${q}" on ${ymd}.`;
+        return;
+      }
+
+      // prefer lowest CSV rank; else highest amount (already sorted)
+      const best = matches.reduce((a, b) => {
+        const ar = a.rank || 999999,
+          br = b.rank || 999999;
+        if (ar !== br) return ar < br ? a : b;
+        return (a.amount || 0) >= (b.amount || 0) ? a : b;
+      });
+
+      const displayRank = (best.rank && best.rank > 0) ?
+        best.rank :
+        (sorted.findIndex(x => x === best) + 1);
+
+      if (displayRank <= 20) {
+        searchResult.textContent = `✅ ${q} is #${displayRank} today.`;
+        const el = Array.from(rowsEl.children)
+          .find(e => (e.dataset.name || '') === normalizeName(best.name));
+        if (el) {
+          rowsEl.querySelectorAll('.hit').forEach(e => e.classList.remove('hit'));
+          el.classList.add('hit');
+          el.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      } else if (displayRank <= 100) {
+        searchResult.textContent = `ℹ️ ${q} is #${displayRank} today (Top 100).`;
+        const existing = rowsEl.querySelector('.pin');
+        if (existing) existing.remove();
+        rowsEl.insertAdjacentHTML('beforeend', `
       <div class="row pin">
-        <div><span class="rank">#${rank}</span></div>
+        <div><span class="rank">#${displayRank}</span></div>
         <div class="player">
-          <span class="avatar" ${avatarStyle(hit.avatar)}></span>
-          <span class="mask">${maskUsernameMiddle2(hit.name)}</span>
+          <span class="avatar" ${avatarStyle(best.avatar)}></span>
+          <span class="mask">${maskMiddle4(best.name)}</span>
         </div>
-        <div class="payout">${fmtMoney(hit.amount)}</div>
+        <div class="payout">${fmtMoney(best.amount)}</div>
       </div>
     `);
-    rowsEl.lastElementChild.scrollIntoView({behavior:'smooth',block:'end'});
-  }else{
-    searchResult.textContent = `🔎 ${q} is #${rank} today (outside Top 100). Keep spinning!`;
-  }
-}
+        rowsEl.lastElementChild.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end'
+        });
+      } else {
+        searchResult.textContent = `🔎 ${q} is #${displayRank} today (outside Top 100).`;
+      }
+    }
 
-/* ===== Init ===== */
-(async function init(){
-  datePicker.min = EVENT_START_YMD; datePicker.max = EVENT_END_YMD;
-  const today = clampYmd( ymdInTZ(new Date()) );
-  datePicker.value = today;
+    /* ===== Init ===== */
+    (async function init() {
+      datePicker.min = EVENT_START_YMD;
+      datePicker.max = EVENT_END_YMD;
+      const today = clampYmd(ymdInTZ(new Date()));
+      datePicker.value = today;
 
-  await loadCSV(); renderDay(today);
+      await loadCSV();
+      renderDay(today);
 
-  datePicker.addEventListener('change', ()=> renderDay(clampYmd(datePicker.value)));
-  document.getElementById('quickToday').addEventListener('click', async ()=>{ const y = clampYmd( ymdInTZ(new Date()) ); datePicker.value=y; await loadCSV(); renderDay(y); });
+      datePicker.addEventListener('change', () => renderDay(clampYmd(datePicker.value)));
+      document.getElementById('quickToday').addEventListener('click', async () => {
+        const y = clampYmd(ymdInTZ(new Date()));
+        datePicker.value = y;
+        await loadCSV();
+        renderDay(y);
+      });
 
-  searchBtn.addEventListener('click', doSearch);
-  searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
+      searchBtn.addEventListener('click', doSearch);
+      searchInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') doSearch();
+      });
 
-  // Share links
-  const shareUrl = location.href.split('#')[0];
-  const textMsg = 'I’m chasing glory on the reels… come join the battle for daily prizes!';
-  document.getElementById('shareTg').href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(textMsg)}`;
-  document.getElementById('shareWa').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textMsg + ' 👉 ' + shareUrl)}`;
-})();
-</script>
+      // Share links
+      const shareUrl = location.href.split('#')[0];
+      const textMsg = 'I’m chasing glory on the reels… come join the battle for daily prizes!';
+      document.getElementById('shareTg').href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(textMsg)}`;
+      document.getElementById('shareWa').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textMsg + ' 👉 ' + shareUrl)}`;
+    })();
+  </script>
+
+
 </body>
+
 </html>
 
