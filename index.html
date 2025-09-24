@@ -26,7 +26,7 @@
       radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
       var(--bg-image);
     background-size: auto, auto, cover;
-    background-position: center;
+    background-position:center;
     color:var(--tx);
     font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif
   }
@@ -53,18 +53,14 @@
     text-shadow:
       0 1px 0 #c9c9ff, 0 2px 0 #b6b6ff, 0 3px 0 #a3a3ff, 0 4px 0 #9090ff,
       0 10px 20px rgba(0,0,0,.35), 0 0 24px rgba(120,115,245,.45);
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,.25)); position:relative;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,.25));
     animation:floaty 5s ease-in-out infinite;
     font-size:42px; line-height:1.05;
   }
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
   @media (max-width:720px){ .title-3d{font-size:34px} }
   @media (max-width:520px){ .title-3d{font-size:28px} }
-  .title-3d::after{
-    content:""; position:absolute; inset:0;
-    background:radial-gradient(120% 60% at 50% 0%, rgba(120,115,245,.18), transparent 50%);
-    mix-blend-mode:screen; pointer-events:none; border-radius:6px;
-  }
+
   .hero-subtitle{
     margin:6px auto 8px; font-weight:800; font-size:18px;
     background:linear-gradient(90deg,var(--g1),var(--a3),var(--g2),var(--g1));
@@ -85,9 +81,7 @@
   .value{position:absolute;font-weight:900;font-size:22px;letter-spacing:.5px;transition:transform .25s ease}
   .value.bump{transform:translateY(-3px)}
   .ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
-  @media (max-width:520px){
-    .ring{width:78px;height:78px} .ring svg{width:78px;height:78px} .value{font-size:18px}
-  }
+  @media (max-width:520px){ .ring{width:78px;height:78px} .ring svg{width:78px;height:78px} .value{font-size:18px} }
 
   /* ===== WINNERS ===== */
   .panel.card{padding:14px}
@@ -117,15 +111,10 @@
   .avatar{flex:0 0 auto; width:26px; height:26px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
   .mask{
     flex:1 1 auto; font-weight:800; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    font-size:13px;  /* smaller player name */
+    font-size:13px;
   }
   .payout{font-variant-numeric:tabular-nums; font-weight:800; text-align:right}
-
-  /* tighter mobile columns – no horizontal scroll */
-  @media (max-width:560px){
-    .row{grid-template-columns:58px 1fr 132px; padding:10px}
-    .mask{font-size:12px}
-  }
+  @media (max-width:560px){ .row{grid-template-columns:58px 1fr 132px; padding:10px} .mask{font-size:12px} }
 
   .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
   .viewport::-webkit-scrollbar{height:8px;width:8px}
@@ -176,13 +165,27 @@
   .tg{background:#229ED9} .wa{background:#25D366}
 
   .divider{height:1px; margin:26px 0 8px; background:linear-gradient(90deg,transparent,#394080,transparent)}
-  .faq h3{margin:0 0 6px 0; font-size:16px; color:#dfe3ff; text-shadow:0 1px 0 rgba(0,0,0,.9), 0 8px 20px rgba(0,0,0,.35)}
+
+  /* ===== FAQ (clean layout) ===== */
+  .faq h3{
+    margin:0 0 10px 0; font-size:18px; color:#dfe3ff;
+    text-shadow:0 1px 0 rgba(0,0,0,.9), 0 8px 20px rgba(0,0,0,.35)
+  }
+  .faq-toolbar{
+    display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:8px 0 10px
+  }
+  .faq-toolbar .mini{font-size:12px;padding:6px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#141534;color:#fff;cursor:pointer}
+  .toc{display:flex; flex-wrap:wrap; gap:8px}
+  .toc a{
+    display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px;
+    color:#e8eaff; background:#1b1d3a; border:1px solid rgba(255,255,255,.12); text-decoration:none
+  }
   details{
     background:#141534; border:1px solid rgba(255,255,255,.12); border-radius:12px;
-    padding:10px 12px; margin:8px 0; box-shadow:0 8px 24px rgba(0,0,0,.2);
+    padding:10px 12px; margin:8px 0; box-shadow:0 8px 24px rgba(0,0,0,.2)
   }
-  summary{cursor:pointer; font-weight:700; text-shadow:0 1px 0 rgba(0,0,0,.6)}
-  details p{margin:8px 0 0 0; color:#dfe3ff; text-shadow:0 1px 0 rgba(0,0,0,.4)}
+  summary{cursor:pointer; font-weight:800}
+  details p{margin:8px 0 0 0; color:#dfe3ff}
 </style>
 </head>
 <body>
@@ -285,63 +288,62 @@
     <section class="faq">
       <h3>FAQ &amp; Terms</h3>
 
-      <details><summary>1. What is this event about?</summary>
+      <!-- Clean toolbar -->
+      <div class="faq-toolbar">
+        <button id="expandAll" class="mini">Expand all</button>
+        <button id="collapseAll" class="mini">Collapse all</button>
+      </div>
+
+      <!-- Compact Table of Contents -->
+      <div class="toc" id="toc">
+        <a href="#q1">1</a><a href="#q2">2</a><a href="#q3">3</a><a href="#q4">4</a>
+        <a href="#q5">5</a><a href="#q6">6</a><a href="#q7">7</a><a href="#q8">8</a>
+        <a href="#q9">9</a><a href="#q10">10</a><a href="#q11">11</a><a href="#q12">12</a>
+        <a href="#q13">13</a><a href="#q14">14</a>
+      </div>
+
+      <!-- Numbered accordions -->
+      <details id="q1"><summary>1. What is this event about?</summary>
         <p>This is a daily leaderboard competition on Pragmatic Play games, running from 1st October to 31st October 2025. Players compete based on their daily turnover. The higher your turnover, the higher you rank, and the better the prize you’ll receive.</p>
       </details>
-
-      <details><summary>2. How do I participate?</summary>
+      <details id="q2"><summary>2. How do I participate?</summary>
         <p>Simply play any Pragmatic Play slot games during the event period. Your turnover (total bets) will be tracked automatically.</p>
       </details>
-
-      <details><summary>3. How are prizes distributed?</summary>
+      <details id="q3"><summary>3. How are prizes distributed?</summary>
         <p>Each day, the Top 20 players by turnover win a share of the $5,000 daily prize pool:<br>
-        1st Place: $1,500<br>
-        2nd–5th: $500 each<br>
-        6th–10th: $200 each<br>
-        11th–20th: $50 each</p>
+        1st Place: $1,500 • 2nd–5th: $500 each • 6th–10th: $200 each • 11th–20th: $50 each</p>
       </details>
-
-      <details><summary>4. What is the total prize pool?</summary>
+      <details id="q4"><summary>4. What is the total prize pool?</summary>
         <p>The event runs for the month with a total pool of $150,000, split into $5,000 daily prizes.</p>
       </details>
-
-      <details><summary>5. When does the leaderboard reset?</summary>
+      <details id="q5"><summary>5. When does the leaderboard reset?</summary>
         <p>The leaderboard resets daily at 00:00 (Brazil local time). Each new day starts a fresh competition.</p>
       </details>
-
-      <details><summary>6. How will I know my rank?</summary>
+      <details id="q6"><summary>6. How will I know my rank?</summary>
         <p>You can check the live leaderboard on our site’s inbox. If you’re not in the Top 20, you can still see your current ranking by entering your username.</p>
       </details>
-
-      <details><summary>7. When will I receive my prize?</summary>
+      <details id="q7"><summary>7. When will I receive my prize?</summary>
         <p>Daily leaderboard prizes will be distributed the next day at 12:00 PM. You’ll see your winnings automatically credited to your account.</p>
       </details>
-
-      <details><summary>8. What happens if there is a tie?</summary>
+      <details id="q8"><summary>8. What happens if there is a tie?</summary>
         <p>If two players have the same turnover, the player who reached it earlier in the day will rank higher.</p>
       </details>
-
-      <details><summary>9. Can I win multiple days?</summary>
+      <details id="q9"><summary>9. Can I win multiple days?</summary>
         <p>Yes. You can win every day during the event — there are no limits.</p>
       </details>
-
-      <details><summary>10. Are Free Spins or bonuses included in the leaderboard?</summary>
+      <details id="q10"><summary>10. Are Free Spins or bonuses included in the leaderboard?</summary>
         <p>Yes, turnover from both cash and bonus play on Pragmatic Play slots counts. Other slot games and game categories do not count.</p>
       </details>
-
-      <details><summary>11. Who is eligible?</summary>
+      <details id="q11"><summary>11. Who is eligible?</summary>
         <p>All players who place bets on Pragmatic Play slot games throughout the month.</p>
       </details>
-
-      <details><summary>12. Do wagering requirements apply to prizes?</summary>
+      <details id="q12"><summary>12. Do wagering requirements apply to prizes?</summary>
         <p>Cash prizes: credited with x1 wagering.</p>
       </details>
-
-      <details><summary>13. Can prizes be exchanged for other rewards?</summary>
+      <details id="q13"><summary>13. Can prizes be exchanged for other rewards?</summary>
         <p>No. Prizes are non-transferable and cannot be exchanged.</p>
       </details>
-
-      <details><summary>14. Terms &amp; conditions</summary>
+      <details id="q14"><summary>14. Terms &amp; conditions</summary>
         <p>Rico.bet reserves the right to disqualify any players found to be engaging in fraud, scams, multiple accounts, or any activity that violates the integrity of the promotion. All other Rico.bet General Terms &amp; Conditions apply.</p>
       </details>
     </section>
@@ -352,7 +354,7 @@
 const DATA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
 const EVENT_START_YMD  = "2025-09-23";
 const EVENT_END_YMD    = "2025-10-31";
-const CURRENT_TZ = "America/Sao_Paulo"; // BR only
+const CURRENT_TZ = "America/Sao_Paulo"; // Brazil (UTC-3, no DST currently)
 const CURRENCY = { symbol: "$", code: "USD" };
 
 /* ===== Elements ===== */
@@ -369,7 +371,30 @@ const ymdInTZ = d => toTZ(d, CURRENT_TZ, {year:'numeric',month:'2-digit',day:'2-
 const cmpYmd = (a,b)=>a.localeCompare(b);
 const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD : ymd;
 
-/* ===== Countdown to next midnight (BR) ===== */
+/* ===== Robust TZ offset & next-midnight ===== */
+function tzOffsetMillisAt(date = new Date(), tz = CURRENT_TZ){
+  // offset = (epoch when formatted in tz) - (epoch when formatted in UTC)
+  const partsFor = (z)=> new Intl.DateTimeFormat('en-CA', {
+    timeZone:z,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',
+    hour:'2-digit',minute:'2-digit',second:'2-digit'
+  }).formatToParts(date).reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
+  const utc = partsFor('UTC');
+  const tzz = partsFor(tz);
+  const utcEpoch = Date.parse(`${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`);
+  const tzEpoch  = Date.parse(`${tzz.year}-${tzz.month}-${tzz.day}T${tzz.hour}:${tzz.minute}:${tzz.second}Z`);
+  return tzEpoch - utcEpoch; // e.g. -10800000 for UTC-3
+}
+function nextMidnightInTZ(tz = CURRENT_TZ){
+  const now = new Date();
+  const parts = toTZ(now, tz, {year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now)
+                 .reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
+  const Y = +parts.year, M = +parts.month, D = +parts.day;
+  const offset = tzOffsetMillisAt(now, tz); // Brazil: -3h, stable
+  const targetUtcMs = Date.UTC(Y, M-1, D+1, 0,0,0) - offset; // BR midnight as UTC instant
+  return new Date(targetUtcMs);
+}
+
+/* ===== Countdown ===== */
 (function countdown(){
   const rings = {
     h: document.querySelector('.ring[data-unit="h"] .value'),
@@ -382,17 +407,11 @@ const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(y
   const CIRC = 2 * Math.PI * 30;
   [fgH,fgM,fgS].forEach(el=>{ el.style.strokeDasharray=`${CIRC}`; });
 
-  function nextMidnightTZ(){
-    const now = new Date();
-    const parts = toTZ(now, CURRENT_TZ, {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'})
-      .formatToParts(now).reduce((a,p)=>{a[p.type]=p.value; return a;}, {});
-    const Y = +parts.year, M = +parts.month, D = +parts.day;
-    return new Date(Date.UTC(Y, M-1, D+1, 0, 0, 0));
-  }
   function tick(){
-    const target = nextMidnightTZ();
+    const target = nextMidnightInTZ();
     const now = new Date();
     let diff = target - now; if (diff < 0) diff = 0;
+
     const h = Math.floor(diff/3600000);
     const m = Math.floor((diff%3600000)/60000);
     const s = Math.floor((diff%60000)/1000);
@@ -489,7 +508,6 @@ function findRank(ymd, name){
   if (idx===-1) return null;
   return { rank: withRank ? (sorted[idx].rank||idx+1) : idx+1, name: sorted[idx].name };
 }
-
 async function refreshFor(ymd){ await loadCSV(); renderDay(ymd); }
 
 /* ===== INIT ===== */
@@ -522,13 +540,19 @@ async function refreshFor(ymd){ await loadCSV(); renderDay(ymd); }
   searchBtn.addEventListener('click', doSearch);
   searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
 
-  // Share links (updated text)
+  // Share links with requested copy
   const shareUrl = location.href.split('#')[0];
   const textMsg = 'I’m chasing glory on the reels… come join the battle for daily prizes!';
   const tg = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(textMsg)}`;
   const wa = `https://api.whatsapp.com/send?text=${encodeURIComponent(textMsg + ' 👉 ' + shareUrl)}`;
   document.getElementById('shareTg').href = tg;
   document.getElementById('shareWa').href = wa;
+
+  // FAQ expand/collapse helpers
+  const expandAll = document.getElementById('expandAll');
+  const collapseAll = document.getElementById('collapseAll');
+  expandAll.addEventListener('click', ()=> document.querySelectorAll('.faq details').forEach(d=>d.open=true));
+  collapseAll.addEventListener('click', ()=> document.querySelectorAll('.faq details').forEach(d=>d.open=false));
 })();
 </script>
 </body>
