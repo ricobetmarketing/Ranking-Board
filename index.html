@@ -18,7 +18,7 @@
   *{box-sizing:border-box}
   body{
     margin:0;
-    /* Fixed, full-bleed background that never shifts */
+    /* fixed background that never moves */
     background:
       radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
       radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
@@ -58,37 +58,51 @@
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
   @media (max-width:720px){ .title-3d{font-size:34px} }
   @media (max-width:520px){ .title-3d{font-size:28px} }
+
+  /* one step smaller than the title */
   .hero-subtitle{
-    margin:6px auto 8px; font-weight:800; font-size:18px;
+    margin:6px auto 8px; font-weight:800;
+    font-size:28px; /* desktop */
     background:linear-gradient(90deg,var(--g1),var(--a3),var(--g2),var(--g1));
     -webkit-background-clip:text; background-clip:text; color:transparent;
     background-size:300% 100%; animation:shine 6s linear infinite
   }
-  @media (max-width:520px){ .hero-subtitle{font-size:16px} }
+  @media (max-width:720px){ .hero-subtitle{font-size:22px} }
+  @media (max-width:520px){ .hero-subtitle{font-size:18px} }
   .sub{margin:12px 0 0; color:var(--mut)}
 
-  /* ==== Neon-gel Countdown (UTC-3) ==== */
-  .ring-row{display:flex; justify-content:center; margin-top:10px}
-  .ring-timer{
-    display:flex;gap:16px;align-items:center;padding:10px 12px;border-radius:14px;
-    background:#161733;border:1px solid rgba(255,255,255,.15);box-shadow:0 10px 30px rgba(0,0,0,.25)
+  /* ==== NEW FLIP-CARD COUNTDOWN (UTC-3) ==== */
+  .flipbar{display:flex;gap:14px;justify-content:center;margin-top:10px}
+  .tile{
+    width:110px; height:86px; border-radius:14px; position:relative; overflow:hidden;
+    background:linear-gradient(180deg,#221f45,#191837); border:1px solid rgba(255,255,255,.18);
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    display:grid; place-items:center;
   }
-  .rgel{position:relative;width:108px;height:108px;display:grid;place-items:center}
-  .rgel svg{width:108px;height:108px;transform:rotate(-90deg)}
-  .rgel .bg{fill:none;stroke:rgba(255,255,255,.10);stroke-width:10}
-  .rgel .fg{fill:none;stroke:url(#g);stroke-width:10;stroke-linecap:round;filter:drop-shadow(0 0 10px rgba(120,115,245,.7))}
-  .rgel .val{position:absolute;font-weight:900;font-size:26px;letter-spacing:.5px}
-  .rgel .lab{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
-  @media (max-width:520px){ .rgel{width:92px;height:92px} .rgel svg{width:92px;height:92px} .rgel .val{font-size:22px} }
+  .num{
+    font-weight:900; font-size:32px; letter-spacing:.5px;
+    background:linear-gradient(180deg,#fff,#d9dcff); -webkit-background-clip:text; color:transparent;
+    text-shadow:0 6px 22px rgba(120,115,245,.45);
+    animation:pop .25s ease;
+  }
+  .lab{position:absolute;bottom:6px;left:0;right:0;text-align:center;color:#c7cbff;font-size:10px;letter-spacing:.35px}
+  .tile::before{
+    content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 55%, transparent 45%, rgba(0,0,0,.15));
+    pointer-events:none;
+  }
+  .flip{animation:flip .5s ease}
+  @keyframes flip{0%{transform:rotateX(0)}50%{transform:rotateX(-60deg)}100%{transform:rotateX(0)}}
+  @keyframes pop{0%{transform:scale(.94)}100%{transform:scale(1)}}
+  @media (max-width:520px){ .tile{width:92px;height:74px} .num{font-size:26px} }
 
-  /* ===== TOP 3 Podium (compact) ===== */
+  /* ===== TOP 3 Podium (compact so 3 side-by-side on mobile too) ===== */
   .podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:end;margin:14px 0 4px}
   .pod{
     position:relative;border-radius:16px;text-align:center;padding:12px 8px 18px;
     background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.03));
     border:2px solid rgba(255,255,255,.24); box-shadow:0 14px 28px rgba(0,0,0,.38);
   }
-  .pod--1{transform:translateY(-10px);background:linear-gradient(180deg,#3a2f6b,#211e46)}
+  .pod--1{transform:translateY(-8px);background:linear-gradient(180deg,#3a2f6b,#211e46)}
   .pod::after{
     content:attr(data-ped); position:absolute; left:50%; transform:translateX(-50%); bottom:-14px;
     width:48px; height:30px; border-radius:10px; display:grid; place-items:center;
@@ -105,8 +119,8 @@
     background:rgba(255,255,255,.92); color:#1b1b38; font-size:12px
   }
   .trophy{
-    position:absolute; top:-12px; right:-8px; width:48px; height:48px; border-radius:12px;
-    display:grid; place-items:center; font-size:22px; color:#1b1b38;
+    position:absolute; top:-12px; right:-8px; width:42px; height:42px; border-radius:12px;
+    display:grid; place-items:center; font-size:20px; color:#1b1b38;
     transform:rotate(-8deg); box-shadow:0 10px 18px rgba(0,0,0,.45);
     border:3px solid rgba(255,255,255,.6); animation:wobble 2.4s ease-in-out infinite;
     background:var(--tbg);
@@ -118,30 +132,21 @@
   @keyframes wobble{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(6deg) translateY(-4px)}}
 
   .pod-avatar{
-    width:70px;height:70px;border-radius:16px;margin:12px auto 6px;
+    width:62px;height:62px;border-radius:16px;margin:10px auto 6px;
     background:linear-gradient(135deg,var(--g2),var(--a3));background-size:cover;background-position:center;
     border:3px solid rgba(255,255,255,.65); box-shadow:0 6px 14px rgba(0,0,0,.35);
   }
   .pod-name{font-weight:900;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
   .pod-amt{margin-top:2px;font-weight:900;font-variant-numeric:tabular-nums;font-size:12px}
 
-  @media (max-width:520px){
-    .podium{grid-template-columns:1fr 1fr 1fr}
-    .pod--1{transform:translateY(-8px)}
-    .pod-avatar{width:62px;height:62px;border-width:3px;margin:10px auto 6px}
-    .trophy{width:42px;height:42px}
-  }
-
   /* ===== LIST (#4–#20), 5 visible then scroll ===== */
   .panel.card{padding:14px}
   .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
   .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
-  .filters{display:flex; gap:8px; flex-wrap:wrap}
+  .filters{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+
   .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
         background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
-  .chip button{all:unset; cursor:pointer}
-
-  .search-wrap{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:6px 0 10px}
   .search-input{appearance:none; background:#141534; border:1px solid rgba(255,255,255,.15); color:#fff;
     border-radius:10px; padding:8px 10px; min-width:220px; outline:none}
   .search-btn{cursor:pointer; background:linear-gradient(90deg,var(--g1),var(--g2)); border:0; color:#fff;
@@ -166,7 +171,7 @@
     background-size:cover;background-position:center;border:2px solid rgba(255,255,255,.35); box-shadow:0 3px 0 rgba(0,0,0,.35)
   }
   .mask{flex:1 1 auto; font-weight:900; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:13px}
-  .payout{font-variant-numeric:tabular-nums; font-weight:900; text-align:right; font-size:13px}
+  .payout{font-variant-numeric:tabular-nums; font-weight:900; text-align:right; font-size:12.5px}
 
   @media (max-width:560px){ .row{grid-template-columns:74px 1fr 120px; padding:10px} .mask{font-size:12px} }
 
@@ -202,7 +207,7 @@
 
   .divider{height:1px; margin:26px 0 8px; background:linear-gradient(90deg,transparent,#394080,transparent)}
 
-  /* ===== FAQ ===== */
+  /* ===== FAQ (unchanged) ===== */
   .faq-panel{border-radius:18px; overflow:hidden}
   .faq-panel > summary{list-style:none; cursor:pointer; padding:14px 16px; font-weight:900; font-size:16px; background:#17183a; color:#fff; display:flex; align-items:center; justify-content:space-between}
   .faq-panel > summary::after{content:"▾"; opacity:.9; transition:transform .2s ease}
@@ -224,32 +229,11 @@
       <h1 class="title-3d">Spins Of Glory</h1>
       <div class="hero-subtitle">Daily Prizes of USD 5,000</div>
 
-      <!-- Neon-gel countdown (UTC-3) -->
-      <div class="ring-row">
-        <div class="ring-timer" aria-label="Countdown to midnight (UTC-3)">
-          <div class="rgel" data-unit="h">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff6ec4"/><stop offset="100%" stop-color="#7873f5"/></linearGradient></defs>
-              <circle class="bg" cx="60" cy="60" r="46"></circle>
-              <circle class="fg" cx="60" cy="60" r="46"></circle>
-            </svg>
-            <div class="val">00</div><div class="lab">HRS</div>
-          </div>
-          <div class="rgel" data-unit="m">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <circle class="bg" cx="60" cy="60" r="46"></circle>
-              <circle class="fg" cx="60" cy="60" r="46"></circle>
-            </svg>
-            <div class="val">00</div><div class="lab">MIN</div>
-          </div>
-          <div class="rgel" data-unit="s">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <circle class="bg" cx="60" cy="60" r="46"></circle>
-              <circle class="fg" cx="60" cy="60" r="46"></circle>
-            </svg>
-            <div class="val">00</div><div class="lab">SEC</div>
-          </div>
-        </div>
+      <!-- Flip-card countdown (UTC-3) -->
+      <div class="flipbar" aria-label="Countdown to midnight (UTC-3)">
+        <div class="tile" data-unit="h"><div class="num">00</div><div class="lab">HRS</div></div>
+        <div class="tile" data-unit="m"><div class="num">00</div><div class="lab">MIN</div></div>
+        <div class="tile" data-unit="s"><div class="num">00</div><div class="lab">SEC</div></div>
       </div>
       <p class="sub">Play in Pragmatic Play Slot Games to win the daily prizes !</p>
     </section>
@@ -259,23 +243,17 @@
       <div class="panel-head">
         <h2 class="title">🏆 Top 20 • <span id="boardDate">—</span></h2>
         <div class="filters">
-          <span class="chip">🧭 Last update: <b id="lastUpdated">—</b></span>
-          <span class="chip"><button id="refresh">⟳ Refresh</button></span>
           <label class="chip" title="Pick a date">📅&nbsp;<input id="datePicker" type="date" style="background:transparent;border:0;color:#fff;outline:none"></label>
           <span class="chip" id="quickToday" style="cursor:pointer">📆 Today</span>
-          <span class="chip" id="quickYesterday" style="cursor:pointer">🗓️ Yesterday</span>
+          <!-- Search moved up to this row -->
+          <input class="search-input" id="searchInput" type="text" placeholder="Search your full username…" />
+          <button class="search-btn" id="searchBtn">Search</button>
+          <span id="searchResult" style="margin-left:6px;"></span>
         </div>
       </div>
 
       <!-- Podium -->
       <div id="podium" class="podium" aria-live="polite"></div>
-
-      <!-- Search -->
-      <div class="search-wrap">
-        <input class="search-input" id="searchInput" type="text" placeholder="Search your full username…" />
-        <button class="search-btn" id="searchBtn">Search</button>
-        <span class="search-result" id="searchResult"></span>
-      </div>
 
       <!-- List starts at #4 -->
       <div class="board">
@@ -308,53 +286,53 @@
 
     <div class="divider"></div>
 
-    <!-- FAQ (15 items) -->
+    <!-- === Your 15-item FAQ (unchanged content) === -->
     <details class="faq-panel card glow">
       <summary>FAQ &amp; Terms</summary>
       <div class="faq-body">
-        <details id="q1" class="faq-item"><summary>1. What is this event about?</summary>
+        <details class="faq-item"><summary>1. What is this event about?</summary>
           <p>This is a daily leaderboard competition on Pragmatic Play games, running from 1st October to 31st October 2025. Players compete based on their daily turnover. The higher your turnover, the higher you rank, and the better the prize you’ll receive.</p>
         </details>
-        <details id="q2" class="faq-item"><summary>2. How do I participate?</summary>
+        <details class="faq-item"><summary>2. How do I participate?</summary>
           <p>Simply play any Pragmatic Play slot games during the event period. Your turnover (total bets) will be tracked automatically.</p>
         </details>
-        <details id="q3" class="faq-item"><summary>3. How are prizes distributed?</summary>
+        <details class="faq-item"><summary>3. How are prizes distributed?</summary>
           <p>Each day, the Top 20 players by turnover win a share of the $5,000 daily prize pool: 1st Place: $1,500 • 2nd–5th: $500 each • 6th–10th: $200 each • 11th–20th: $50 each</p>
         </details>
-        <details id="q4" class="faq-item"><summary>4. What is the total prize pool?</summary>
+        <details class="faq-item"><summary>4. What is the total prize pool?</summary>
           <p>The event runs for the month with a total pool of $150,000, split into $5,000 daily prizes.</p>
         </details>
-        <details id="q5" class="faq-item"><summary>5. When does the leaderboard reset?</summary>
+        <details class="faq-item"><summary>5. When does the leaderboard reset?</summary>
           <p>The leaderboard resets daily at 00:00. Each new day starts a fresh competition.</p>
         </details>
-        <details id="q6" class="faq-item"><summary>6. How often is the leaderboard updated?</summary>
+        <details class="faq-item"><summary>6. How often is the leaderboard updated?</summary>
           <p>The leaderboard is updated every 12 hours, so you can check your progress and see how close you are to the Top 20.</p>
         </details>
-        <details id="q7" class="faq-item"><summary>7. How will I know my rank?</summary>
+        <details class="faq-item"><summary>7. How will I know my rank?</summary>
           <p>You can check the live leaderboard on our site’s inbox. If you’re not in the Top 20, you can still see your current ranking by entering your username.</p>
         </details>
-        <details id="q8" class="faq-item"><summary>8. When will I receive my prize?</summary>
+        <details class="faq-item"><summary>8. When will I receive my prize?</summary>
           <p>Daily leaderboard prizes will be distributed the next day at 12:00 PM. You’ll see your winnings automatically credited to your account.</p>
         </details>
-        <details id="q9" class="faq-item"><summary>9. What happens if there is a tie?</summary>
+        <details class="faq-item"><summary>9. What happens if there is a tie?</summary>
           <p>If two players have the same turnover, the player who reached it earlier in the day will rank higher.</p>
         </details>
-        <details id="q10" class="faq-item"><summary>10. Can I win multiple days?</summary>
+        <details class="faq-item"><summary>10. Can I win multiple days?</summary>
           <p>Yes. You can win every day during the event — there are no limits.</p>
         </details>
-        <details id="q11" class="faq-item"><summary>11. Are Free Spins or bonuses included in the leaderboard?</summary>
+        <details class="faq-item"><summary>11. Are Free Spins or bonuses included in the leaderboard?</summary>
           <p>Yes, turnover from both cash and bonus play on Pragmatic Play slots counts. Other slot games and game categories do not count.</p>
         </details>
-        <details id="q12" class="faq-item"><summary>12. Who is eligible?</summary>
+        <details class="faq-item"><summary>12. Who is eligible?</summary>
           <p>All players who place bets on Pragmatic Play slot games throughout the month.</p>
         </details>
-        <details id="q13" class="faq-item"><summary>13. Do wagering requirements apply to prizes?</summary>
+        <details class="faq-item"><summary>13. Do wagering requirements apply to prizes?</summary>
           <p>Cash prizes: credited with x5 wagering.</p>
         </details>
-        <details id="q14" class="faq-item"><summary>14. Can prizes be exchanged for other rewards?</summary>
+        <details class="faq-item"><summary>14. Can prizes be exchanged for other rewards?</summary>
           <p>No. Prizes are non-transferable and cannot be exchanged.</p>
         </details>
-        <details id="q15" class="faq-item"><summary>15. Terms &amp; conditions</summary>
+        <details class="faq-item"><summary>15. Terms &amp; conditions</summary>
           <p>Rico.bet reserves the right to disqualify any players found to be engaging in fraud, scams, multiple accounts, or any activity that violates the integrity of the promotion. All other Rico.bet General Terms &amp; Conditions apply.</p>
         </details>
       </div>
@@ -366,13 +344,13 @@
 const DATA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
 const EVENT_START_YMD  = "2025-09-23";
 const EVENT_END_YMD    = "2025-10-31";
-/* Explicit UTC-3 for everything */
+/* Explicit UTC-3 everywhere */
 const CURRENT_TZ = "Etc/GMT+3";
 const CURRENCY = { symbol: "$", code: "USD" };
 
 /* ===== Elements ===== */
 const $ = s=>document.querySelector(s);
-const rowsEl = $('#rows'), podiumEl = $('#podium'), updatedEl = $('#lastUpdated'), boardDateEl = $('#boardDate');
+const rowsEl = $('#rows'), podiumEl = $('#podium'), boardDateEl = $('#boardDate');
 const datePicker = $('#datePicker'), searchInput = $('#searchInput'), searchBtn = $('#searchBtn'), searchResult = $('#searchResult');
 
 /* ===== Helpers ===== */
@@ -382,47 +360,34 @@ const toTZ = (d=new Date(), tz=CURRENT_TZ, opts={}) => new Intl.DateTimeFormat('
 const ymdInTZ = d => toTZ(d, CURRENT_TZ, {year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
 const cmpYmd = (a,b)=>a.localeCompare(b);
 const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD : ymd;
-function maskUsername(name){
+
+function maskUsernameMiddle2(name){
   const s = String(name||'');
-  if(s.length<=6){ const keep=Math.max(1,Math.floor(s.length/3)); return `${s.slice(0,keep)}****${s.slice(-keep)}`; }
-  const left=Math.floor((s.length-4)/2); return s.slice(0,left)+'****'+s.slice(left+4);
+  if (s.length <= 2) return s[0] + '*' + (s[1]||'');
+  const midStart = Math.floor((s.length - 2)/2);
+  return s.slice(0, midStart) + '**' + s.slice(midStart + 2);
 }
 function bust(url){ if(!url) return ''; return url + (url.includes('?')?'&':'?') + 'v=' + Date.now(); }
 function avatarStyle(url){ return url ? `style="background-image:url('${bust(url)}');"` : ""; }
 
-/* ===== Neon gel countdown to UTC-3 midnight ===== */
-function nextMidnightInTZ(tz=CURRENT_TZ){
+/* ===== Flip-card countdown to UTC-3 midnight ===== */
+function nextMidnightUTCm3(){
   const now = new Date();
-  const parts = toTZ(now, tz, {year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now)
+  const parts = toTZ(now, CURRENT_TZ, {year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now)
                .reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
   const Y=+parts.year, M=+parts.month, D=+parts.day;
-  // Build a UTC time corresponding to local (tz) next midnight:
-  const fmt = new Intl.DateTimeFormat('en-CA',{timeZone:tz,hour12:false,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const start = new Date(Date.parse(fmt.format(new Date(Date.UTC(Y,M-1,D,0,0,0)))));
-  const targetLocal = new Date(start.getTime() + 24*3600*1000);
-  // Convert local (tz) “targetLocal” wall time back to a real Date by reading its parts:
-  const parts2 = fmt.formatToParts(targetLocal).reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
-  return new Date(Date.parse(`${parts2.year}-${parts2.month}-${parts2.day}T${parts2.hour}:${parts2.minute}:${parts2.second}${offsetForTZ(tz)}`));
-}
-function offsetForTZ(tz){
-  // For Etc/GMT+3, the numeric offset is -03:00 (note the sign flip in Etc/*).
-  if(tz.startsWith("Etc/GMT+3")) return "-03:00";
-  return "-03:00";
+  // Create a string with explicit -03:00 offset for next day 00:00
+  const nextStr = `${Y}-${pad2(M)}-${pad2(D+1)}T00:00:00-03:00`;
+  return new Date(nextStr);
 }
 (function countdown(){
-  const rings = {
-    h: document.querySelector('.rgel[data-unit="h"] .val'),
-    m: document.querySelector('.rgel[data-unit="m"] .val'),
-    s: document.querySelector('.rgel[data-unit="s"] .val'),
+  const tiles = {
+    h: document.querySelector('.tile[data-unit="h"] .num'),
+    m: document.querySelector('.tile[data-unit="m"] .num'),
+    s: document.querySelector('.tile[data-unit="s"] .num'),
   };
-  const fgH = document.querySelector('.rgel[data-unit="h"] .fg');
-  const fgM = document.querySelector('.rgel[data-unit="m"] .fg');
-  const fgS = document.querySelector('.rgel[data-unit="s"] .fg');
-  const R = 46, CIRC = 2 * Math.PI * R;
-  [fgH,fgM,fgS].forEach(el=>{ if(el) el.style.strokeDasharray=`${CIRC}`; });
-
   function tick(){
-    const target = nextMidnightInTZ();
+    const target = nextMidnightUTCm3();
     const now = new Date();
     let diff = target - now; if (diff < 0) diff = 0;
 
@@ -430,14 +395,12 @@ function offsetForTZ(tz){
     const m = Math.floor((diff%3600000)/60000);
     const s = Math.floor((diff%60000)/1000);
 
-    if(rings.h) rings.h.textContent = pad2(h);
-    if(rings.m) rings.m.textContent = pad2(m);
-    if(rings.s) rings.s.textContent = pad2(s);
-
-    if(fgH) fgH.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, h/24))}`;
-    if(fgM) fgM.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, m/60))}`;
-    if(fgS) fgS.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, s/60))}`;
-
+    const vals = {h:pad2(h), m:pad2(m), s:pad2(s)};
+    for (const k of ['h','m','s']){
+      const el = tiles[k];
+      if(!el) continue;
+      if(el.textContent !== vals[k]){ el.textContent = vals[k]; el.parentElement.classList.remove('flip'); void el.parentElement.offsetWidth; el.parentElement.classList.add('flip'); }
+    }
     requestAnimationFrame(()=>setTimeout(tick, 250));
   }
   tick();
@@ -490,11 +453,6 @@ async function loadCSV(){
     out.push({date, rank, name, amount, avatar});
   }
   cache = out;
-
-  updatedEl.textContent = new Intl.DateTimeFormat('en-US',{
-    timeZone: CURRENT_TZ, year:'numeric',month:'numeric',day:'numeric',
-    hour:'numeric',minute:'2-digit',second:'2-digit'
-  }).format(new Date());
 }
 
 /* ===== Render ===== */
@@ -524,7 +482,7 @@ function renderDay(ymd){
         <div class="pod-rank">#${shownRank}</div>
         <div class="${trophyClass(shownRank)}" aria-hidden="true"></div>
         <div class="pod-avatar" ${avatarStyle(r.avatar)}></div>
-        <div class="pod-name">${maskUsername(r.name)}</div>
+        <div class="pod-name">${maskUsernameMiddle2(r.name)}</div>
         <div class="pod-amt">${fmtMoney(r.amount)}</div>
       </div>
     `);
@@ -538,7 +496,7 @@ function renderDay(ymd){
         <div><span class="rank">#${rankShown}</span></div>
         <div class="player">
           <span class="avatar" ${avatarStyle(r.avatar)}></span>
-          <span class="mask">${maskUsername(r.name)}</span>
+          <span class="mask">${maskUsernameMiddle2(r.name)}</span>
         </div>
         <div class="payout">${fmtMoney(r.amount)}</div>
       </div>
@@ -565,21 +523,17 @@ function doSearch(){
   const hit = sorted[idx];
   if(rank<=20){
     searchResult.textContent = `✅ ${q} is #${rank} today.`;
-    // find the row in DOM
-    const all = Array.from(rowsEl.children);
-    const el = all.find(e=> (e.dataset.name||'').toLowerCase()===q.toLowerCase());
+    const el = Array.from(rowsEl.children).find(e=> (e.dataset.name||'').toLowerCase()===q.toLowerCase());
     if(el){ rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit')); el.classList.add('hit'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
   }else if(rank<=100){
     searchResult.textContent = `ℹ️ ${q} is #${rank} today (Top 100).`;
-    // add/update a pinned preview row at bottom
-    const existing = rowsEl.querySelector('.pin');
-    if(existing) existing.remove();
+    const existing = rowsEl.querySelector('.pin'); if(existing) existing.remove();
     rowsEl.insertAdjacentHTML('beforeend', `
       <div class="row pin">
         <div><span class="rank">#${rank}</span></div>
         <div class="player">
           <span class="avatar" ${avatarStyle(hit.avatar)}></span>
-          <span class="mask">${maskUsername(hit.name)}</span>
+          <span class="mask">${maskUsernameMiddle2(hit.name)}</span>
         </div>
         <div class="payout">${fmtMoney(hit.amount)}</div>
       </div>
@@ -598,10 +552,8 @@ function doSearch(){
 
   await loadCSV(); renderDay(today);
 
-  $('#refresh').addEventListener('click', async (e)=>{ e.preventDefault(); await loadCSV(); renderDay(datePicker.value); });
   datePicker.addEventListener('change', ()=> renderDay(clampYmd(datePicker.value)));
-  $('#quickToday').addEventListener('click', async ()=>{ const y = clampYmd( ymdInTZ(new Date()) ); datePicker.value=y; await loadCSV(); renderDay(y); });
-  $('#quickYesterday').addEventListener('click', async ()=>{ const n = new Date(); n.setDate(n.getDate()-1); const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; await loadCSV(); renderDay(y); });
+  document.getElementById('quickToday').addEventListener('click', async ()=>{ const y = clampYmd( ymdInTZ(new Date()) ); datePicker.value=y; await loadCSV(); renderDay(y); });
 
   searchBtn.addEventListener('click', doSearch);
   searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
@@ -609,9 +561,10 @@ function doSearch(){
   // Share links
   const shareUrl = location.href.split('#')[0];
   const textMsg = 'I’m chasing glory on the reels… come join the battle for daily prizes!';
-  $('#shareTg').href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(textMsg)}`;
-  $('#shareWa').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textMsg + ' 👉 ' + shareUrl)}`;
+  document.getElementById('shareTg').href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(textMsg)}`;
+  document.getElementById('shareWa').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textMsg + ' 👉 ' + shareUrl)}`;
 })();
 </script>
 </body>
 </html>
+
