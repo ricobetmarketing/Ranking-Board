@@ -9,7 +9,7 @@
 
 <style>
   :root{
-    --bg-image: url("https://ricobr.ft-crm.com/media-api/serve/be3a8720-7a2d-493e-a7fb-beaf0c1c95be_2.png");
+    --bg-image: url("https://ricobr.ft-crm.com/media-api/serve/a02f364f-bea1-4a99-ae4c-211994eced91_2.png");
     --bg:#0f1129; --card:#121125; --ring:#2a2e58;
     --tx:#f2f3ff; --mut:#c7cbff; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
     --row-h:56px;
@@ -89,7 +89,6 @@
     border:2px solid rgba(255,255,255,.28); box-shadow:0 16px 30px rgba(0,0,0,.40);
   }
   .pod--1{transform:translateY(-14px);background:linear-gradient(180deg,#3a2f6b,#211e46)}
-  /* block numbers (1/2/3) */
   .pod::after{
     content:attr(data-ped); position:absolute; left:50%; transform:translateX(-50%); bottom:-16px;
     width:56px; height:36px; border-radius:12px; display:grid; place-items:center;
@@ -99,7 +98,6 @@
   }
   .pod--1{ --ped:var(--c1) }  .pod--2{ --ped:var(--c2) }  .pod--3{ --ped:var(--c3) }
 
-  /* rank chip (kept tiny, like reference numbers) */
   .pod-rank{
     position:absolute; top:8px; left:8px;
     display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:26px;padding:0 10px;
@@ -107,22 +105,20 @@
     background:rgba(255,255,255,.9); color:#1b1b38;
   }
 
-  /* NEW: Trophy badge */
+  /* Trophy badge for 1/2/3 */
   .trophy{
     position:absolute; top:-14px; right:-10px; width:64px; height:64px; border-radius:16px;
-    display:grid; place-items:center; font-size:28px; font-weight:900; color:#1b1b38;
+    display:grid; place-items:center; font-size:28px; color:#1b1b38;
     transform:rotate(-8deg); box-shadow:0 10px 18px rgba(0,0,0,.45);
-    border:3px solid rgba(255,255,255,.6);
+    border:3px solid rgba(255,255,255,.6); animation:wobble 2.4s ease-in-out infinite;
     background:var(--tbg);
-    animation:wobble 2.4s ease-in-out infinite;
   }
-  .t1{ --tbg: linear-gradient(135deg,#fff6b5,#ffd84a) } /* gold */
-  .t2{ --tbg: linear-gradient(135deg,#f4f6ff,#dbe3ff) } /* silver */
-  .t3{ --tbg: linear-gradient(135deg,#ffe0c9,#ffb07a) } /* bronze */
+  .t1{ --tbg: linear-gradient(135deg,#fff6b5,#ffd84a) }
+  .t2{ --tbg: linear-gradient(135deg,#f4f6ff,#dbe3ff) }
+  .t3{ --tbg: linear-gradient(135deg,#ffe0c9,#ffb07a) }
   .trophy::after{ content:"🏆"; filter:drop-shadow(0 2px 0 rgba(0,0,0,.25)); }
   @keyframes wobble{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(6deg) translateY(-4px)}}
 
-  /* Avatar only (no sticker) */
   .pod-avatar{
     width:88px;height:88px;border-radius:22px;margin:16px auto 8px;
     background:linear-gradient(135deg,var(--g2),var(--a3));background-size:cover;background-position:center;
@@ -131,7 +127,6 @@
   .pod-name{font-weight:900;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .pod-amt{margin-top:2px;font-weight:900;font-variant-numeric:tabular-nums}
 
-  /* keep 3 columns on mobile */
   @media (max-width:520px){
     .podium{grid-template-columns:1fr 1fr 1fr}
     .pod--1{transform:translateY(-10px)}
@@ -140,7 +135,7 @@
     .trophy{width:54px;height:54px}
   }
 
-  /* ===== LIST (#4–#20), cute badges ===== */
+  /* ===== LIST (#4–#20), 5 visible then scroll ===== */
   .panel.card{padding:14px}
   .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
   .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
@@ -149,7 +144,6 @@
         background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
   .chip button{all:unset; cursor:pointer}
 
-  .board-wrap{overflow:hidden}
   .board{width:100%; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
   .row{
     display:grid; grid-template-columns:88px 1fr 180px; gap:10px; align-items:center;
@@ -172,17 +166,9 @@
   .payout{font-variant-numeric:tabular-nums; font-weight:900; text-align:right}
   @media (max-width:560px){ .row{grid-template-columns:74px 1fr 132px; padding:10px} .mask{font-size:12px} }
 
-  /* Show only 5 rows before scroll */
   .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
   .viewport::-webkit-scrollbar{height:8px;width:8px}
   .viewport::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
-  .hit{outline:2px solid var(--a3); border-radius:8px}
-
-  .search-wrap{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-  .search-input{appearance:none; background:#141534; border:1px solid rgba(255,255,255,.15); color:#fff;
-    border-radius:10px; padding:8px 10px; min-width:220px; outline:none}
-  .search-btn{cursor:pointer; background:linear-gradient(90deg,var(--g1),var(--g2)); border:0; color:#fff;
-    font-weight:900; border-radius:10px; padding:8px 12px}
 
   .cta-row{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:center}
   .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:12px; text-decoration:none;
@@ -195,13 +181,21 @@
   .support{margin-top:10px; text-align:center; color:#cfd3ff; text-shadow: 0 1px 0 rgba(0,0,0,.8), 0 6px 18px rgba(0,0,0,.35)}
   .support a{color:#a5b0ff; font-weight:800; text-decoration:underline}
 
-  .sharebar{margin-top:18px; display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:14px 16px; border-radius:14px; background:#0f216a; border:1px solid #2c3ea0; color:#fff; box-shadow:0 10px 25px rgba(0,0,0,.25)}
+  .sharebar{
+    margin-top:18px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:14px 16px; border-radius:14px; background:#0f216a; border:1px solid #2c3ea0; color:#fff;
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+  }
   .sharebar b{font-size:18px; letter-spacing:.5px; text-shadow:0 2px 0 rgba(0,0,0,.35)}
   .share-actions{display:flex; gap:10px}
-  .sharebtn{display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:999px; background:#142b90; border:1px solid rgba(255,255,255,.18); text-decoration:none; transition:transform .15s ease}
+  .sharebtn{
+    display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:999px;
+    background:#142b90; border:1px solid rgba(255,255,255,.18); text-decoration:none; transition:transform .15s ease;
+  }
   .sharebtn:hover{transform:translateY(-2px)}
+  .sharebtn img{width:22px;height:22px; filter: drop-shadow(0 1px 0 rgba(0,0,0,.35))}
   .tg{background:#229ED9} .wa{background:#25D366}
+
   .divider{height:1px; margin:26px 0 8px; background:linear-gradient(90deg,transparent,#394080,transparent)}
 
   /* ===== FAQ (no number pills) ===== */
@@ -238,6 +232,7 @@
           </div>
           <div class="ring" data-unit="m">
             <svg viewBox="0 0 72 72" aria-hidden="true">
+              <defs><linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff6ec4"/><stop offset="100%" stop-color="#7873f5"/></linearGradient></defs>
               <circle class="bg" cx="36" cy="36" r="30"></circle>
               <circle class="fg" cx="36" cy="36" r="30"></circle>
             </svg>
@@ -245,6 +240,7 @@
           </div>
           <div class="ring" data-unit="s">
             <svg viewBox="0 0 72 72" aria-hidden="true">
+              <defs><linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff6ec4"/><stop offset="100%" stop-color="#7873f5"/></linearGradient></defs>
               <circle class="bg" cx="36" cy="36" r="30"></circle>
               <circle class="fg" cx="36" cy="36" r="30"></circle>
             </svg>
@@ -272,13 +268,11 @@
       <div id="podium" class="podium" aria-live="polite"></div>
 
       <!-- List starts at #4 -->
-      <div class="board-wrap">
-        <div class="board">
-          <div class="row head">
-            <div>#</div><div>Player</div><div style="text-align:right">Turnover</div>
-          </div>
-          <div id="rows" class="viewport" aria-live="polite"></div>
+      <div class="board">
+        <div class="row head">
+          <div>#</div><div>Player</div><div style="text-align:right">Turnover</div>
         </div>
+        <div id="rows" class="viewport" aria-live="polite"></div>
       </div>
     </section>
 
@@ -289,9 +283,22 @@
     </div>
     <p class="support">Need help? Message our support on Telegram and we’ll assist you: <a href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">Contact Support</a></p>
 
+    <!-- Share -->
+    <div class="sharebar">
+      <b>SHARE WITH YOUR FRIENDS</b>
+      <div class="share-actions">
+        <a id="shareTg" class="sharebtn tg" title="Share on Telegram" target="_blank" rel="noopener">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram">
+        </a>
+        <a id="shareWa" class="sharebtn wa" title="Share on WhatsApp" target="_blank" rel="noopener">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
+        </a>
+      </div>
+    </div>
+
     <div class="divider"></div>
 
-    <!-- FAQ (no numbered pills) -->
+    <!-- FAQ -->
     <details class="faq-panel card glow">
       <summary>FAQ &amp; Terms</summary>
       <div class="faq-body">
@@ -361,8 +368,86 @@ const toTZ = (d=new Date(), tz=CURRENT_TZ, opts={}) => new Intl.DateTimeFormat('
 const ymdInTZ = d => toTZ(d, CURRENT_TZ, {year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
 const cmpYmd = (a,b)=>a.localeCompare(b);
 const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD : ymd;
+function maskUsername(name){
+  const s = String(name||'');
+  if(s.length<=6){ const keep=Math.max(1,Math.floor(s.length/3)); return `${s.slice(0,keep)}****${s.slice(-keep)}`; }
+  const left=Math.floor((s.length-4)/2); return s.slice(0,left)+'****'+s.slice(left+4);
+}
+function bust(url){ if(!url) return ''; return url + (url.includes('?')?'&':'?') + 'v=' + Date.now(); }
+function avatarStyle(url){ return url ? `style="background-image:url('${bust(url)}');"` : ""; }
 
-/* ===== CSV loader & leaderboard (Avatar URL optional in column 5) ===== */
+/* ===== Countdown to Brazil midnight ===== */
+function tzOffsetMillisAt(date = new Date(), tz = CURRENT_TZ){
+  const partsFor = (z)=> new Intl.DateTimeFormat('en-CA', {
+    timeZone:z,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',
+    hour:'2-digit',minute:'2-digit',second:'2-digit'
+  }).formatToParts(date).reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
+  const utc = partsFor('UTC'), tzz = partsFor(tz);
+  const utcEpoch = Date.parse(`${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`);
+  const tzEpoch  = Date.parse(`${tzz.year}-${tzz.month}-${tzz.day}T${tzz.hour}:${tzz.minute}:${tzz.second}Z`);
+  return tzEpoch - utcEpoch;
+}
+function nextMidnightInTZ(tz = CURRENT_TZ){
+  const now = new Date();
+  const parts = toTZ(now, tz, {year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now)
+               .reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
+  const Y = +parts.year, M = +parts.month, D = +parts.day;
+  const offset = tzOffsetMillisAt(now, tz);
+  const targetUtcMs = Date.UTC(Y, M-1, D+1, 0,0,0) - offset;
+  return new Date(targetUtcMs);
+}
+(function countdown(){
+  const rings = {
+    h: document.querySelector('.ring[data-unit="h"] .value'),
+    m: document.querySelector('.ring[data-unit="m"] .value'),
+    s: document.querySelector('.ring[data-unit="s"] .value'),
+  };
+  const fgH = document.querySelector('.ring[data-unit="h"] .fg');
+  const fgM = document.querySelector('.ring[data-unit="m"] .fg');
+  const fgS = document.querySelector('.ring[data-unit="s"] .fg');
+  const CIRC = 2 * Math.PI * 30;
+  [fgH,fgM,fgS].forEach(el=>{ el.style.strokeDasharray=`${CIRC}`; });
+
+  function tick(){
+    const target = nextMidnightInTZ();
+    const now = new Date();
+    let diff = target - now; if (diff < 0) diff = 0;
+
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+
+    const nh = pad2(h), nm = pad2(m), ns = pad2(s);
+    if (rings.h){ if(rings.h.textContent!==nh){rings.h.classList.add('bump'); setTimeout(()=>rings.h.classList.remove('bump'),150)} rings.h.textContent=nh; }
+    if (rings.m){ if(rings.m.textContent!==nm){rings.m.classList.add('bump'); setTimeout(()=>rings.m.classList.remove('bump'),150)} rings.m.textContent=nm; }
+    if (rings.s){ if(rings.s.textContent!==ns){rings.s.classList.add('bump'); setTimeout(()=>rings.s.classList.remove('bump'),150)} rings.s.textContent=ns; }
+
+    if(fgH) fgH.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, h/24))}`;
+    if(fgM) fgM.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, m/60))}`;
+    if(fgS) fgS.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, s/60))}`;
+
+    requestAnimationFrame(()=>setTimeout(tick, 250));
+  }
+  tick();
+})();
+
+/* ===== Robust CSV parser (handles commas inside numbers) ===== */
+function parseCSV(text){
+  const rows=[]; let cur=[], curVal='', inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i], n=text[i+1];
+    if(c==='\"'){ if(inQ && n==='\"'){curVal+='\"'; i++;} else inQ=!inQ; }
+    else if(c===',' && !inQ){ cur.push(curVal); curVal=''; }
+    else if((c==='\n' || c==='\r') && !inQ){
+      if(curVal!=='' || c==='\n'){ cur.push(curVal); curVal=''; rows.push(cur); cur=[]; }
+      if(c==='\r' && n==='\n'){ i++; } // handle CRLF
+    } else { curVal+=c; }
+  }
+  if(curVal!=='' || cur.length){ cur.push(curVal); rows.push(cur); }
+  return rows;
+}
+
+/* ===== CSV loader ===== */
 let cache = [];
 async function loadCSV(){
   const url = DATA_CSV_URL + (DATA_CSV_URL.includes('?')?'&':'?') + 't=' + Date.now();
@@ -370,45 +455,38 @@ async function loadCSV(){
   if(!res.ok) throw new Error('CSV fetch failed');
   const text = await res.text();
 
-  const lines = text.split(/\r?\n/).filter(Boolean);
+  const table = parseCSV(text).filter(r=>r.length);
+  if(table.length<2) return;
+  const header = table[0].map(h=>h.trim().toLowerCase());
+  const idx = {
+    date: header.indexOf('date'),
+    rank: header.indexOf('rank'),
+    name: header.indexOf('username'),
+    amount: header.indexOf('turnover'),
+    avatar: header.indexOf('avatar'),
+  };
   const out = [];
-  for (let i=1;i<lines.length;i++){
-    const raw = lines[i].split(',');
-    if (raw.length < 3) continue;
-    const date = raw[0].trim();
-    const rank = Number(raw[1]?.trim() || 0);
-    const username = (raw[2]||'').trim();
-    const turnover = Number(String(raw[3]||'0').replace(/[$,\s]/g,''));  // numeric
-    const avatar = (raw[4]||'').trim(); // optional
-    if (!date || !username) continue;
-    out.push({date, rank, name: username, amount: isNaN(turnover)?0:turnover, avatar});
+  for(let i=1;i<table.length;i++){
+    const r = table[i];
+    const date   = (r[idx.date]||'').trim();
+    const rank   = Number((r[idx.rank]||'').trim()||0);
+    const name   = (r[idx.name]||'').trim();
+    const amtStr = String(r[idx.amount]||'0').replace(/[$,\s]/g,'');
+    const amount = Number(amtStr)||0;
+    const avatar = (r[idx.avatar]||'').trim();
+    if(!date || !name) continue;
+    out.push({date, rank, name, amount, avatar});
   }
   cache = out;
 
-  const updated = new Intl.DateTimeFormat('en-US',{
+  updatedEl.textContent = new Intl.DateTimeFormat('en-US',{
     timeZone: CURRENT_TZ, year:'numeric',month:'numeric',day:'numeric',
     hour:'numeric',minute:'2-digit',second:'2-digit'
   }).format(new Date());
-  updatedEl.textContent = updated;
 }
-function maskUsername(name){
-  const s = String(name||'');
-  if(s.length<=6){ const keep=Math.max(1,Math.floor(s.length/3)); return `${s.slice(0,keep)}****${s.slice(-keep)}`; }
-  const left=Math.floor((s.length-4)/2); return s.slice(0,left)+'****'+s.slice(left+4);
-}
-function bust(url){
-  if(!url) return '';
-  const sep = url.includes('?') ? '&' : '?';
-  return `${url}${sep}v=${Date.now()}`; // cache-buster for avatar updates
-}
-function avatarStyle(url){ return url ? `style="background-image:url('${bust(url)}');"` : ""; }
 
-/* Build podium card */
-function trophyClass(rank){
-  if(rank===1) return 'trophy t1';
-  if(rank===2) return 'trophy t2';
-  return 'trophy t3';
-}
+/* ===== Render ===== */
+function trophyClass(rank){ return rank===1?'trophy t1' : rank===2?'trophy t2':'trophy t3'; }
 
 function renderDay(ymd){
   boardDateEl.textContent = ymd;
@@ -422,25 +500,20 @@ function renderDay(ymd){
   }
   const withRank = dayRows.some(r=>r.rank>0);
   const sorted = dayRows.slice().sort((a,b)=>{
-    if(withRank){
-      const ar = a.rank||99999, br = b.rank||99999;
-      return ar - br;
-    }
+    if(withRank){ return (a.rank||99999) - (b.rank||99999); }
     return (b.amount||0)-(a.amount||0);
   });
 
   // Podium 1–3 (center = #1, left = #2, right = #3)
   const top3 = sorted.slice(0,3);
-  const order = [1,0,2];
-  order.forEach((i)=>{
+  [1,0,2].forEach((i)=>{
     const r = top3[i]; if(!r) return;
     const cls = i===0?'pod--1' : i===1?'pod--2':'pod--3';
     const shownRank = withRank ? (r.rank || i+1) : (i+1);
-    const trophy = `<div class="${trophyClass(shownRank)}" aria-hidden="true"></div>`;
     podiumEl.insertAdjacentHTML('beforeend', `
       <div class="pod ${cls}" data-ped="${i+1}">
         <div class="pod-rank">#${shownRank}</div>
-        ${trophy}
+        <div class="${trophyClass(shownRank)}" aria-hidden="true"></div>
         <div class="pod-avatar" ${avatarStyle(r.avatar)}></div>
         <div class="pod-name">${maskUsername(r.name)}</div>
         <div class="pod-amt">${fmtMoney(r.amount)}</div>
@@ -448,41 +521,43 @@ function renderDay(ymd){
     `);
   });
 
-  // List 4–20 (viewport shows only 5 rows)
-  const rest = sorted.slice(3,20);
-  rest.forEach((r, idx)=>{
+  // List 4–20 (viewport shows only 5 rows via CSS)
+  sorted.slice(3,20).forEach((r, idx)=>{
     const rankShown = withRank ? (r.rank||idx+4) : (idx+4);
-    const row = document.createElement('div');
-    row.className='row';
-    row.dataset.nameOriginal = r.name;
-    row.innerHTML = `
-      <div><span class="rank">#${rankShown}</span></div>
-      <div class="player">
-        <span class="avatar" ${avatarStyle(r.avatar)} aria-hidden="true"></span>
-        <span class="mask">${maskUsername(r.name)}</span>
+    rowsEl.insertAdjacentHTML('beforeend', `
+      <div class="row" data-name="${r.name}">
+        <div><span class="rank">#${rankShown}</span></div>
+        <div class="player">
+          <span class="avatar" ${avatarStyle(r.avatar)}></span>
+          <span class="mask">${maskUsername(r.name)}</span>
+        </div>
+        <div class="payout">${fmtMoney(r.amount)}</div>
       </div>
-      <div class="payout">${fmtMoney(r.amount)}</div>`;
-    rowsEl.appendChild(row);
+    `);
   });
 }
 
-async function refreshFor(ymd){ await loadCSV(); renderDay(ymd); }
-
-/* ===== INIT ===== */
+/* ===== Init ===== */
 (async function init(){
   datePicker.min = EVENT_START_YMD; datePicker.max = EVENT_END_YMD;
   const today = clampYmd( ymdInTZ(new Date()) );
   datePicker.value = today;
 
-  await refreshFor(today);
+  // load and draw
+  await loadCSV(); renderDay(today);
 
-  document.getElementById('refresh').addEventListener('click', async (e)=>{ e.preventDefault(); await refreshFor(datePicker.value); });
+  $('#refresh').addEventListener('click', async (e)=>{ e.preventDefault(); await loadCSV(); renderDay(datePicker.value); });
   datePicker.addEventListener('change', ()=> renderDay(clampYmd(datePicker.value)));
-  document.getElementById('quickToday').addEventListener('click', async ()=>{ const y = clampYmd( ymdInTZ(new Date()) ); datePicker.value=y; await refreshFor(y); });
-  document.getElementById('quickYesterday').addEventListener('click', async ()=>{ const n = new Date(); n.setDate(n.getDate()-1); const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; await refreshFor(y); });
+  $('#quickToday').addEventListener('click', async ()=>{ const y = clampYmd( ymdInTZ(new Date()) ); datePicker.value=y; await loadCSV(); renderDay(y); });
+  $('#quickYesterday').addEventListener('click', async ()=>{ const n = new Date(); n.setDate(n.getDate()-1); const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; await loadCSV(); renderDay(y); });
 
-  // (Optional) search controls if you add them back later.
+  // Share links
+  const shareUrl = location.href.split('#')[0];
+  const textMsg = 'I’m chasing glory on the reels… come join the battle for daily prizes!';
+  $('#shareTg').href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(textMsg)}`;
+  $('#shareWa').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textMsg + ' 👉 ' + shareUrl)}`;
 })();
 </script>
 </body>
 </html>
+
