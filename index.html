@@ -9,12 +9,9 @@
 
 <style>
   :root{
-    /* Optional background image */
     --bg-image: url("https://ricobr.ft-crm.com/media-api/serve/85c9bc7e-50c8-46fb-933c-359f7c0f9767_1.jpg");
-
-    /* Brand palette */
-    --bg:#0f1129; --card:#121125; --ink:#1b1c33; --ring:#2a2e58;
-    --tx:#f2f3ff; --mut:#c7cbff; --gold:#ffe26a; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
+    --bg:#0f1129; --card:#121125; --ring:#2a2e58;
+    --tx:#f2f3ff; --mut:#c7cbff; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
     --row-h:56px;
   }
   *{box-sizing:border-box}
@@ -48,46 +45,33 @@
   }
   @keyframes shine{0%{background-position:0% 0}100%{background-position:400% 0}}
 
-  /* ====== HERO ====== */
+  /* ===== HERO ===== */
   .hero.card{padding:18px; text-align:center}
 
-  /* 3D title */
   .title-3d{
-    margin:2px 0 4px;
-    font-weight:900;
-    letter-spacing:.4px;
-    color:#fff;
+    margin:2px 0 4px; font-weight:900; letter-spacing:.4px; color:#fff;
     text-shadow:
-      0 1px 0 #c9c9ff,
-      0 2px 0 #b6b6ff,
-      0 3px 0 #a3a3ff,
-      0 4px 0 #9090ff,
-      0 10px 20px rgba(0,0,0,.35),
-      0 0 24px rgba(120,115,245,.45);
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,.25));
-    position:relative;
+      0 1px 0 #c9c9ff, 0 2px 0 #b6b6ff, 0 3px 0 #a3a3ff, 0 4px 0 #9090ff,
+      0 10px 20px rgba(0,0,0,.35), 0 0 24px rgba(120,115,245,.45);
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,.25)); position:relative;
     animation:floaty 5s ease-in-out infinite;
+    font-size:42px; line-height:1.05;
   }
-  @keyframes floaty{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)} }
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+  @media (max-width:720px){ .title-3d{font-size:34px} }
+  @media (max-width:520px){ .title-3d{font-size:28px} }
   .title-3d::after{
     content:""; position:absolute; inset:0;
     background:radial-gradient(120% 60% at 50% 0%, rgba(120,115,245,.18), transparent 50%);
     mix-blend-mode:screen; pointer-events:none; border-radius:6px;
   }
-  .title-3d{font-size:42px; line-height:1.05}
-  @media (max-width:720px){ .title-3d{font-size:34px} }
-  @media (max-width:520px){ .title-3d{font-size:28px} }
-
-  /* Shimmer subtitle */
   .hero-subtitle{
-    margin:6px auto 8px;
-    font-weight:800; font-size:18px;
+    margin:6px auto 8px; font-weight:800; font-size:18px;
     background:linear-gradient(90deg,var(--g1),var(--a3),var(--g2),var(--g1));
     -webkit-background-clip:text; background-clip:text; color:transparent;
     background-size:300% 100%; animation:shine 6s linear infinite
   }
   @media (max-width:520px){ .hero-subtitle{font-size:16px} }
-
   .sub{margin:12px 0 0; color:var(--mut)}
 
   /* COUNTDOWN */
@@ -102,12 +86,10 @@
   .value.bump{transform:translateY(-3px)}
   .ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
   @media (max-width:520px){
-    .ring{width:78px;height:78px}
-    .ring svg{width:78px;height:78px}
-    .value{font-size:18px}
+    .ring{width:78px;height:78px} .ring svg{width:78px;height:78px} .value{font-size:18px}
   }
 
-  /* WINNERS */
+  /* ===== WINNERS ===== */
   .panel.card{padding:14px}
   .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
   .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
@@ -115,15 +97,14 @@
   .chip{display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; font-size:12px; color:#fff;
         background:#1b1c33; border:1px solid rgba(255,255,255,.12)}
   .chip button{all:unset; cursor:pointer}
-  .tz-chip{cursor:pointer; background:#192043}
-  .tz-chip.active{outline:2px solid var(--a3)}
 
-  .board-wrap{overflow:auto}
-  /* fixed columns so things don't wiggle; wide right column keeps amounts aligned */
-  .board{min-width:720px; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
-  .row{display:grid; grid-template-columns:88px 1fr 220px; gap:10px; align-items:center; padding:12px 12px;
-       background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
-       border-bottom:1px solid rgba(255,255,255,.06)}
+  .board-wrap{overflow:hidden}
+  .board{width:100%; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
+  .row{
+    display:grid; grid-template-columns:72px 1fr 180px; gap:10px; align-items:center;
+    padding:12px 12px; background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+    border-bottom:1px solid rgba(255,255,255,.06)
+  }
   .row.head{background:rgba(255,255,255,.05); font-weight:900; color:#dfe3ff}
   .row:last-child{border-bottom:none}
   .rank{display:inline-flex; align-items:center; justify-content:center; width:44px; height:28px; border-radius:999px;
@@ -133,11 +114,18 @@
   .rank.top3{background:linear-gradient(90deg,#ffd3b5,#ffae7a); color:#191b32}
 
   .player{display:flex; align-items:center; gap:10px; min-width:0}
-  .avatar{flex:0 0 auto; width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
+  .avatar{flex:0 0 auto; width:26px; height:26px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
   .mask{
     flex:1 1 auto; font-weight:800; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    font-size:13px;  /* smaller player name */
   }
   .payout{font-variant-numeric:tabular-nums; font-weight:800; text-align:right}
+
+  /* tighter mobile columns – no horizontal scroll */
+  @media (max-width:560px){
+    .row{grid-template-columns:58px 1fr 132px; padding:10px}
+    .mask{font-size:12px}
+  }
 
   .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
   .viewport::-webkit-scrollbar{height:8px;width:8px}
@@ -149,13 +137,21 @@
     border-radius:10px; padding:8px 10px; min-width:220px; outline:none}
   .search-btn{cursor:pointer; background:linear-gradient(90deg,var(--g1),var(--g2)); border:0; color:#fff;
     font-weight:900; border-radius:10px; padding:8px 12px}
-  .search-result{color:#dfe3ff; font-weight:700}
 
   .cta-row{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:center}
   .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:12px; text-decoration:none;
       font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25); transition:transform .15s ease}
   .btn:hover{transform:translateY(-2px)}
-  .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
+  .btn--pri{
+    background:linear-gradient(90deg,var(--g1),var(--g2));
+    box-shadow:0 0 0 0 rgba(120,115,245,.55);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(120,115,245,.55)}
+    70%{box-shadow:0 0 0 18px rgba(120,115,245,0)}
+    100%{box-shadow:0 0 0 0 rgba(120,115,245,0)}
+  }
   .btn--dark{background:#1a1b34}
 
   .support{
@@ -177,9 +173,7 @@
   }
   .sharebtn:hover{transform:translateY(-2px)}
   .sharebtn img{width:22px;height:22px; filter: drop-shadow(0 1px 0 rgba(0,0,0,.35))}
-  /* Brand-normal colors */
-  .tg{background:#229ED9}
-  .wa{background:#25D366}
+  .tg{background:#229ED9} .wa{background:#25D366}
 
   .divider{height:1px; margin:26px 0 8px; background:linear-gradient(90deg,transparent,#394080,transparent)}
   .faq h3{margin:0 0 6px 0; font-size:16px; color:#dfe3ff; text-shadow:0 1px 0 rgba(0,0,0,.9), 0 8px 20px rgba(0,0,0,.35)}
@@ -204,7 +198,7 @@
 
       <!-- Countdown -->
       <div class="ring-row">
-        <div class="ring-timer" aria-label="Countdown to midnight">
+        <div class="ring-timer" aria-label="Countdown to midnight (Brazil)">
           <div class="ring" data-unit="h">
             <svg viewBox="0 0 72 72" aria-hidden="true">
               <defs><linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff6ec4"/><stop offset="100%" stop-color="#7873f5"/></linearGradient></defs>
@@ -244,8 +238,6 @@
           <span class="chip">🧭 Last update: <b id="lastUpdated">—</b></span>
           <span class="chip"><button id="refresh">⟳ Refresh</button></span>
           <label class="chip" title="Pick a date">📅&nbsp;<input id="datePicker" type="date" style="background:transparent;border:0;color:#fff;outline:none"></label>
-          <span class="chip tz-chip active" id="tzMX" data-tz="America/Mexico_City">🇲🇽 MX</span>
-          <span class="chip tz-chip" id="tzBR" data-tz="America/Sao_Paulo">🇧🇷 BR</span>
           <span class="chip" id="quickToday" style="cursor:pointer">📆 Today</span>
           <span class="chip" id="quickYesterday" style="cursor:pointer">🗓️ Yesterday</span>
         </div>
@@ -292,54 +284,84 @@
     <div class="divider"></div>
     <section class="faq">
       <h3>FAQ &amp; Terms</h3>
-      <details>
-        <summary>What is the Daily Prizes event?</summary>
-        <p>Top players are ranked by daily <b>Turnover</b> on eligible Pragmatic Play slot games. The board resets at 00:00 (local time of the selected region).</p>
+
+      <details><summary>1. What is this event about?</summary>
+        <p>This is a daily leaderboard competition on Pragmatic Play games, running from 1st October to 31st October 2025. Players compete based on their daily turnover. The higher your turnover, the higher you rank, and the better the prize you’ll receive.</p>
       </details>
-      <details>
-        <summary>How do I qualify?</summary>
-        <p>Place real-money bets on participating Pragmatic Play slots during the event day.</p>
+
+      <details><summary>2. How do I participate?</summary>
+        <p>Simply play any Pragmatic Play slot games during the event period. Your turnover (total bets) will be tracked automatically.</p>
       </details>
-      <details>
-        <summary>How is Turnover calculated?</summary>
-        <p>Turnover is the total amount wagered per player on the qualified games during the selected day.</p>
+
+      <details><summary>3. How are prizes distributed?</summary>
+        <p>Each day, the Top 20 players by turnover win a share of the $5,000 daily prize pool:<br>
+        1st Place: $1,500<br>
+        2nd–5th: $500 each<br>
+        6th–10th: $200 each<br>
+        11th–20th: $50 each</p>
       </details>
-      <details>
-        <summary>When are winners confirmed?</summary>
-        <p>Winners are finalized after the daily reset. Any suspicious or abusive activity may void eligibility.</p>
+
+      <details><summary>4. What is the total prize pool?</summary>
+        <p>The event runs for the month with a total pool of $150,000, split into $5,000 daily prizes.</p>
+      </details>
+
+      <details><summary>5. When does the leaderboard reset?</summary>
+        <p>The leaderboard resets daily at 00:00 (Brazil local time). Each new day starts a fresh competition.</p>
+      </details>
+
+      <details><summary>6. How will I know my rank?</summary>
+        <p>You can check the live leaderboard on our site’s inbox. If you’re not in the Top 20, you can still see your current ranking by entering your username.</p>
+      </details>
+
+      <details><summary>7. When will I receive my prize?</summary>
+        <p>Daily leaderboard prizes will be distributed the next day at 12:00 PM. You’ll see your winnings automatically credited to your account.</p>
+      </details>
+
+      <details><summary>8. What happens if there is a tie?</summary>
+        <p>If two players have the same turnover, the player who reached it earlier in the day will rank higher.</p>
+      </details>
+
+      <details><summary>9. Can I win multiple days?</summary>
+        <p>Yes. You can win every day during the event — there are no limits.</p>
+      </details>
+
+      <details><summary>10. Are Free Spins or bonuses included in the leaderboard?</summary>
+        <p>Yes, turnover from both cash and bonus play on Pragmatic Play slots counts. Other slot games and game categories do not count.</p>
+      </details>
+
+      <details><summary>11. Who is eligible?</summary>
+        <p>All players who place bets on Pragmatic Play slot games throughout the month.</p>
+      </details>
+
+      <details><summary>12. Do wagering requirements apply to prizes?</summary>
+        <p>Cash prizes: credited with x1 wagering.</p>
+      </details>
+
+      <details><summary>13. Can prizes be exchanged for other rewards?</summary>
+        <p>No. Prizes are non-transferable and cannot be exchanged.</p>
+      </details>
+
+      <details><summary>14. Terms &amp; conditions</summary>
+        <p>Rico.bet reserves the right to disqualify any players found to be engaging in fraud, scams, multiple accounts, or any activity that violates the integrity of the promotion. All other Rico.bet General Terms &amp; Conditions apply.</p>
       </details>
     </section>
   </div>
 
 <script>
-/* ====== CONFIG ====== */
+/* ===== CONFIG ===== */
 const DATA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
 const EVENT_START_YMD  = "2025-09-23";
 const EVENT_END_YMD    = "2025-10-31";
+const CURRENT_TZ = "America/Sao_Paulo"; // BR only
 const CURRENCY = { symbol: "$", code: "USD" };
 
-/* ====== Elements ====== */
+/* ===== Elements ===== */
 const $ = s=>document.querySelector(s);
 const rowsEl = $('#rows'), updatedEl = $('#lastUpdated'), boardDateEl = $('#boardDate');
 const refreshBtn = $('#refresh'), datePicker = $('#datePicker'), todayBtn = $('#quickToday'), yestBtn = $('#quickYesterday');
-const tzMX = $('#tzMX'), tzBR = $('#tzBR');
 const searchInput = $('#searchInput'), searchBtn = $('#searchBtn'), searchResult = $('#searchResult');
 
-/* ====== Timezone handling ====== */
-let CURRENT_TZ = tzMX.dataset.tz; // default MX
-
-function setTimezone(tz){
-  CURRENT_TZ = tz;
-  tzMX.classList.toggle('active', tz === tzMX.dataset.tz);
-  tzBR.classList.toggle('active', tz === tzBR.dataset.tz);
-  // Update lastUpdated to this TZ
-  updatedEl.textContent = new Intl.DateTimeFormat('en-US',{
-    timeZone: CURRENT_TZ, year:'numeric',month:'numeric',day:'numeric',
-    hour:'numeric',minute:'2-digit',second:'2-digit'
-  }).format(new Date());
-}
-
-/* ====== Helpers ====== */
+/* ===== Helpers ===== */
 const fmtMoney = n => `${CURRENCY.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
 const pad2 = n => String(n).padStart(2,'0');
 const toTZ = (d=new Date(), tz=CURRENT_TZ, opts={}) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, ...opts });
@@ -347,7 +369,7 @@ const ymdInTZ = d => toTZ(d, CURRENT_TZ, {year:'numeric',month:'2-digit',day:'2-
 const cmpYmd = (a,b)=>a.localeCompare(b);
 const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD : ymd;
 
-/* ====== Countdown to next midnight (current TZ) ====== */
+/* ===== Countdown to next midnight (BR) ===== */
 (function countdown(){
   const rings = {
     h: document.querySelector('.ring[data-unit="h"] .value'),
@@ -389,10 +411,10 @@ const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(y
   tick();
 })();
 
-/* ====== CSV LOADER ====== */
+/* ===== CSV LOADER ===== */
 let cache = []; // {date, rank, name, amount}
 async function loadCSV(){
-  const url = DATA_CSV_URL + (DATA_CSV_URL.includes('?')?'&':'?') + 't=' + Date.now();
+  const url = DATA_CSV_URL + (DATA_CSV_URL.includes('?')?'&':'?') + 't=' + Date.now(); // cache-bust
   const res = await fetch(url, {cache:'no-store'});
   if(!res.ok) throw new Error('CSV fetch failed');
   const text = await res.text();
@@ -417,7 +439,7 @@ async function loadCSV(){
   }).format(new Date());
 }
 
-/* ====== RENDER ====== */
+/* ===== RENDER ===== */
 function maskUsername(name){
   const s = String(name||'');
   if(s.length<=6){ const keep=Math.max(1,Math.floor(s.length/3)); return `${s.slice(0,keep)}****${s.slice(-keep)}`; }
@@ -455,7 +477,7 @@ function renderDay(ymd){
   }
 }
 
-/* ====== SEARCH ====== */
+/* ===== SEARCH ===== */
 function findRank(ymd, name){
   const dayRows = cache.filter(r=>r.date===ymd);
   if (!dayRows.length) return null;
@@ -470,11 +492,8 @@ function findRank(ymd, name){
 
 async function refreshFor(ymd){ await loadCSV(); renderDay(ymd); }
 
-/* ====== INIT ====== */
+/* ===== INIT ===== */
 (async function init(){
-  tzMX.addEventListener('click', ()=>{ setTimezone(tzMX.dataset.tz); });
-  tzBR.addEventListener('click', ()=>{ setTimezone(tzBR.dataset.tz); });
-
   datePicker.min = EVENT_START_YMD; datePicker.max = EVENT_END_YMD;
   const today = clampYmd( ymdInTZ(new Date()) );
   datePicker.value = today;
@@ -503,13 +522,15 @@ async function refreshFor(ymd){ await loadCSV(); renderDay(ymd); }
   searchBtn.addEventListener('click', doSearch);
   searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
 
-  // Share links
+  // Share links (updated text)
   const shareUrl = location.href.split('#')[0];
-  const tg = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('Join Rico.bet today with this exclusive New Player Power Start Package!')}`;
-  const wa = `https://api.whatsapp.com/send?text=${encodeURIComponent('Join Rico.bet today with this exclusive New Player Power Start Package! 👉 ' + shareUrl)}`;
+  const textMsg = 'I’m chasing glory on the reels… come join the battle for daily prizes!';
+  const tg = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(textMsg)}`;
+  const wa = `https://api.whatsapp.com/send?text=${encodeURIComponent(textMsg + ' 👉 ' + shareUrl)}`;
   document.getElementById('shareTg').href = tg;
   document.getElementById('shareWa').href = wa;
 })();
 </script>
 </body>
 </html>
+
