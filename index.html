@@ -9,7 +9,7 @@
 
 <style>
   :root{
-    --bg-image: url("https://ricobr.ft-crm.com/media-api/serve/a02f364f-bea1-4a99-ae4c-211994eced91_2.png");
+    --bg-image: url("https://ricobr.ft-crm.com/media-api/serve/85c9bc7e-50c8-46fb-933c-359f7c0f9767_1.jpg");
     --bg:#0f1129; --card:#121125; --ring:#2a2e58;
     --tx:#f2f3ff; --mut:#c7cbff; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
     --row-h:56px;
@@ -23,11 +23,12 @@
       var(--bg-image), var(--bg);
     background-size:auto,auto,cover,auto;
     background-position:center;
-    background-attachment:fixed,fixed,fixed,fixed; /* background never moves */
+    background-attachment:fixed,fixed,fixed,fixed; /* lock background */
     color:var(--tx);
     font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif
   }
   .wrap{max-width:1080px; margin:24px auto 46px; padding:0 16px}
+
   .topbar{display:flex; justify-content:center; align-items:center; margin-bottom:12px}
   .logo-img{height:36px;width:auto;display:block}
   @media (max-width:520px){ .logo-img{height:28px} }
@@ -56,7 +57,7 @@
   @media (max-width:720px){ .title-3d{font-size:34px} }
   @media (max-width:520px){ .title-3d{font-size:28px} }
 
-  /* Smaller than title */
+  /* smaller than title */
   .hero-subtitle{
     margin:6px auto 8px; font-weight:800;
     font-size:28px;
@@ -68,15 +69,13 @@
   @media (max-width:520px){ .hero-subtitle{font-size:18px} }
   .sub{margin:12px 0 0; color:var(--mut)}
 
-  /* ==== FLIP-CARD COUNTDOWN (one-row, scrollable on tiny screens) ==== */
+  /* ==== COUNTDOWN (always one row, no swipe) ==== */
   .flipbar{
-    display:flex; gap:14px; justify-content:center; margin-top:10px;
-    flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:2px
+    display:grid; grid-template-columns:repeat(4, 1fr);
+    gap:14px; justify-items:stretch; align-items:stretch; margin-top:10px
   }
-  .flipbar::-webkit-scrollbar{height:6px}
-  .flipbar::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
   .tile{
-    min-width:120px; height:90px; border-radius:14px; position:relative; overflow:hidden;
+    height:96px; border-radius:14px; position:relative; overflow:hidden;
     background:linear-gradient(180deg,#221f45,#191837); border:1px solid rgba(255,255,255,.18);
     box-shadow:0 10px 30px rgba(0,0,0,.35);
     display:grid; place-items:center;
@@ -85,7 +84,6 @@
     font-weight:900; font-size:32px; letter-spacing:.5px;
     background:linear-gradient(180deg,#fff,#d9dcff); -webkit-background-clip:text; color:transparent;
     text-shadow:0 6px 22px rgba(120,115,245,.45);
-    animation:pop .25s ease;
   }
   .lab{position:absolute;bottom:6px;left:0;right:0;text-align:center;color:#c7cbff;font-size:10px;letter-spacing:.35px}
   .tile::before{
@@ -94,25 +92,25 @@
   }
   .flip{animation:flip .5s ease}
   @keyframes flip{0%{transform:rotateX(0)}50%{transform:rotateX(-60deg)}100%{transform:rotateX(0)}}
-  @keyframes pop{0%{transform:scale(.94)}100%{transform:scale(1)}}
-  @media (max-width:520px){ .tile{min-width:96px;height:76px} .num{font-size:26px} }
+  @media (max-width:520px){
+    .tile{height:78px}
+    .num{font-size:26px}
+  }
 
-  /* ===== TOP 3 Podium (trophy overlaps content) ===== */
+  /* ===== TOP 3 Podium (trophy overlaps amount) ===== */
   .podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:end;margin:16px 0 6px}
   .pod{
-    position:relative;border-radius:16px;text-align:center;padding:16px 10px 24px; /* extra bottom so trophy can overlap */
+    position:relative;border-radius:16px;text-align:center;padding:16px 10px 24px;
     background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.03));
     border:2px solid rgba(255,255,255,.24); box-shadow:0 14px 28px rgba(0,0,0,.38); overflow:visible;
   }
   .pod--1{transform:translateY(-8px);background:linear-gradient(180deg,#3a2f6b,#211e46)}
-  /* corner rank hash */
   .pod-rank{
     position:absolute; top:6px; left:6px;
     display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:22px;padding:0 8px;
     border-radius:999px;font-weight:900;border:2px solid rgba(255,255,255,.35);
     background:rgba(255,255,255,.92); color:#1b1b38; font-size:12px
   }
-  /* trophy sticker that covers a bit of the amount */
   .trophy{
     position:absolute; bottom:-8px; left:50%; transform:translateX(-50%) rotate(-2deg);
     width:56px; height:38px; border-radius:12px; display:grid; place-items:center;
@@ -224,7 +222,7 @@
       <h1 class="title-3d">Spins Of Glory</h1>
       <div class="hero-subtitle">Daily Prizes of USD 5,000</div>
 
-      <!-- One-row flip countdown to Oct 31, 2025 23:59:59 UTC-3 -->
+      <!-- One-row countdown to Oct 31, 2025 23:59:59 UTC-3 -->
       <div class="flipbar" aria-label="Countdown to event end (UTC-3)">
         <div class="tile" data-unit="d"><div class="num">00</div><div class="lab">DAYS</div></div>
         <div class="tile" data-unit="h"><div class="num">00</div><div class="lab">HRS</div></div>
@@ -281,7 +279,7 @@
 
     <div class="divider"></div>
 
-    <!-- FAQ (same content from earlier step; keep as-is or edit) -->
+    <!-- FAQ (unchanged text – you can edit freely) -->
     <details class="faq-panel card glow">
       <summary>FAQ &amp; Terms</summary>
       <div class="faq-body">
@@ -338,9 +336,9 @@
 /* ===== CONFIG ===== */
 const DATA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
 
-/* Fixed timezone UTC-3 for countdown */
+/* Countdown ends Oct 31, 2025 23:59:59 UTC-3 */
 const EVENT_END_TARGET = new Date("2025-10-31T23:59:59-03:00");
-const CURRENT_TZ = "Etc/GMT+3";
+const CURRENT_TZ = "Etc/GMT+3";       /* fixed UTC-3 */
 const CURRENCY = { symbol: "$", code: "USD" };
 
 /* ===== Elements ===== */
@@ -361,7 +359,7 @@ function maskMiddle4(name){
 function bust(url){ return url ? url + (url.includes('?')?'&':'?') + 'v=' + Date.now() : ''; }
 function avatarStyle(url){ return url ? `style="background-image:url('${bust(url)}');"` : ""; }
 
-/* ===== Flip countdown ===== */
+/* ===== Flip countdown (always one row) ===== */
 (function countdown(){
   const tiles = {
     d: document.querySelector('.tile[data-unit="d"] .num'),
@@ -386,7 +384,7 @@ function avatarStyle(url){ return url ? `style="background-image:url('${bust(url
   tick();
 })();
 
-/* ===== CSV parser (robust) ===== */
+/* ===== CSV parser (robust for commas) ===== */
 function parseCSV(text){
   const rows=[]; let cur=[], curVal='', inQ=false;
   for(let i=0;i<text.length;i++){
@@ -434,7 +432,6 @@ async function loadCSV(){
   }
   cache = out;
 
-  // auto min/max date from sheet
   const dates = Array.from(new Set(cache.map(r=>r.date))).sort();
   MIN_YMD = dates[0]; MAX_YMD = dates[dates.length-1];
   if(datePicker){ datePicker.min = MIN_YMD; datePicker.max = MAX_YMD; }
@@ -447,8 +444,9 @@ const clampYmd = ymd => {
 };
 
 /* ===== helpers for sorted day ===== */
+function getDayRows(ymd){ return cache.filter(r=>r.date===ymd); }
 function getSortedDay(ymd){
-  const dayRows = cache.filter(r=>r.date===ymd);
+  const dayRows = getDayRows(ymd);
   if(!dayRows.length) return [];
   const hasRank = dayRows.some(r=>r.rank>0);
   return dayRows.slice().sort((a,b)=> hasRank ? (a.rank||999999)-(b.rank||999999) : (b.amount||0)-(a.amount||0));
@@ -500,36 +498,42 @@ function renderDay(ymd){
   });
 }
 
-/* ===== Search (works for non-Top20; sticky preview ≤100) ===== */
+/* ===== Search using your PROVIDED rank (any number) ===== */
 function doSearch(){
   const q = normalizeName((searchInput.value||'')); searchResult.textContent='';
   if(!q) return;
 
   const ymd = datePicker.value;
-  const sorted = getSortedDay(ymd);
-  if(!sorted.length){ searchResult.textContent=`No data for ${ymd}.`; return; }
+  const dayRows = getDayRows(ymd);
+  if(!dayRows.length){ searchResult.textContent=`No data for ${ymd}.`; return; }
 
-  const matches = sorted.filter(r => normalizeName(r.name) === q);
+  // exact matches for that date
+  const matches = dayRows.filter(r => normalizeName(r.name) === q);
   if(matches.length === 0){ searchResult.textContent = `No exact match for "${q}" on ${ymd}.`; return; }
 
+  // choose the best (lowest rank; if rank missing, compute from full sorted list)
+  const fullSorted = getSortedDay(ymd);
   const best = matches.reduce((a,b)=>{
-    const ar=a.rank||999999, br=b.rank||999999;
-    if(ar!==br) return ar<br?a:b;
-    return (a.amount||0) >= (b.amount||0) ? a : b;
+    const ar=a.rank|| (fullSorted.indexOf(a)+1)||999999;
+    const br=b.rank|| (fullSorted.indexOf(b)+1)||999999;
+    return ar<=br ? a : b;
   });
 
-  const displayRank = (best.rank && best.rank>0) ? best.rank : (sorted.indexOf(best)+1);
+  const providedRank = best.rank && best.rank>0 ? best.rank : null;
+  const computed = fullSorted.indexOf(best)+1;
+  const finalRank = providedRank ?? computed;
 
-  if(displayRank <= 20){
-    searchResult.textContent = `✅ ${q} is #${displayRank} today.`;
+  // message
+  if(finalRank <= 20){
+    searchResult.textContent = `✅ ${q} is #${finalRank} today.`;
     const row = Array.from(rowsEl.children).find(e => (e.dataset.name||'') === normalizeName(best.name));
     if(row){ rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit')); row.classList.add('hit'); row.scrollIntoView({behavior:'smooth',block:'center'}); }
-  }else if(displayRank <= 100){
-    searchResult.textContent = `ℹ️ ${q} is #${displayRank} today (Top 100).`;
+  }else{
+    searchResult.textContent = `ℹ️ ${q} is #${finalRank} today.`;
     const existing = rowsEl.querySelector('.pin'); if(existing) existing.remove();
     rowsEl.insertAdjacentHTML('beforeend', `
       <div class="row pin">
-        <div><span class="rank">#${displayRank}</span></div>
+        <div><span class="rank">#${finalRank}</span></div>
         <div class="player">
           <span class="avatar" ${avatarStyle(best.avatar)}></span>
           <span class="mask">${maskMiddle4(best.name)}</span>
@@ -538,8 +542,6 @@ function doSearch(){
       </div>
     `);
     rowsEl.lastElementChild.scrollIntoView({behavior:'smooth',block:'end'});
-  }else{
-    searchResult.textContent = `🔎 ${q} is #${displayRank} today (outside Top 100).`;
   }
 }
 
@@ -547,7 +549,7 @@ function doSearch(){
 (async function init(){
   await loadCSV();
 
-  // default date = today in UTC-3, then clamped to data range
+  // default date = today (UTC-3) then clamped to data range
   const today = clampYmd( ymdInTZ(new Date()) );
   datePicker.value = today; renderDay(today);
 
