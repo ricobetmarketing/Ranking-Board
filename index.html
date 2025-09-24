@@ -13,23 +13,18 @@
     --bg:#0f1129; --card:#121125; --ring:#2a2e58;
     --tx:#f2f3ff; --mut:#c7cbff; --g1:#ff6ec4; --g2:#7873f5; --a3:#78f3ff;
     --row-h:56px;
+    --c1:#ffd84a; --c2:#dfe6ff; --c3:#ffc19b;
   }
   *{box-sizing:border-box}
   body{
     margin:0;
-    /* lock the background so it doesn't "move" when content expands */
     background:
       radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
       radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
-      var(--bg);
-    background-image:
-      radial-gradient(1200px 600px at 10% -10%,rgba(255,110,196,.10),transparent),
-      radial-gradient(900px 500px at 100% 110%,rgba(120,115,245,.10),transparent),
-      var(--bg-image);
-    background-size: auto, auto, cover;
+      var(--bg-image), var(--bg);
+    background-size: auto, auto, cover, auto;
     background-position:center;
-    /* this line fixes the “expanding/moving” feel */
-    background-attachment: fixed, fixed, fixed;
+    background-attachment: fixed, fixed, fixed, fixed;
     color:var(--tx);
     font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif
   }
@@ -50,7 +45,6 @@
 
   /* ===== HERO ===== */
   .hero.card{padding:18px; text-align:center}
-
   .title-3d{
     margin:2px 0 4px; font-weight:900; letter-spacing:.4px; color:#fff;
     text-shadow:
@@ -63,7 +57,6 @@
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
   @media (max-width:720px){ .title-3d{font-size:34px} }
   @media (max-width:520px){ .title-3d{font-size:28px} }
-
   .hero-subtitle{
     margin:6px auto 8px; font-weight:800; font-size:18px;
     background:linear-gradient(90deg,var(--g1),var(--a3),var(--g2),var(--g1));
@@ -86,7 +79,68 @@
   .ring .label{position:absolute;bottom:8px;font-size:10px;color:#c7cbff;letter-spacing:.35px}
   @media (max-width:520px){ .ring{width:78px;height:78px} .ring svg{width:78px;height:78px} .value{font-size:18px} }
 
-  /* ===== WINNERS ===== */
+  /* ===== CARTOON PODIUM (TOP 3) ===== */
+  .podium{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:end;margin:14px 0 2px
+  }
+  .pod{
+    position:relative;border-radius:18px;text-align:center;padding:16px 10px 22px;
+    background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.03));
+    border:2px solid rgba(255,255,255,.28); box-shadow:0 16px 30px rgba(0,0,0,.40);
+  }
+  .pod--1{transform:translateY(-14px);background:linear-gradient(180deg,#3a2f6b,#211e46)}
+  /* block numbers (1/2/3) */
+  .pod::after{
+    content:attr(data-ped); position:absolute; left:50%; transform:translateX(-50%); bottom:-16px;
+    width:56px; height:36px; border-radius:12px; display:grid; place-items:center;
+    font-weight:900; font-size:18px; color:#1a1b33; letter-spacing:.2px;
+    border:2px solid rgba(255,255,255,.45); box-shadow:0 10px 18px rgba(0,0,0,.45);
+    background:var(--ped,#ffd84a);
+  }
+  .pod--1{ --ped:var(--c1) }  .pod--2{ --ped:var(--c2) }  .pod--3{ --ped:var(--c3) }
+
+  /* rank chip (kept tiny, like reference numbers) */
+  .pod-rank{
+    position:absolute; top:8px; left:8px;
+    display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:26px;padding:0 10px;
+    border-radius:999px;font-weight:900;border:2px solid rgba(255,255,255,.35);box-shadow:0 2px 0 rgba(0,0,0,.35);
+    background:rgba(255,255,255,.9); color:#1b1b38;
+  }
+
+  /* NEW: Trophy badge */
+  .trophy{
+    position:absolute; top:-14px; right:-10px; width:64px; height:64px; border-radius:16px;
+    display:grid; place-items:center; font-size:28px; font-weight:900; color:#1b1b38;
+    transform:rotate(-8deg); box-shadow:0 10px 18px rgba(0,0,0,.45);
+    border:3px solid rgba(255,255,255,.6);
+    background:var(--tbg);
+    animation:wobble 2.4s ease-in-out infinite;
+  }
+  .t1{ --tbg: linear-gradient(135deg,#fff6b5,#ffd84a) } /* gold */
+  .t2{ --tbg: linear-gradient(135deg,#f4f6ff,#dbe3ff) } /* silver */
+  .t3{ --tbg: linear-gradient(135deg,#ffe0c9,#ffb07a) } /* bronze */
+  .trophy::after{ content:"🏆"; filter:drop-shadow(0 2px 0 rgba(0,0,0,.25)); }
+  @keyframes wobble{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(6deg) translateY(-4px)}}
+
+  /* Avatar only (no sticker) */
+  .pod-avatar{
+    width:88px;height:88px;border-radius:22px;margin:16px auto 8px;
+    background:linear-gradient(135deg,var(--g2),var(--a3));background-size:cover;background-position:center;
+    border:4px solid rgba(255,255,255,.65); box-shadow:0 8px 16px rgba(0,0,0,.35);
+  }
+  .pod-name{font-weight:900;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pod-amt{margin-top:2px;font-weight:900;font-variant-numeric:tabular-nums}
+
+  /* keep 3 columns on mobile */
+  @media (max-width:520px){
+    .podium{grid-template-columns:1fr 1fr 1fr}
+    .pod--1{transform:translateY(-10px)}
+    .pod-avatar{width:70px;height:70px;border-width:3px;margin:12px auto 6px}
+    .pod::after{width:48px;height:30px;font-size:16px;bottom:-12px}
+    .trophy{width:54px;height:54px}
+  }
+
+  /* ===== LIST (#4–#20), cute badges ===== */
   .panel.card{padding:14px}
   .panel-head{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; margin-bottom:8px}
   .title{margin:0; font-size:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
@@ -98,27 +152,27 @@
   .board-wrap{overflow:hidden}
   .board{width:100%; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
   .row{
-    display:grid; grid-template-columns:72px 1fr 180px; gap:10px; align-items:center;
-    padding:12px 12px; background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+    display:grid; grid-template-columns:88px 1fr 180px; gap:10px; align-items:center;
+    padding:12px 12px; background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
     border-bottom:1px solid rgba(255,255,255,.06)
   }
-  .row.head{background:rgba(255,255,255,.05); font-weight:900; color:#dfe3ff}
+  .row.head{background:rgba(255,255,255,.08); font-weight:900; color:#dfe3ff}
   .row:last-child{border-bottom:none}
-  .rank{display:inline-flex; align-items:center; justify-content:center; width:44px; height:28px; border-radius:999px;
-        background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); font-weight:900}
-  .rank.top1{background:linear-gradient(90deg,#ffef9a,#ffd84a); color:#191b32}
-  .rank.top2{background:linear-gradient(90deg,#e5e9ff,#cbd2ff); color:#191b32}
-  .rank.top3{background:linear-gradient(90deg,#ffd3b5,#ffae7a); color:#191b32}
-
-  .player{display:flex; align-items:center; gap:10px; min-width:0}
-  .avatar{flex:0 0 auto; width:26px; height:26px; border-radius:8px; background:linear-gradient(135deg,var(--g2),var(--a3))}
-  .mask{
-    flex:1 1 auto; font-weight:800; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    font-size:13px;
+  .rank{
+    display:inline-flex;align-items:center;justify-content:center;min-width:56px;height:36px;padding:0 12px;
+    border-radius:18px;background:linear-gradient(180deg,#2c2b56,#1b1b38);
+    border:2px solid rgba(255,255,255,.28); font-weight:900; box-shadow:0 3px 0 rgba(0,0,0,.35)
   }
-  .payout{font-variant-numeric:tabular-nums; font-weight:800; text-align:right}
-  @media (max-width:560px){ .row{grid-template-columns:58px 1fr 132px; padding:10px} .mask{font-size:12px} }
+  .player{display:flex; align-items:center; gap:10px; min-width:0}
+  .avatar{
+    width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--g2),var(--a3));
+    background-size:cover;background-position:center;border:2px solid rgba(255,255,255,.35); box-shadow:0 3px 0 rgba(0,0,0,.35)
+  }
+  .mask{flex:1 1 auto; font-weight:900; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:13px}
+  .payout{font-variant-numeric:tabular-nums; font-weight:900; text-align:right}
+  @media (max-width:560px){ .row{grid-template-columns:74px 1fr 132px; padding:10px} .mask{font-size:12px} }
 
+  /* Show only 5 rows before scroll */
   .viewport{max-height:calc(var(--row-h) * 5); overflow-y:auto}
   .viewport::-webkit-scrollbar{height:8px;width:8px}
   .viewport::-webkit-scrollbar-thumb{background:#2b2d4e;border-radius:10px}
@@ -134,72 +188,29 @@
   .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:12px; text-decoration:none;
       font-weight:800; font-size:14px; color:#fff; border:1px solid rgba(255,255,255,.25); transition:transform .15s ease}
   .btn:hover{transform:translateY(-2px)}
-  .btn--pri{
-    background:linear-gradient(90deg,var(--g1),var(--g2));
-    box-shadow:0 0 0 0 rgba(120,115,245,.55);
-    animation:pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(120,115,245,.55)}
-    70%{box-shadow:0 0 0 18px rgba(120,115,245,0)}
-    100%{box-shadow:0 0 0 0 rgba(120,115,245,0)}
-  }
+  .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2)); box-shadow:0 0 0 0 rgba(120,115,245,.55); animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(120,115,245,.55)}70%{box-shadow:0 0 0 18px rgba(120,115,245,0)}100%{box-shadow:0 0 0 0 rgba(120,115,245,0)}}
   .btn--dark{background:#1a1b34}
 
-  .support{
-    margin-top:10px; text-align:center; color:#cfd3ff;
-    text-shadow: 0 1px 0 rgba(0,0,0,.8), 0 6px 18px rgba(0,0,0,.35);
-  }
+  .support{margin-top:10px; text-align:center; color:#cfd3ff; text-shadow: 0 1px 0 rgba(0,0,0,.8), 0 6px 18px rgba(0,0,0,.35)}
   .support a{color:#a5b0ff; font-weight:800; text-decoration:underline}
 
-  .sharebar{
-    margin-top:18px; display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:14px 16px; border-radius:14px; background:#0f216a; border:1px solid #2c3ea0; color:#fff;
-    box-shadow:0 10px 25px rgba(0,0,0,.25);
-  }
+  .sharebar{margin-top:18px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:14px 16px; border-radius:14px; background:#0f216a; border:1px solid #2c3ea0; color:#fff; box-shadow:0 10px 25px rgba(0,0,0,.25)}
   .sharebar b{font-size:18px; letter-spacing:.5px; text-shadow:0 2px 0 rgba(0,0,0,.35)}
   .share-actions{display:flex; gap:10px}
-  .sharebtn{
-    display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:999px;
-    background:#142b90; border:1px solid rgba(255,255,255,.18); text-decoration:none; transition:transform .15s ease;
-  }
+  .sharebtn{display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:999px; background:#142b90; border:1px solid rgba(255,255,255,.18); text-decoration:none; transition:transform .15s ease}
   .sharebtn:hover{transform:translateY(-2px)}
-  .sharebtn img{width:22px;height:22px; filter: drop-shadow(0 1px 0 rgba(0,0,0,.35))}
   .tg{background:#229ED9} .wa{background:#25D366}
-
   .divider{height:1px; margin:26px 0 8px; background:linear-gradient(90deg,transparent,#394080,transparent)}
 
-  /* ===== FAQ PANEL (two-level accordion, fixed-height body) ===== */
-  .faq-panel{
-    border-radius:18px; overflow:hidden;
-  }
-  .faq-panel > summary{
-    list-style:none; cursor:pointer; padding:14px 16px; font-weight:900; font-size:16px;
-    background:#17183a; color:#fff; display:flex; align-items:center; justify-content:space-between;
-  }
-  .faq-panel > summary::after{
-    content:"▾"; opacity:.9; transition:transform .2s ease;
-  }
+  /* ===== FAQ (no number pills) ===== */
+  .faq-panel{border-radius:18px; overflow:hidden}
+  .faq-panel > summary{list-style:none; cursor:pointer; padding:14px 16px; font-weight:900; font-size:16px; background:#17183a; color:#fff; display:flex; align-items:center; justify-content:space-between}
+  .faq-panel > summary::after{content:"▾"; opacity:.9; transition:transform .2s ease}
   .faq-panel[open] > summary::after{ transform:rotate(180deg) }
-  .faq-body{
-    padding:12px 14px;
-    /* The key: cap the height so the page doesn’t jump; scroll internally */
-    max-height:60vh; overflow:auto;
-    background:#0f1030;
-  }
-  .faq-toolbar{
-    display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:0 0 10px
-  }
-  .faq-toolbar .mini{font-size:12px;padding:6px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#141534;color:#fff;cursor:pointer}
-  .toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px}
-  .toc a{
-    display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px;
-    color:#e8eaff; background:#1b1d3a; border:1px solid rgba(255,255,255,.12); text-decoration:none
-  }
-  .faq-item{
-    background:#141534; border:1px solid rgba(255,255,255,.12); border-radius:12px;
-    padding:10px 12px; margin:8px 0; box-shadow:0 8px 24px rgba(0,0,0,.2)
-  }
+  .faq-body{padding:12px 14px; max-height:60vh; overflow:auto; background:#0f1030}
+  .faq-item{background:#141534; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px; margin:8px 0; box-shadow:0 8px 24px rgba(0,0,0,.2)}
   .faq-item > summary{cursor:pointer; font-weight:800}
   .faq-item p{margin:8px 0 0 0; color:#dfe3ff}
 </style>
@@ -210,7 +221,7 @@
       <img src="https://ricobr.ft-crm.com/media-api/serve/c5570255-af15-4915-8b16-907d5bc7f999_Rico_Logo.png" alt="RicoBet" class="logo-img" />
     </div>
 
-    <!-- HERO (unchanged) -->
+    <!-- HERO -->
     <section class="hero card glow">
       <h1 class="title-3d">Spins Of Glory</h1>
       <div class="hero-subtitle">Daily Prizes of USD 5,000</div>
@@ -244,7 +255,7 @@
       <p class="sub">Play in Pragmatic Play Slot Games to win the daily prizes !</p>
     </section>
 
-    <!-- WINNERS (unchanged layout) -->
+    <!-- WINNERS -->
     <section class="panel card glow" style="margin-top:18px">
       <div class="panel-head">
         <h2 class="title">🏆 Top 20 • <span id="boardDate">—</span></h2>
@@ -257,12 +268,10 @@
         </div>
       </div>
 
-      <div class="search-wrap" style="margin:6px 0 10px;">
-        <input class="search-input" id="searchInput" type="text" placeholder="Search your full username…" />
-        <button class="search-btn" id="searchBtn">Search</button>
-        <span class="search-result" id="searchResult"></span>
-      </div>
+      <!-- Podium -->
+      <div id="podium" class="podium" aria-live="polite"></div>
 
+      <!-- List starts at #4 -->
       <div class="board-wrap">
         <div class="board">
           <div class="row head">
@@ -280,84 +289,60 @@
     </div>
     <p class="support">Need help? Message our support on Telegram and we’ll assist you: <a href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener">Contact Support</a></p>
 
-    <!-- Share -->
-    <div class="sharebar">
-      <b>SHARE WITH YOUR FRIENDS</b>
-      <div class="share-actions">
-        <a id="shareTg" class="sharebtn tg" title="Share on Telegram" target="_blank" rel="noopener">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram">
-        </a>
-        <a id="shareWa" class="sharebtn wa" title="Share on WhatsApp" target="_blank" rel="noopener">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
-        </a>
-      </div>
-    </div>
-
     <div class="divider"></div>
 
-    <!-- ===== NEW: Single “FAQ & Terms” box which opens, then inner Q/A accordions ===== -->
+    <!-- FAQ (no numbered pills) -->
     <details class="faq-panel card glow">
       <summary>FAQ &amp; Terms</summary>
       <div class="faq-body">
-        <div class="faq-toolbar">
-          <button id="expandAll" class="mini">Expand all</button>
-          <button id="collapseAll" class="mini">Collapse all</button>
-        </div>
-        <div class="toc">
-          <a href="#q1">1</a><a href="#q2">2</a><a href="#q3">3</a><a href="#q4">4</a>
-          <a href="#q5">5</a><a href="#q6">6</a><a href="#q7">7</a><a href="#q8">8</a>
-          <a href="#q9">9</a><a href="#q10">10</a><a href="#q11">11</a><a href="#q12">12</a>
-          <a href="#q13">13</a><a href="#q14">14</a>
-        </div>
-
         <details id="q1" class="faq-item"><summary>1. What is this event about?</summary>
-          <p>This is a daily leaderboard competition on Pragmatic Play games, running from 1st October to 31st October 2025. Players compete based on their daily turnover. The higher your turnover, the higher you rank, and the better the prize you’ll receive.</p>
+          <p>Daily leaderboard on Pragmatic Play slots. Higher turnover = higher rank = bigger prize.</p>
         </details>
         <details id="q2" class="faq-item"><summary>2. How do I participate?</summary>
-          <p>Simply play any Pragmatic Play slot games during the event period. Your turnover (total bets) will be tracked automatically.</p>
+          <p>Play any Pragmatic Play slot during the event. Your turnover is tracked automatically.</p>
         </details>
         <details id="q3" class="faq-item"><summary>3. How are prizes distributed?</summary>
-          <p>Each day, the Top 20 players by turnover win a share of the $5,000 daily prize pool: 1st Place: $1,500 • 2nd–5th: $500 each • 6th–10th: $200 each • 11th–20th: $50 each.</p>
+          <p>Top 20 share the $5,000 daily pool. 1st: $1,500 • 2–5: $500 • 6–10: $200 • 11–20: $50.</p>
         </details>
-        <details id="q4" class="faq-item"><summary>4. What is the total prize pool?</summary>
-          <p>The event runs for the month with a total pool of $150,000, split into $5,000 daily prizes.</p>
+        <details id="q4" class="faq-item"><summary>4. Total prize pool?</summary>
+          <p>$150,000 across the month.</p>
         </details>
         <details id="q5" class="faq-item"><summary>5. When does the leaderboard reset?</summary>
-          <p>The leaderboard resets daily at 00:00 (Brazil local time). Each new day starts a fresh competition.</p>
+          <p>00:00 (Brazil local time) daily.</p>
         </details>
-        <details id="q6" class="faq-item"><summary>6. How will I know my rank?</summary>
-          <p>You can check the live leaderboard on our site’s inbox. If you’re not in the Top 20, you can still see your current ranking by entering your username.</p>
+        <details id="q6" class="faq-item"><summary>6. How do I see my rank?</summary>
+          <p>Use the live board here. If not in Top 20, search your username to see your current rank.</p>
         </details>
-        <details id="q7" class="faq-item"><summary>7. When will I receive my prize?</summary>
-          <p>Daily leaderboard prizes will be distributed the next day at 12:00 PM. You’ll see your winnings automatically credited to your account.</p>
+        <details id="q7" class="faq-item"><summary>7. When are prizes paid?</summary>
+          <p>Next day, 12:00 PM local time.</p>
         </details>
-        <details id="q8" class="faq-item"><summary>8. What happens if there is a tie?</summary>
-          <p>If two players have the same turnover, the player who reached it earlier in the day will rank higher.</p>
+        <details id="q8" class="faq-item"><summary>8. Ties?</summary>
+          <p>Earliest to reach the amount ranks higher.</p>
         </details>
         <details id="q9" class="faq-item"><summary>9. Can I win multiple days?</summary>
-          <p>Yes. You can win every day during the event — there are no limits.</p>
+          <p>Yes—every day is a new chance.</p>
         </details>
-        <details id="q10" class="faq-item"><summary>10. Are Free Spins or bonuses included in the leaderboard?</summary>
-          <p>Yes, turnover from both cash and bonus play on Pragmatic Play slots counts. Other slot games and game categories do not count.</p>
+        <details id="q10" class="faq-item"><summary>10. What counts?</summary>
+          <p>Turnover from Pragmatic Play slots (cash and bonus). Others don’t count.</p>
         </details>
-        <details id="q11" class="faq-item"><summary>11. Who is eligible?</summary>
-          <p>All players who place bets on Pragmatic Play slot games throughout the month.</p>
+        <details id="q11" class="faq-item"><summary>11. Who’s eligible?</summary>
+          <p>All players wagering on Pragmatic Play slots.</p>
         </details>
-        <details id="q12" class="faq-item"><summary>12. Do wagering requirements apply to prizes?</summary>
-          <p>Cash prizes: credited with x1 wagering.</p>
+        <details id="q12" class="faq-item"><summary>12. Wagering on prizes?</summary>
+          <p>Cash prizes: x1 wagering.</p>
         </details>
-        <details id="q13" class="faq-item"><summary>13. Can prizes be exchanged for other rewards?</summary>
-          <p>No. Prizes are non-transferable and cannot be exchanged.</p>
+        <details id="q13" class="faq-item"><summary>13. Exchange prizes?</summary>
+          <p>No. Prizes are non-transferable.</p>
         </details>
-        <details id="q14" class="faq-item"><summary>14. Terms &amp; conditions</summary>
-          <p>Rico.bet reserves the right to disqualify any players found to be engaging in fraud, scams, multiple accounts, or any activity that violates the integrity of the promotion. All other Rico.bet General Terms &amp; Conditions apply.</p>
+        <details id="q14" class="faq-item"><summary>14. Terms</summary>
+          <p>Fraud/multi-accounting voids rewards. General Rico.bet T&amp;Cs apply.</p>
         </details>
       </div>
     </details>
   </div>
 
 <script>
-/* ===== CONFIG (unchanged) ===== */
+/* ===== CONFIG ===== */
 const DATA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmj-_miuOyDdV2cshF2M_g6aaVcNqtChyeg5PII28oaWQHPFVPiQzogRBLOATha5ug0Vh2t6HUgIIP/pub?output=csv";
 const EVENT_START_YMD  = "2025-09-23";
 const EVENT_END_YMD    = "2025-10-31";
@@ -366,9 +351,8 @@ const CURRENCY = { symbol: "$", code: "USD" };
 
 /* ===== Elements ===== */
 const $ = s=>document.querySelector(s);
-const rowsEl = $('#rows'), updatedEl = $('#lastUpdated'), boardDateEl = $('#boardDate');
-const refreshBtn = $('#refresh'), datePicker = $('#datePicker'), todayBtn = $('#quickToday'), yestBtn = $('#quickYesterday');
-const searchInput = $('#searchInput'), searchBtn = $('#searchBtn'), searchResult = $('#searchResult');
+const rowsEl = $('#rows'), podiumEl = $('#podium'), updatedEl = $('#lastUpdated'), boardDateEl = $('#boardDate');
+const datePicker = $('#datePicker');
 
 /* ===== Helpers ===== */
 const fmtMoney = n => `${CURRENCY.symbol} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
@@ -378,62 +362,7 @@ const ymdInTZ = d => toTZ(d, CURRENT_TZ, {year:'numeric',month:'2-digit',day:'2-
 const cmpYmd = (a,b)=>a.localeCompare(b);
 const clampYmd = ymd => cmpYmd(ymd,EVENT_START_YMD)<0?EVENT_START_YMD : cmpYmd(ymd,EVENT_END_YMD)>0?EVENT_END_YMD : ymd;
 
-/* ===== Countdown (Brazil midnight) ===== */
-function tzOffsetMillisAt(date = new Date(), tz = CURRENT_TZ){
-  const partsFor = (z)=> new Intl.DateTimeFormat('en-CA', {
-    timeZone:z,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',
-    hour:'2-digit',minute:'2-digit',second:'2-digit'
-  }).formatToParts(date).reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
-  const utc = partsFor('UTC'), tzz = partsFor(tz);
-  const utcEpoch = Date.parse(`${utc.year}-${utc.month}-${utc.day}T${utc.hour}:${utc.minute}:${utc.second}Z`);
-  const tzEpoch  = Date.parse(`${tzz.year}-${tzz.month}-${tzz.day}T${tzz.hour}:${tzz.minute}:${tzz.second}Z`);
-  return tzEpoch - utcEpoch;
-}
-function nextMidnightInTZ(tz = CURRENT_TZ){
-  const now = new Date();
-  const parts = toTZ(now, tz, {year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now)
-                 .reduce((a,p)=>{a[p.type]=p.value;return a;}, {});
-  const Y = +parts.year, M = +parts.month, D = +parts.day;
-  const offset = tzOffsetMillisAt(now, tz);
-  const targetUtcMs = Date.UTC(Y, M-1, D+1, 0,0,0) - offset;
-  return new Date(targetUtcMs);
-}
-(function countdown(){
-  const rings = {
-    h: document.querySelector('.ring[data-unit="h"] .value'),
-    m: document.querySelector('.ring[data-unit="m"] .value'),
-    s: document.querySelector('.ring[data-unit="s"] .value'),
-  };
-  const fgH = document.querySelector('.ring[data-unit="h"] .fg');
-  const fgM = document.querySelector('.ring[data-unit="m"] .fg');
-  const fgS = document.querySelector('.ring[data-unit="s"] .fg');
-  const CIRC = 2 * Math.PI * 30;
-  [fgH,fgM,fgS].forEach(el=>{ el.style.strokeDasharray=`${CIRC}`; });
-
-  function tick(){
-    const target = nextMidnightInTZ();
-    const now = new Date();
-    let diff = target - now; if (diff < 0) diff = 0;
-
-    const h = Math.floor(diff/3600000);
-    const m = Math.floor((diff%3600000)/60000);
-    const s = Math.floor((diff%60000)/1000);
-
-    const old = {h:rings.h.textContent, m:rings.m.textContent, s:rings.s.textContent};
-    const nh = pad2(h), nm = pad2(m), ns = pad2(s);
-    rings.h.textContent = nh; rings.m.textContent = nm; rings.s.textContent = ns;
-    ['h','m','s'].forEach(k=>{ if (old[k]!==({h:nh,m:nm,s:ns}[k])) { rings[k].classList.add('bump'); setTimeout(()=>rings[k].classList.remove('bump'),150); } });
-
-    fgH.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, h/24))}`;
-    fgM.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, m/60))}`;
-    fgS.style.strokeDashoffset = `${CIRC * (1 - Math.min(1, s/60))}`;
-
-    requestAnimationFrame(()=>setTimeout(tick, 250));
-  }
-  tick();
-})();
-
-/* ===== CSV loader & leaderboard ===== */
+/* ===== CSV loader & leaderboard (Avatar URL optional in column 5) ===== */
 let cache = [];
 async function loadCSV(){
   const url = DATA_CSV_URL + (DATA_CSV_URL.includes('?')?'&':'?') + 't=' + Date.now();
@@ -449,9 +378,10 @@ async function loadCSV(){
     const date = raw[0].trim();
     const rank = Number(raw[1]?.trim() || 0);
     const username = (raw[2]||'').trim();
-    const turnover = Number(String(raw[3]||'0').replace(/[$,\s]/g,''));
+    const turnover = Number(String(raw[3]||'0').replace(/[$,\s]/g,''));  // numeric
+    const avatar = (raw[4]||'').trim(); // optional
     if (!date || !username) continue;
-    out.push({date, rank, name: username, amount: isNaN(turnover)?0:turnover});
+    out.push({date, rank, name: username, amount: isNaN(turnover)?0:turnover, avatar});
   }
   cache = out;
 
@@ -459,18 +389,32 @@ async function loadCSV(){
     timeZone: CURRENT_TZ, year:'numeric',month:'numeric',day:'numeric',
     hour:'numeric',minute:'2-digit',second:'2-digit'
   }).format(new Date());
-  const el = document.getElementById('lastUpdated');
-  if (el) el.textContent = updated;
+  updatedEl.textContent = updated;
 }
 function maskUsername(name){
   const s = String(name||'');
   if(s.length<=6){ const keep=Math.max(1,Math.floor(s.length/3)); return `${s.slice(0,keep)}****${s.slice(-keep)}`; }
   const left=Math.floor((s.length-4)/2); return s.slice(0,left)+'****'+s.slice(left+4);
 }
+function bust(url){
+  if(!url) return '';
+  const sep = url.includes('?') ? '&' : '?';
+  return `${url}${sep}v=${Date.now()}`; // cache-buster for avatar updates
+}
+function avatarStyle(url){ return url ? `style="background-image:url('${bust(url)}');"` : ""; }
+
+/* Build podium card */
+function trophyClass(rank){
+  if(rank===1) return 'trophy t1';
+  if(rank===2) return 'trophy t2';
+  return 'trophy t3';
+}
+
 function renderDay(ymd){
-  const bd = document.getElementById('boardDate');
-  if (bd) bd.textContent = ymd;
+  boardDateEl.textContent = ymd;
   rowsEl.innerHTML = '';
+  podiumEl.innerHTML = '';
+
   const dayRows = cache.filter(r=>r.date===ymd);
   if (!dayRows.length){
     rowsEl.innerHTML = `<div class="row"><div></div><div>No results for ${ymd}.</div><div></div></div>`;
@@ -485,77 +429,60 @@ function renderDay(ymd){
     return (b.amount||0)-(a.amount||0);
   });
 
-  const top20 = sorted.slice(0,20);
-  for(const r of top20){
+  // Podium 1–3 (center = #1, left = #2, right = #3)
+  const top3 = sorted.slice(0,3);
+  const order = [1,0,2];
+  order.forEach((i)=>{
+    const r = top3[i]; if(!r) return;
+    const cls = i===0?'pod--1' : i===1?'pod--2':'pod--3';
+    const shownRank = withRank ? (r.rank || i+1) : (i+1);
+    const trophy = `<div class="${trophyClass(shownRank)}" aria-hidden="true"></div>`;
+    podiumEl.insertAdjacentHTML('beforeend', `
+      <div class="pod ${cls}" data-ped="${i+1}">
+        <div class="pod-rank">#${shownRank}</div>
+        ${trophy}
+        <div class="pod-avatar" ${avatarStyle(r.avatar)}></div>
+        <div class="pod-name">${maskUsername(r.name)}</div>
+        <div class="pod-amt">${fmtMoney(r.amount)}</div>
+      </div>
+    `);
+  });
+
+  // List 4–20 (viewport shows only 5 rows)
+  const rest = sorted.slice(3,20);
+  rest.forEach((r, idx)=>{
+    const rankShown = withRank ? (r.rank||idx+4) : (idx+4);
     const row = document.createElement('div');
     row.className='row';
     row.dataset.nameOriginal = r.name;
-    const dot = r.rank===1?'top1':r.rank===2?'top2':r.rank===3?'top3':'';
-    const rankShown = r.rank>0 ? r.rank : (sorted.indexOf(r)+1);
     row.innerHTML = `
-      <div><span class="rank ${dot}">${rankShown}</span></div>
-      <div class="player"><span class="avatar" aria-hidden="true"></span><span class="mask">${maskUsername(r.name)}</span></div>
+      <div><span class="rank">#${rankShown}</span></div>
+      <div class="player">
+        <span class="avatar" ${avatarStyle(r.avatar)} aria-hidden="true"></span>
+        <span class="mask">${maskUsername(r.name)}</span>
+      </div>
       <div class="payout">${fmtMoney(r.amount)}</div>`;
     rowsEl.appendChild(row);
-  }
+  });
 }
-function findRank(ymd, name){
-  const dayRows = cache.filter(r=>r.date===ymd);
-  if (!dayRows.length) return null;
-  const withRank = dayRows.some(r=>r.rank>0);
-  const sorted = withRank
-    ? dayRows.slice().sort((a,b)=>(a.rank||99999)-(b.rank||99999))
-    : dayRows.slice().sort((a,b)=>(b.amount||0)-(a.amount||0));
-  const idx = sorted.findIndex(r => String(r.name).toLowerCase()===String(name).toLowerCase());
-  if (idx===-1) return null;
-  return { rank: withRank ? (sorted[idx].rank||idx+1) : idx+1, name: sorted[idx].name };
-}
+
 async function refreshFor(ymd){ await loadCSV(); renderDay(ymd); }
 
 /* ===== INIT ===== */
 (async function init(){
-  const dp = document.getElementById('datePicker');
-  dp.min = EVENT_START_YMD; dp.max = EVENT_END_YMD;
+  datePicker.min = EVENT_START_YMD; datePicker.max = EVENT_END_YMD;
   const today = clampYmd( ymdInTZ(new Date()) );
-  dp.value = today;
+  datePicker.value = today;
 
   await refreshFor(today);
 
-  document.getElementById('refresh').addEventListener('click', async (e)=>{ e.preventDefault(); await refreshFor(dp.value); });
-  dp.addEventListener('change', ()=> renderDay(clampYmd(dp.value)));
-  document.getElementById('quickToday').addEventListener('click', async ()=>{ const y = clampYmd( ymdInTZ(new Date()) ); dp.value=y; await refreshFor(y); });
-  document.getElementById('quickYesterday').addEventListener('click', async ()=>{
-    const n = new Date(); n.setDate(n.getDate()-1);
-    const y = clampYmd( ymdInTZ(n) ); dp.value=y; await refreshFor(y);
-  });
+  document.getElementById('refresh').addEventListener('click', async (e)=>{ e.preventDefault(); await refreshFor(datePicker.value); });
+  datePicker.addEventListener('change', ()=> renderDay(clampYmd(datePicker.value)));
+  document.getElementById('quickToday').addEventListener('click', async ()=>{ const y = clampYmd( ymdInTZ(new Date()) ); datePicker.value=y; await refreshFor(y); });
+  document.getElementById('quickYesterday').addEventListener('click', async ()=>{ const n = new Date(); n.setDate(n.getDate()-1); const y = clampYmd( ymdInTZ(n) ); datePicker.value=y; await refreshFor(y); });
 
-  function doSearch(){
-    const q = (searchInput.value||'').trim();
-    searchResult.textContent='';
-    if(!q) return;
-    const ymd = dp.value;
-    const hit = findRank(ymd, q);
-    if(!hit){ searchResult.textContent = `No exact match for "${q}" on ${ymd}.`; return; }
-    const topRow = Array.from(rowsEl.children).find(el => el.dataset.nameOriginal?.toLowerCase()===q.toLowerCase());
-    searchResult.textContent = hit.rank<=20 ? `✅ ${q} is #${hit.rank} today.` : `ℹ️ ${q} is #${hit.rank} today — not in Top 20.`;
-    if(topRow){ rowsEl.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit')); topRow.classList.add('hit'); topRow.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>topRow.classList.remove('hit'),2500); }
-  }
-  document.getElementById('searchBtn').addEventListener('click', doSearch);
-  document.getElementById('searchInput').addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
-
-  // Share links (custom copy)
-  const shareUrl = location.href.split('#')[0];
-  const textMsg = 'I’m chasing glory on the reels… come join the battle for daily prizes!';
-  document.getElementById('shareTg').href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(textMsg)}`;
-  document.getElementById('shareWa').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textMsg + ' 👉 ' + shareUrl)}`;
-
-  // FAQ open/close all (inner items)
-  const expandAll = document.getElementById('expandAll');
-  const collapseAll = document.getElementById('collapseAll');
-  expandAll.addEventListener('click', ()=> document.querySelectorAll('.faq-item').forEach(d=>d.open=true));
-  collapseAll.addEventListener('click', ()=> document.querySelectorAll('.faq-item').forEach(d=>d.open=false));
+  // (Optional) search controls if you add them back later.
 })();
 </script>
 </body>
 </html>
-
