@@ -192,6 +192,13 @@
   .faq-item{background:#141534; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px; margin:8px 0; box-shadow:0 8px 24px rgba(0,0,0,.2)}
   .faq-item > summary{cursor:pointer; font-weight:800}
   .faq-item p{margin:8px 0 0 0; color:#dfe3ff}
+
+  /* Make only the Telegram icon white */
+.sharebtn.tg img{
+  /* keep your drop-shadow, then convert black -> white */
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.35)) brightness(0) invert(1);
+}
+
 </style>
 </head>
 <body>
