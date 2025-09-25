@@ -93,26 +93,22 @@
     border:2px solid rgba(255,255,255,.24); box-shadow:0 14px 28px rgba(0,0,0,.38); overflow:visible;
   }
   .pod--1{transform:translateY(-8px);background:linear-gradient(180deg,#3a2f6b,#211e46)}
- .pod-rank {
-  position:absolute;
-  top:-14px; left:50%; transform:translateX(-50%);
-  display:inline-flex; align-items:center; gap:4px;
-  padding:4px 10px;
-  border-radius:999px;
-  font-weight:900; font-size:13px;
-  border:2px solid rgba(255,255,255,.35);
-  background:rgba(255,255,255,.95);
-  color:#1b1b38;
-  box-shadow:0 3px 6px rgba(0,0,0,.35);
-}
-
-.pod-rank.t1 { background:linear-gradient(135deg,#fff6b5,#ffd84a); color:#1a1b38; }
-.pod-rank.t2 { background:linear-gradient(135deg,#f4f6ff,#dbe3ff); color:#1a1b38; }
-.pod-rank.t3 { background:linear-gradient(135deg,#ffe0c9,#ffb07a); color:#1a1b38; }
-
-.pod-rank .trophy-icon {
-  font-size:14px; filter:drop-shadow(0 1px 0 rgba(0,0,0,.25));
-}
+  .pod-rank {
+    position:absolute;
+    top:-14px; left:50%; transform:translateX(-50%);
+    display:inline-flex; align-items:center; gap:4px;
+    padding:4px 10px;
+    border-radius:999px;
+    font-weight:900; font-size:13px;
+    border:2px solid rgba(255,255,255,.35);
+    background:rgba(255,255,255,.95);
+    color:#1b1b38;
+    box-shadow:0 3px 6px rgba(0,0,0,.35);
+  }
+  .pod-rank.t1 { background:linear-gradient(135deg,#fff6b5,#ffd84a); color:#1a1b38; }
+  .pod-rank.t2 { background:linear-gradient(135deg,#f4f6ff,#dbe3ff); color:#1a1b38; }
+  .pod-rank.t3 { background:linear-gradient(135deg,#ffe0c9,#ffb07a); color:#1a1b38; }
+  .pod-rank .trophy-icon { font-size:14px; filter:drop-shadow(0 1px 0 rgba(0,0,0,.25)); }
 
   .trophy{position:absolute; bottom:-8px; left:50%; transform:translateX(-50%) rotate(-2deg); width:56px; height:38px; border-radius:12px; display:grid; place-items:center; border:3px solid rgba(255,255,255,.65); box-shadow:0 12px 20px rgba(0,0,0,.45); background:var(--tbg); font-size:18px; color:#1a1b38; animation:wobble 2.4s ease-in-out infinite; z-index:3; pointer-events:none}
   .t1{ --tbg: linear-gradient(135deg,#fff6b5,#ffd84a) } .t2{ --tbg: linear-gradient(135deg,#f4f6ff,#dbe3ff) } .t3{ --tbg: linear-gradient(135deg,#ffe0c9,#ffb07a) }
@@ -370,6 +366,39 @@ const EVENT_END_TARGET = new Date("2025-10-31T23:59:59-03:00");
 const CURRENT_TZ = "Etc/GMT+3";       /* fixed UTC-3 */
 const CURRENCY = { symbol: "$", code: "USD" };
 
+/* ===== Avatars mapping (Top 20 fixed by rank) =====
+   Replace EACH URL with your real permalink. Ranks >20 will reuse rank 20's avatar. */
+const FIXED_AVATARS = {
+  1:  "https://ricomx.ft-crm.com/media-api/serve/d06ed084-65bb-4dad-ae4d-a330d6f113a4_1.png",
+  2:  "https://ricomx.ft-crm.com/media-api/serve/7e97b3d5-f53f-4211-b7d3-0c012a8e05ff_2.png",
+  3:  "https://ricomx.ft-crm.com/media-api/serve/4120e46c-d810-46bb-924d-fb7769b56c0c_3.png",
+  4:  "https://ricomx.ft-crm.com/media-api/serve/84bc31f3-69d6-47e9-950b-e557dd0cf4f6_4.png",
+  5:  "https://ricomx.ft-crm.com/media-api/serve/d0692e25-3fdf-4004-af72-b572175fd49c_5.png",
+  6:  "https://ricomx.ft-crm.com/media-api/serve/596c02c5-ad1c-42b7-9fb2-da6df154d35b_6.png",
+  7:  "https://ricomx.ft-crm.com/media-api/serve/587f1afe-0e39-4f76-8715-48496452cfdf_7.png",
+  8:  "https://ricomx.ft-crm.com/media-api/serve/6959ee62-92fa-4192-a2d6-f678a4934b4f_8.png",
+  9:  "https://ricomx.ft-crm.com/media-api/serve/a450b16e-9310-4e83-ae66-ea71822a218b_9.png",
+  10: "https://ricomx.ft-crm.com/media-api/serve/24e07c3f-99fb-4bed-91f1-b91f1e0f7c8d_10.png",
+  11: "https://ricomx.ft-crm.com/media-api/serve/120d451f-a6dc-4f7b-b3f4-a1b5b8642443_11.png",
+  12: "https://ricomx.ft-crm.com/media-api/serve/65646abf-45f0-46b4-9c9c-f135f3b429e4_12.png",
+  13: "https://ricomx.ft-crm.com/media-api/serve/685901d2-f392-4d9f-83bf-b8f5ae4cf3bc_13.png",
+  14: "https://ricomx.ft-crm.com/media-api/serve/a3e8f9f5-851f-4048-b1ff-e7255de54266_14.png",
+  15: "https://ricomx.ft-crm.com/media-api/serve/92cde2cb-1afa-4c2e-b0f7-bf77f6b37a4a_15.png",
+  16: "https://ricomx.ft-crm.com/media-api/serve/1a77dbff-a836-4e7b-831f-77734198c725_16.png",
+  17: "https://ricomx.ft-crm.com/media-api/serve/ab17bec9-169e-4e99-9e2d-e560fd29403e_17.png",
+  18: "https://ricomx.ft-crm.com/media-api/serve/a698b757-2f99-49a7-95fb-68318d1637d6_18.png",
+  19: "https://ricomx.ft-crm.com/media-api/serve/ab8c0632-b1d4-41e5-be64-ba1e96d5ab1b_19.png",
+  20: "https://ricomx.ft-crm.com/media-api/serve/7c6d505e-174d-4214-9e93-bb7cdcc4098f_20.png",
+};
+
+/* Always use our fixed avatar for ranks 1–20.
+   For ranks >20 use the same as rank 20.
+   If a fixed URL is missing, fallback to sheetUrl to avoid blanks. */
+function getAvatarUrl(rank, sheetUrl){
+  if (rank <= 20) return FIXED_AVATARS[rank] || sheetUrl || "";
+  return FIXED_AVATARS[20] || sheetUrl || "";
+}
+
 /* ===== Elements ===== */
 const $ = s=>document.querySelector(s);
 const rowsEl = $('#rows'), podiumEl = $('#podium'), boardDateEl = $('#boardDate');
@@ -381,14 +410,14 @@ const pad2 = n => String(n).padStart(2,'0');
 const toTZ = (d=new Date(), tz=CURRENT_TZ, opts={}) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, ...opts });
 const ymdInTZ = d => toTZ(d, CURRENT_TZ, {year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
 
-/* Robust name normalization: trim, collapse spaces, strip zero-width/nbspace, remove diacritics, lower-case */
+/* Robust name normalization */
 function normName(s){
   return String(s||"")
     .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g,"")           // diacritics
-    .replace(/[\u200B-\u200D\uFEFF]/g,"")     // zero-width
-    .replace(/\u00A0/g," ")                   // NBSP -> space
-    .replace(/\s+/g," ")                      // collapse spaces
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[\u200B-\u200D\uFEFF]/g,"")
+    .replace(/\u00A0/g," ")
+    .replace(/\s+/g," ")
     .trim()
     .toLowerCase();
 }
@@ -424,7 +453,7 @@ function avatarStyle(url){ return url ? `style="background-image:url('${bust(url
   tick();
 })();
 
-/* ===== CSV parser (safe for commas/quotes) ===== */
+/* ===== CSV parser ===== */
 function parseCSV(text){
   const rows=[]; let cur=[], curVal='', inQ=false;
   for(let i=0;i<text.length;i++){
@@ -465,7 +494,7 @@ async function loadCSV(){
     const date   = (r[idx.date]||'').trim();
     const rank   = Number((r[idx.rank]||'').trim()||0);
     const rawName= (r[idx.name]||'');
-    const name   = rawName; // keep original for display
+    const name   = rawName;
     const nKey   = normName(rawName);
     const amtStr = String(r[idx.amount]||'0').replace(/[$,\s]/g,'');
     const amount = Number(amtStr)||0;
@@ -475,13 +504,12 @@ async function loadCSV(){
   }
   cache = out;
 
-  // Build per-day index (choose lowest/best rank per username)
+  // Build per-day index
   dayIndex.clear();
   const dates = Array.from(new Set(cache.map(r=>r.date))).sort();
   for(const d of dates){
     const map = new Map();
     const rows = cache.filter(x=>x.date===d);
-    // sort by rank if provided; else by amount desc to compute stable order for computed ranks
     const hasRank = rows.some(x=>x.rank>0);
     const sorted = rows.slice().sort((a,b)=> hasRank ? (a.rank||999999)-(b.rank||999999) : (b.amount||0)-(a.amount||0));
     for(let i=0;i<sorted.length;i++){
@@ -525,27 +553,28 @@ function renderDay(ymd){
     const r = top3[i]; if(!r) return;
     const cls = i===0?'pod--1' : i===1?'pod--2':'pod--3';
     const shownRank = r.rank>0 ? r.rank : (i+1);
-podiumEl.insertAdjacentHTML('beforeend', `
-  <div class="pod ${cls}">
-    <div class="pod-rank t${shownRank}">
-      <span class="trophy-icon">🏆</span> #${shownRank}
-    </div>
-    <div class="pod-avatar" ${avatarStyle(r.avatar)}></div>
-    <div class="pod-name">${maskMiddle4(r.name)}</div>
-    <div class="pod-amt">${fmtMoney(r.amount)}</div>
-  </div>
-`);
-
+    const avatarUrlTop = getAvatarUrl(shownRank, r.avatar);
+    podiumEl.insertAdjacentHTML('beforeend', `
+      <div class="pod ${cls}">
+        <div class="pod-rank t${shownRank}">
+          <span class="trophy-icon">🏆</span> #${shownRank}
+        </div>
+        <div class="pod-avatar" ${avatarStyle(avatarUrlTop)}></div>
+        <div class="pod-name">${maskMiddle4(r.name)}</div>
+        <div class="pod-amt">${fmtMoney(r.amount)}</div>
+      </div>
+    `);
   });
 
   // List 4–20
   sorted.slice(3,20).forEach((r, idx)=>{
     const rankShown = r.rank>0 ? r.rank : (idx+4);
+    const avatarUrlRow = getAvatarUrl(rankShown, r.avatar);
     rowsEl.insertAdjacentHTML('beforeend', `
       <div class="row" data-key="${r.nKey}">
         <div><span class="rank">#${rankShown}</span></div>
         <div class="player">
-          <span class="avatar" ${avatarStyle(r.avatar)}></span>
+          <span class="avatar" ${avatarStyle(avatarUrlRow)}></span>
           <span class="mask">${maskMiddle4(r.name)}</span>
         </div>
         <div class="payout">${fmtMoney(r.amount)}</div>
@@ -554,7 +583,7 @@ podiumEl.insertAdjacentHTML('beforeend', `
   });
 }
 
-/* ===== Search using indexed names (handles hidden chars/spacing) ===== */
+/* ===== Search (pin result) ===== */
 function doSearch(){
   const qKey = normName((searchInput.value||'')); searchResult.textContent='';
   if(!qKey) return;
@@ -574,11 +603,12 @@ function doSearch(){
   }else{
     searchResult.textContent = `ℹ️ ${row.name} is #${finalRank} today.`;
     const existing = rowsEl.querySelector('.pin'); if(existing) existing.remove();
+    const avatarUrlPin = getAvatarUrl(finalRank, row.avatar);
     rowsEl.insertAdjacentHTML('beforeend', `
       <div class="row pin">
         <div><span class="rank">#${finalRank}</span></div>
         <div class="player">
-          <span class="avatar" ${avatarStyle(row.avatar)}></span>
+          <span class="avatar" ${avatarStyle(avatarUrlPin)}></span>
           <span class="mask">${maskMiddle4(row.name)}</span>
         </div>
         <div class="payout">${fmtMoney(row.amount)}</div>
@@ -592,13 +622,17 @@ function doSearch(){
 (async function init(){
   await loadCSV();
 
-  // default date = today (UTC-3) then clamped to data range
+  // default date = today (UTC-3) then clamp to data range
   const today = (()=>{ const d = new Date(); return ymdInTZ(d); })();
   datePicker.value = (today < MIN_YMD) ? MIN_YMD : (today > MAX_YMD ? MAX_YMD : today);
   renderDay(datePicker.value);
 
   datePicker.addEventListener('change', ()=> renderDay(datePicker.value));
-  document.getElementById('quickToday').addEventListener('click', ()=>{ const y = (()=>{ const d = new Date(); return ymdInTZ(d); })(); const c = (y < MIN_YMD)?MIN_YMD:(y > MAX_YMD?MAX_YMD:y); datePicker.value=c; renderDay(c); });
+  document.getElementById('quickToday').addEventListener('click', ()=>{
+    const y = (()=>{ const d = new Date(); return ymdInTZ(d); })();
+    const c = (y < MIN_YMD)?MIN_YMD:(y > MAX_YMD?MAX_YMD:y);
+    datePicker.value=c; renderDay(c);
+  });
 
   searchBtn.addEventListener('click', doSearch);
   searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
