@@ -251,68 +251,114 @@
 
     <div class="divider"></div>
 
-    <!-- FAQ (same text you gave me) -->
-    <details class="faq-panel card glow">
-      <summary>FAQ &amp; Terms</summary>
-      <div class="faq-body">
-        <details class="faq-item"><summary>1. What is this event about?</summary>
-          <p>This is a daily leaderboard competition on Pragmatic Play games, running from 1st October to 31st October 2025. Players compete based on their daily turnover. The higher your turnover, the higher you rank, and the better the prize you’ll receive.</p>
-        </details>
-        <details class="faq-item"><summary>2. How do I participate?</summary>
-          <p>Simply play any Pragmatic Play slot games during the event period. Your turnover (total bets) will be tracked automatically.</p>
-        </details>
-  <details class="faq-item"><summary>3. How are prizes distributed?</summary>
-  <p>Each day, the Top 20 players by turnover win a share of the $5,000 daily prize pool:</p>
-  <ul class="prize-list">
-    <li>1st Place: $1,500</li>
-    <li>2nd–5th: $500 each</li>
-    <li>6th–10th: $200 each</li>
-    <li>11th–20th: $50 each</li>
-  </ul>
-</details>
-        <details class="faq-item"><summary>4. What is the total prize pool?</summary>
-          <p>The event runs for the month with a total pool of $150,000, split into $5,000 daily prizes.</p>
-        </details>
-        <details class="faq-item"><summary>5. When does the leaderboard reset?</summary>
-          <p>The leaderboard resets daily at 00:00. Each new day starts a fresh competition.</p>
-        </details>
-        <details class="faq-item"><summary>6. How often is the leaderboard updated?</summary>
-          <p>The leaderboard is updated every 8 hours.</p>
-        </details>
-        <details class="faq-item"><summary>7. How will I know my rank?</summary>
-          <p>You can check the live leaderboard here. If you’re not in the Top 20, search your username to see your current rank.</p>
-        </details>
-        <details class="faq-item"><summary>8. When will I receive my prize?</summary>
-          <p>Daily leaderboard prizes will be distributed the next day at 12:00 PM.</p>
-        </details>
-        <details class="faq-item"><summary>9. What happens if there is a tie?</summary>
-          <p>If two players have the same turnover, the player who reached it earlier in the day will rank higher.</p>
-        </details>
-        <details class="faq-item"><summary>10. Can I win multiple days?</summary>
-          <p>Yes. You can win every day during the event — there are no limits.</p>
-        </details>
-        <details class="faq-item"><summary>11. Are Free Spins or bonuses included?</summary>
-          <p> </p>
-  <li>Yes, turnover from both cash and bonus play on Pragmatic Play slots counts.</li>
-    <li>Other slot games and game categories do not count.</li></p>
-        </details>
-        <details class="faq-item"><summary>12. Who is eligible?</summary>
-          <p>All players who place bets on Pragmatic Play slot games throughout the month.</p>
-        </details>
-        <details class="faq-item"><summary>13. Do wagering requirements apply to prizes?</summary>
-          <p>Cash prizes: x5 wagering needed before any withdrawal can be made.</p>
-        </details>
-        <details class="faq-item"><summary>14. Can prizes be exchanged for other rewards?</summary>
-          <p>No. Prizes are non-transferable and cannot be exchanged.</p>
-        </details>
-        <details class="faq-item"><summary>15. Terms &amp; conditions</summary>
-          <p>
-             <li>Rico.bet reserves the right to disqualify any players found to be engaging in fraud, scams, multiple accounts, or any activity that violates the integrity of the promotion.</li></p>
-         <li>All other Rico.bet General Terms & Conditions apply.</li></p>
-        </p>
-        </details>
-      </div>
+  <style>
+  /* Circles for the prize list in item 3 */
+  .faq-item .prize-list { margin:0; padding:0; list-style:none; color:inherit; }
+  .faq-item .prize-list li {
+    display:flex; align-items:center; gap:10px;
+    margin:12px 0;
+  }
+  .faq-item .prize-list li::before {
+    content:""; width:8px; height:8px; border-radius:50%;
+    background:currentColor; flex:0 0 8px;
+  }
+</style>
+
+<!-- FAQ (same text you gave me) -->
+<details class="faq-panel card glow">
+  <summary>FAQ &amp; Terms</summary>
+  <div class="faq-body">
+
+    <details class="faq-item">
+      <summary>1. What is this event about?</summary>
+      <p>This is a daily leaderboard competition on Pragmatic Play games, running from 1st October to 31st October 2025. Players compete based on their daily turnover. The higher your turnover, the higher you rank, and the better the prize you’ll receive.</p>
     </details>
+
+    <details class="faq-item">
+      <summary>2. How do I participate?</summary>
+      <p>Simply play any Pragmatic Play slot games during the event period. Your turnover (total bets) will be tracked automatically.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>3. How are prizes distributed?</summary>
+      <p>Each day, the Top 20 players by turnover win a share of the $5,000 daily prize pool:</p>
+      <ul class="prize-list">
+        <li>1st Place: $1,500</li>
+        <li>2nd–5th: $500 each</li>
+        <li>6th–10th: $200 each</li>
+        <li>11th–20th: $50 each</li>
+      </ul>
+    </details>
+
+    <details class="faq-item">
+      <summary>4. What is the total prize pool?</summary>
+      <p>The event runs for the month with a total pool of $150,000, split into $5,000 daily prizes.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>5. When does the leaderboard reset?</summary>
+      <p>The leaderboard resets daily at 00:00. Each new day starts a fresh competition.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>6. How often is the leaderboard updated?</summary>
+      <p>The leaderboard is updated every 8 hours.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>7. How will I know my rank?</summary>
+      <p>You can check the live leaderboard here. If you’re not in the Top 20, search your username to see your current rank.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>8. When will I receive my prize?</summary>
+      <p>Daily leaderboard prizes will be distributed the next day at 12:00 PM.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>9. What happens if there is a tie?</summary>
+      <p>If two players have the same turnover, the player who reached it earlier in the day will rank higher.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>10. Can I win multiple days?</summary>
+      <p>Yes. You can win every day during the event — there are no limits.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>11. Are Free Spins or bonuses included?</summary>
+      <ul>
+        <li>Yes, turnover from both cash and bonus play on Pragmatic Play slots counts.</li>
+        <li>Other slot games and game categories do not count.</li>
+      </ul>
+    </details>
+
+    <details class="faq-item">
+      <summary>12. Who is eligible?</summary>
+      <p>All players who place bets on Pragmatic Play slot games throughout the month.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>13. Do wagering requirements apply to prizes?</summary>
+      <p>Cash prizes: x5 wagering needed before any withdrawal can be made.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>14. Can prizes be exchanged for other rewards?</summary>
+      <p>No. Prizes are non-transferable and cannot be exchanged.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>15. Terms &amp; conditions</summary>
+      <ul>
+        <li>Rico.bet reserves the right to disqualify any players found to be engaging in fraud, scams, multiple accounts, or any activity that violates the integrity of the promotion.</li>
+        <li>All other Rico.bet General Terms & Conditions apply.</li>
+      </ul>
+    </details>
+
+  </div>
+</details>
+
   </div>
 
 <script>
