@@ -44,18 +44,33 @@
 
   /* ===== HERO ===== */
   .hero.card{padding:18px; text-align:center}
+
+  /* ✨ Title now matches your “kicker” effect (white glow + animated underline) */
   .title-3d{
-    margin:2px 0 4px; font-weight:900; letter-spacing:.4px; color:#fff;
-    text-shadow:
-      0 1px 0 #c9c9ff, 0 2px 0 #b6b6ff, 0 3px 0 #a3a3ff, 0 4px 0 #9090ff,
-      0 10px 20px rgba(0,0,0,.35), 0 0 24px rgba(120,115,245,.45);
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,.25));
-    animation:floaty 5s ease-in-out infinite;
-    font-size:42px; line-height:1.05;
+    margin:2px 0 4px;
+    font-weight:900;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    color:#fff;
+    text-shadow:0 0 8px #7873f5, 0 0 14px #ff6ec4;
+    animation:glowTitle 3s ease-in-out infinite alternate, pop .6s ease-out both;
+    font-size:42px;
+    line-height:1.05;
   }
-  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+
+  @keyframes glowTitle{
+    from{ text-shadow:0 0 6px #7873f5, 0 0 12px #ff6ec4; }
+    to  { text-shadow:0 0 14px #ff6ec4, 0 0 24px #7873f5; }
+  }
+  @keyframes pop{0%{transform:translateY(6px) scale(.98);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+  @keyframes shimmer{to{background-position:100% 50%}}
+
   @media (max-width:720px){ .title-3d{font-size:34px} }
   @media (max-width:520px){ .title-3d{font-size:28px} }
+  @media (prefers-reduced-motion:reduce){
+    .title-3d{animation:none}
+    .title-3d::after{animation:none}
+  }
 
   .hero-subtitle{
     margin:6px auto 8px; font-weight:800; font-size:28px;
@@ -247,113 +262,107 @@
 
     <div class="divider"></div>
 
-  <style>
-  /* Circles for the prize list in item 3 */
-  .faq-item .prize-list { margin:0; padding:0; list-style:none; color:inherit; }
-  .faq-item .prize-list li {
-    display:flex; align-items:center; gap:10px;
-    margin:12px 0;
-  }
-  .faq-item .prize-list li::before {
-    content:""; width:8px; height:8px; border-radius:50%;
-    background:currentColor; flex:0 0 8px;
-  }
-</style>
+    <style>
+      /* Circles for the prize list in item 3 */
+      .faq-item .prize-list { margin:0; padding:0; list-style:none; color:inherit; }
+      .faq-item .prize-list li { display:flex; align-items:center; gap:10px; margin:12px 0; }
+      .faq-item .prize-list li::before { content:""; width:8px; height:8px; border-radius:50%; background:currentColor; flex:0 0 8px; }
+    </style>
 
-<!-- FAQ (same text you gave me) -->
-<details class="faq-panel card glow">
-  <summary>FAQ &amp; Terms</summary>
-  <div class="faq-body">
+    <!-- FAQ (same text you gave me) -->
+    <details class="faq-panel card glow">
+      <summary>FAQ &amp; Terms</summary>
+      <div class="faq-body">
 
-    <details class="faq-item">
-      <summary>1. What is this event about?</summary>
-      <p>This is a daily leaderboard competition on Pragmatic Play games, running from 1st October to 31st October 2025. Players compete based on their daily turnover. The higher your turnover, the higher you rank, and the better the prize you’ll receive.</p>
+        <details class="faq-item">
+          <summary>1. What is this event about?</summary>
+          <p>This is a daily leaderboard competition on Pragmatic Play games, running from 1st October to 31st October 2025. Players compete based on their daily turnover. The higher your turnover, the higher you rank, and the better the prize you’ll receive.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>2. How do I participate?</summary>
+          <p>Simply play any Pragmatic Play slot games during the event period. Your turnover (total bets) will be tracked automatically.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>3. How are prizes distributed?</summary>
+          <p>Each day, the Top 20 players by turnover win a share of the $5,000 daily prize pool:</p>
+          <ul class="prize-list">
+            <li>1st Place: $1,500</li>
+            <li>2nd–5th: $500 each</li>
+            <li>6th–10th: $200 each</li>
+            <li>11th–20th: $50 each</li>
+          </ul>
+        </details>
+
+        <details class="faq-item">
+          <summary>4. What is the total prize pool?</summary>
+          <p>The event runs for the month with a total pool of $150,000, split into $5,000 daily prizes.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>5. When does the leaderboard reset?</summary>
+          <p>The leaderboard resets daily at 00:00. Each new day starts a fresh competition.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>6. How often is the leaderboard updated?</summary>
+          <p>The leaderboard is updated every 8 hours.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>7. How will I know my rank?</summary>
+          <p>You can check the live leaderboard here. If you’re not in the Top 20, search your username to see your current rank.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>8. When will I receive my prize?</summary>
+          <p>Daily leaderboard prizes will be distributed the next day at 12:00 PM.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>9. What happens if there is a tie?</summary>
+          <p>If two players have the same turnover, the player who reached it earlier in the day will rank higher.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>10. Can I win multiple days?</summary>
+          <p>Yes. You can win every day during the event — there are no limits.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>11. Are Free Spins or bonuses included?</summary>
+          <ul>
+            <li>Yes, turnover from both cash and bonus play on Pragmatic Play slots counts.</li>
+            <li>Other slot games and game categories do not count.</li>
+          </ul>
+        </details>
+
+        <details class="faq-item">
+          <summary>12. Who is eligible?</summary>
+          <p>All players who place bets on Pragmatic Play slot games throughout the month.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>13. Do wagering requirements apply to prizes?</summary>
+          <p>Cash prizes: x5 wagering needed before any withdrawal can be made.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>14. Can prizes be exchanged for other rewards?</summary>
+          <p>No. Prizes are non-transferable and cannot be exchanged.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>15. Terms &amp; conditions</summary>
+          <ul>
+            <li>Rico.bet reserves the right to disqualify any players found to be engaging in fraud, scams, multiple accounts, or any activity that violates the integrity of the promotion.</li>
+            <li>All other Rico.bet General Terms & Conditions apply.</li>
+          </ul>
+        </details>
+
+      </div>
     </details>
-
-    <details class="faq-item">
-      <summary>2. How do I participate?</summary>
-      <p>Simply play any Pragmatic Play slot games during the event period. Your turnover (total bets) will be tracked automatically.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>3. How are prizes distributed?</summary>
-      <p>Each day, the Top 20 players by turnover win a share of the $5,000 daily prize pool:</p>
-      <ul class="prize-list">
-        <li>1st Place: $1,500</li>
-        <li>2nd–5th: $500 each</li>
-        <li>6th–10th: $200 each</li>
-        <li>11th–20th: $50 each</li>
-      </ul>
-    </details>
-
-    <details class="faq-item">
-      <summary>4. What is the total prize pool?</summary>
-      <p>The event runs for the month with a total pool of $150,000, split into $5,000 daily prizes.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>5. When does the leaderboard reset?</summary>
-      <p>The leaderboard resets daily at 00:00. Each new day starts a fresh competition.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>6. How often is the leaderboard updated?</summary>
-      <p>The leaderboard is updated every 8 hours.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>7. How will I know my rank?</summary>
-      <p>You can check the live leaderboard here. If you’re not in the Top 20, search your username to see your current rank.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>8. When will I receive my prize?</summary>
-      <p>Daily leaderboard prizes will be distributed the next day at 12:00 PM.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>9. What happens if there is a tie?</summary>
-      <p>If two players have the same turnover, the player who reached it earlier in the day will rank higher.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>10. Can I win multiple days?</summary>
-      <p>Yes. You can win every day during the event — there are no limits.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>11. Are Free Spins or bonuses included?</summary>
-      <ul>
-        <li>Yes, turnover from both cash and bonus play on Pragmatic Play slots counts.</li>
-        <li>Other slot games and game categories do not count.</li>
-      </ul>
-    </details>
-
-    <details class="faq-item">
-      <summary>12. Who is eligible?</summary>
-      <p>All players who place bets on Pragmatic Play slot games throughout the month.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>13. Do wagering requirements apply to prizes?</summary>
-      <p>Cash prizes: x5 wagering needed before any withdrawal can be made.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>14. Can prizes be exchanged for other rewards?</summary>
-      <p>No. Prizes are non-transferable and cannot be exchanged.</p>
-    </details>
-
-    <details class="faq-item">
-      <summary>15. Terms &amp; conditions</summary>
-      <ul>
-        <li>Rico.bet reserves the right to disqualify any players found to be engaging in fraud, scams, multiple accounts, or any activity that violates the integrity of the promotion.</li>
-        <li>All other Rico.bet General Terms & Conditions apply.</li>
-      </ul>
-    </details>
-
-  </div>
-</details>
 
   </div>
 
@@ -366,38 +375,30 @@ const EVENT_END_TARGET = new Date("2025-10-31T23:59:59-03:00");
 const CURRENT_TZ = "Etc/GMT+3";       /* fixed UTC-3 */
 const CURRENCY = { symbol: "$", code: "USD" };
 
-/* ===== Avatars mapping (Top 20 fixed by rank) =====
-   Replace EACH URL with your real permalink. Ranks >20 will reuse rank 20's avatar. */
+/* ===== Avatars mapping (Top 20 fixed by rank) ===== */
 const FIXED_AVATARS = {
-  1:  "https://ricomx.ft-crm.com/media-api/serve/30739191-4079-40cd-9154-f15c869c9f35_1.png",
-  2:  "https://ricomx.ft-crm.com/media-api/serve/7e97b3d5-f53f-4211-b7d3-0c012a8e05ff_2.png",
-  3:  "https://ricomx.ft-crm.com/media-api/serve/4120e46c-d810-46bb-924d-fb7769b56c0c_3.png",
-  4:  "https://ricomx.ft-crm.com/media-api/serve/84bc31f3-69d6-47e9-950b-e557dd0cf4f6_4.png",
-  5:  "https://ricomx.ft-crm.com/media-api/serve/d0692e25-3fdf-4004-af72-b572175fd49c_5.png",
-  6:  "https://ricomx.ft-crm.com/media-api/serve/596c02c5-ad1c-42b7-9fb2-da6df154d35b_6.png",
-  7:  "https://ricomx.ft-crm.com/media-api/serve/587f1afe-0e39-4f76-8715-48496452cfdf_7.png",
-  8:  "https://ricomx.ft-crm.com/media-api/serve/6959ee62-92fa-4192-a2d6-f678a4934b4f_8.png",
-  9:  "https://ricomx.ft-crm.com/media-api/serve/a450b16e-9310-4e83-ae66-ea71822a218b_9.png",
-  10: "https://ricomx.ft-crm.com/media-api/serve/24e07c3f-99fb-4bed-91f1-b91f1e0f7c8d_10.png",
-  11: "https://ricomx.ft-crm.com/media-api/serve/120d451f-a6dc-4f7b-b3f4-a1b5b8642443_11.png",
-  12: "https://ricomx.ft-crm.com/media-api/serve/65646abf-45f0-46b4-9c9c-f135f3b429e4_12.png",
-  13: "https://ricomx.ft-crm.com/media-api/serve/685901d2-f392-4d9f-83bf-b8f5ae4cf3bc_13.png",
-  14: "https://ricomx.ft-crm.com/media-api/serve/a3e8f9f5-851f-4048-b1ff-e7255de54266_14.png",
-  15: "https://ricomx.ft-crm.com/media-api/serve/92cde2cb-1afa-4c2e-b0f7-bf77f6b37a4a_15.png",
-  16: "https://ricomx.ft-crm.com/media-api/serve/1a77dbff-a836-4e7b-831f-77734198c725_16.png",
-  17: "https://ricomx.ft-crm.com/media-api/serve/ab17bec9-169e-4e99-9e2d-e560fd29403e_17.png",
-  18: "https://ricomx.ft-crm.com/media-api/serve/a698b757-2f99-49a7-95fb-68318d1637d6_18.png",
-  19: "https://ricomx.ft-crm.com/media-api/serve/ab8c0632-b1d4-41e5-be64-ba1e96d5ab1b_19.png",
-  20: "https://ricomx.ft-crm.com/media-api/serve/7c6d505e-174d-4214-9e93-bb7cdcc4098f_20.png",
+  1:"https://ricomx.ft-crm.com/media-api/serve/30739191-4079-40cd-9154-f15c869c9f35_1.png",
+  2:"https://ricomx.ft-crm.com/media-api/serve/7e97b3d5-f53f-4211-b7d3-0c012a8e05ff_2.png",
+  3:"https://ricomx.ft-crm.com/media-api/serve/4120e46c-d810-46bb-924d-fb7769b56c0c_3.png",
+  4:"https://ricomx.ft-crm.com/media-api/serve/84bc31f3-69d6-47e9-950b-e557dd0cf4f6_4.png",
+  5:"https://ricomx.ft-crm.com/media-api/serve/d0692e25-3fdf-4004-af72-b572175fd49c_5.png",
+  6:"https://ricomx.ft-crm.com/media-api/serve/596c02c5-ad1c-42b7-9fb2-da6df154d35b_6.png",
+  7:"https://ricomx.ft-crm.com/media-api/serve/587f1afe-0e39-4f76-8715-48496452cfdf_7.png",
+  8:"https://ricomx.ft-crm.com/media-api/serve/6959ee62-92fa-4192-a2d6-f678a4934b4f_8.png",
+  9:"https://ricomx.ft-crm.com/media-api/serve/a450b16e-9310-4e83-ae66-ea71822a218b_9.png",
+  10:"https://ricomx.ft-crm.com/media-api/serve/24e07c3f-99fb-4bed-91f1-b91f1e0f7c8d_10.png",
+  11:"https://ricomx.ft-crm.com/media-api/serve/120d451f-a6dc-4f7b-b3f4-a1b5b8642443_11.png",
+  12:"https://ricomx.ft-crm.com/media-api/serve/65646abf-45f0-46b4-9c9c-f135f3b429e4_12.png",
+  13:"https://ricomx.ft-crm.com/media-api/serve/685901d2-f392-4d9f-83bf-b8f5ae4cf3bc_13.png",
+  14:"https://ricomx.ft-crm.com/media-api/serve/a3e8f9f5-851f-4048-b1ff-e7255de54266_14.png",
+  15:"https://ricomx.ft-crm.com/media-api/serve/92cde2cb-1afa-4c2e-b0f7-bf77f6b37a4a_15.png",
+  16:"https://ricomx.ft-crm.com/media-api/serve/1a77dbff-a836-4e7b-831f-77734198c725_16.png",
+  17:"https://ricomx.ft-crm.com/media-api/serve/ab17bec9-169e-4e99-9e2d-e560fd29403e_17.png",
+  18:"https://ricomx.ft-crm.com/media-api/serve/a698b757-2f99-49a7-95fb-68318d1637d6_18.png",
+  19:"https://ricomx.ft-crm.com/media-api/serve/ab8c0632-b1d4-41e5-be64-ba1e96d5ab1b_19.png",
+  20:"https://ricomx.ft-crm.com/media-api/serve/7c6d505e-174d-4214-9e93-bb7cdcc4098f_20.png"
 };
-
-/* Always use our fixed avatar for ranks 1–20.
-   For ranks >20 use the same as rank 20.
-   If a fixed URL is missing, fallback to sheetUrl to avoid blanks. */
-function getAvatarUrl(rank, sheetUrl){
-  if (rank <= 20) return FIXED_AVATARS[rank] || sheetUrl || "";
-  return FIXED_AVATARS[20] || sheetUrl || "";
-}
+function getAvatarUrl(rank, sheetUrl){ return rank<=20 ? (FIXED_AVATARS[rank]||sheetUrl||"") : (FIXED_AVATARS[20]||sheetUrl||""); }
 
 /* ===== Elements ===== */
 const $ = s=>document.querySelector(s);
@@ -533,7 +534,6 @@ function getSortedDay(ymd){
   const hasRank = rows.some(r=>r.rank>0);
   return rows.slice().sort((a,b)=> hasRank ? (a.rank||999999)-(b.rank||999999) : (b.amount||0)-(a.amount||0));
 }
-function trophyClass(rank){ return rank===1?'trophy t1' : rank===2?'trophy t2' : 'trophy t3'; }
 
 /* ===== Render ===== */
 function renderDay(ymd){
