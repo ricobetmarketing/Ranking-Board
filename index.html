@@ -125,6 +125,47 @@
   .btn--pri{background:linear-gradient(90deg,var(--g1),var(--g2))}
   .btn--dark{background:#1a1b34}
 
+  /* PLAY NOW pulse (subtle heartbeat + soft ring) */
+#ctaPlay{
+  position:relative;
+  animation:ctaPulse 2.2s ease-in-out infinite;
+  transform-origin:center;
+  box-shadow:0 0 0 0 rgba(120,115,245,.35);
+}
+#ctaPlay::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:12px;
+  box-shadow:0 0 0 0 rgba(120,115,245,.55);
+  animation:ctaRing 2.2s ease-in-out infinite;
+  pointer-events:none;
+}
+
+/* heartbeat scale */
+@keyframes ctaPulse{
+  0%,100%{ transform:scale(1) }
+  50%{ transform:scale(1.045) }   /* gentle bump */
+}
+
+/* soft expanding glow ring */
+@keyframes ctaRing{
+  0%  { box-shadow:0 0 0 0 rgba(120,115,245,.55) }
+  70% { box-shadow:0 0 0 18px rgba(120,115,245,0) }
+  100%{ box-shadow:0 0 0 0 rgba(120,115,245,0) }
+}
+
+/* pause the animation when user hovers or taps-and-holds */
+#ctaPlay:hover,
+#ctaPlay:active{ animation-play-state:paused }
+#ctaPlay:hover::after,
+#ctaPlay:active::after{ animation-play-state:paused }
+
+/* accessibility: respect reduced-motion */
+@media (prefers-reduced-motion: reduce){
+  #ctaPlay, #ctaPlay::after{ animation:none }
+}
+
   .support{margin-top:10px; text-align:center; color:#cfd3ff}
   .support a{color:#a5b0ff; font-weight:800; text-decoration:underline}
 
@@ -213,10 +254,13 @@
     </section>
 
     <!-- CTAs -->
-    <div class="cta-row">
-      <a class="btn btn--pri" href="https://www.rico.bet/" target="_blank" rel="noopener" data-i18n="ctaPlay">▶ JOGAR AGORA</a>
-      <a class="btn btn--dark" href="https://t.me/+dbHFnvBjpCAwYWQ1" target="_blank" rel="noopener" data-i18n="ctaJoin">👥 COMUNIDADE</a>
-    </div>
+  <div class="cta-row">
+  <a class="btn btn--pri" id="ctaPlay"
+     href="https://www.rico.bet/" target="_blank" rel="noopener" data-i18n="ctaPlay">▶ JOGAR AGORA</a>
+  <a class="btn btn--dark"
+     href="https://t.me/+dbHFnvBjpCAwYWQ1" target="_blank" rel="noopener" data-i18n="ctaJoin">👥 COMUNIDADE</a>
+</div>
+
     <p class="support">
       <span data-i18n="supportLead">Precisa de ajuda? Fale com nosso suporte no Telegram e nós ajudaremos:</span>
       <a href="https://t.me/+55A937ipq8xhMzJl" target="_blank" rel="noopener" data-i18n="supportLink">Falar com o Suporte</a>
