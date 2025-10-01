@@ -210,7 +210,7 @@
       <div class="hero-banner-wrap">
         <img
           class="hero-banner"
-          src="https://ricomx.ft-crm.com/media-api/serve/001ba47d-224e-4385-bb7a-6a3bc2d79ca4_Spins_of_Glory..png"
+          src="https://ricomx.ft-crm.com/media-api/serve/5dbf1183-84df-46a7-aef8-b501c09650a5_TG_BR.png"
           alt="Spins Of Glory" loading="eager">
       </div>
 
@@ -233,7 +233,7 @@
           <label class="chip">📅&nbsp;<span data-i18n="pickdate">Escolha a data</span>
             <input id="datePicker" type="date" style="background:transparent;border:0;color:#fff;outline:none"></label>
           <span class="chip" id="quickToday" data-i18n="today" style="cursor:pointer">📆 Hoje</span>
-          <input class="search-input" id="searchInput" type="text" data-i18n-placeholder="searchPh" placeholder="Busque seu nome completo…" />
+          <input class="search-input" id="searchInput" type="text" data-i18n-placeholder="searchPh" placeholder="Pesquisar nome de usuário" />
           <button class="search-btn" id="searchBtn" data-i18n="searchBtn">Buscar</button>
           <span id="searchResult" style="margin-left:6px;"></span>
         </div>
@@ -381,7 +381,7 @@ const I18N = {
     pickdate: "Escolha a data",
     thRank: "#", thPlayer: "Jogador", thTurnover: "Turnover",
     today: "📆 Hoje",
-    searchPh: "Busque seu nome completo…",
+    searchPh: "Pesquisar nome de usuário",
     searchBtn: "Buscar",
     searchNoData: (ymd)=>`Sem dados para ${ymd}.`,
     searchNoMatch: (q,ymd)=>`Nenhuma correspondência exata para “${q}” em ${ymd}.`,
@@ -637,9 +637,10 @@ function getSortedDay(ymd){
   return rows.slice().sort((a,b)=> hasRank ? (a.rank||999999)-(b.rank||999999) : (b.amount||0)-(a.amount||0));
 }
 
-/* ===== I18N ===== */
+const SHARE_URL = "https://ricobetplay.co/JiNhgF";  
+
 function setShareLinks(textMsg){
-  const shareUrl = location.href.split('#')[0];
+  const shareUrl = SHARE_URL;
   $('#shareTg').href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(textMsg)}`;
   $('#shareWa').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textMsg + ' 👉 ' + shareUrl)}`;
 }
